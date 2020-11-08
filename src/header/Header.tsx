@@ -50,8 +50,12 @@ const useStyles = makeStyles((theme: Theme) =>
         },
         appBar: {
             backgroundImage: 'linear-gradient(rgb(255, 224, 148), rgb(244, 173, 0))',
-           
+            height: '48px',
+            minHeight: '48px',
         },
+        toolBar: {
+            marginTop: '-9px',
+        }
     }
 ));
 
@@ -61,7 +65,7 @@ export default function Header() {
     return (
         <div>
             <AppBar className={classes.appBar} position="static">
-                <Toolbar>
+                <Toolbar className={classes.toolBar}>
                     <IconButton className={classes.menuIcon}
                         edge="start"
                         color="inherit"
@@ -70,7 +74,7 @@ export default function Header() {
                         <LogoIcon  />
 
                     </IconButton>
-                    <Typography variant="h6">PROTOTYPE</Typography>
+                    <Typography variant="h6">Firm@</Typography>
                     <div className={classes.search}>
                         <div className={classes.searchIcon}>
                             <SearchIcon />
