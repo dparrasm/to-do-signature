@@ -5,6 +5,8 @@ import Typography from '@material-ui/core/Typography/Typography';
 import LogoIcon from '@material-ui/icons/Stars';
 import SearchIcon from '@material-ui/icons/Search';
 import React, { Component } from 'react';
+import IconAvatar from '../Components/IconAvatar';
+
 
 const styles = withStyles(theme =>(
     {
@@ -96,6 +98,10 @@ class Header extends Component<HeaderProps, any> {
                                 inputProps={{ 'aria-label': 'search' }}
                             />
                         </div>
+                        <IconAvatar IconName="CreateOutlined"></IconAvatar>
+                        <IconAvatar IconName="SendOutlined"></IconAvatar>
+                        <IconAvatar IconName="ListAltOutlined"></IconAvatar>
+                        <IconAvatar IconName="PeopleAltOutlined"></IconAvatar>
                     </Toolbar>
                 </AppBar>
             </div>

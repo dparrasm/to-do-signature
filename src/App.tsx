@@ -2,13 +2,15 @@ import { red } from '@material-ui/core/colors';
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import Typography from '@material-ui/core/Typography/Typography';
 import React from 'react';
-import Header from './header/Header';
+import IconAvatar from './Components/IconAvatar';
+import Header from './Header/Header';
+import NavigationBar from './Header/NavigationBar';
 
 const useStyles = makeStyles({
   root: {
     width: '100%',
   },
-  clase: {
+  classes: {
     width: '100%',
     backgroundColor: red[100],
   }
@@ -18,7 +20,7 @@ function App() {
   const classes = useStyles();
   return (
     <div className={classes.root}>
-    <Header/>
+      <Header/>
   </div>
   );
 }
