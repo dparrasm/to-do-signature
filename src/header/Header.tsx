@@ -1,13 +1,13 @@
-import { IconButton, makeStyles, Toolbar, Theme, fade , createStyles} from '@material-ui/core';
+import { IconButton, Toolbar, Theme, fade, withStyles, withTheme } from '@material-ui/core';
 import AppBar from '@material-ui/core/AppBar/AppBar';
 import InputBase from '@material-ui/core/InputBase';
 import Typography from '@material-ui/core/Typography/Typography';
 import LogoIcon from '@material-ui/icons/Stars';
 import SearchIcon from '@material-ui/icons/Search';
-import React from 'react';
+import React, { Component } from 'react';
 
-const useStyles = makeStyles((theme: Theme) =>
-    createStyles({
+const styles = withStyles(theme =>(
+    {
         menuIcon: {
             marginRight: '10px',
         },
@@ -34,7 +34,7 @@ const useStyles = makeStyles((theme: Theme) =>
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-        },    
+        },
         inputRoot: {
             color: 'inherit',
         },
@@ -45,7 +45,7 @@ const useStyles = makeStyles((theme: Theme) =>
             transition: theme.transitions.create('width'),
             width: '100%',
             [theme.breakpoints.up('md')]: {
-              width: '20ch',
+                width: '20ch',
             },
         },
         appBar: {
@@ -56,40 +56,51 @@ const useStyles = makeStyles((theme: Theme) =>
         toolBar: {
             marginTop: '-9px',
         }
-    }
-));
+    
+    }));
 
-export default function Header() {
-    const classes = useStyles();
-
-    return (
-        <div>
-            <AppBar className={classes.appBar} position="static">
-                <Toolbar className={classes.toolBar}>
-                    <IconButton className={classes.menuIcon}
-                        edge="start"
-                        color="inherit"
-                        aria-label="open drawer"
-                    >
-                        <LogoIcon  />
-
-                    </IconButton>
-                    <Typography variant="h6">Firm@</Typography>
-                    <div className={classes.search}>
-                        <div className={classes.searchIcon}>
-                            <SearchIcon />
-                        </div>
-                        <InputBase
-                            placeholder="Search…"
-                            classes={{
-                                root: classes.inputRoot,
-                                input: classes.inputInput,
-                            }}
-                            inputProps={{ 'aria-label': 'search' }}
-                        />
-                    </div>
-                </Toolbar>
-            </AppBar>
-        </div>
-    );
+export interface HeaderProps {
+    classes?: any;
 }
+class Header extends Component<HeaderProps, any> {
+
+    constructor(props: HeaderProps){
+        super(props);
+    }
+
+    render() {
+        const { classes } = this.props;
+        return (
+            <div>
+                <AppBar className={classes.appBar} position="static">
+                    <Toolbar className={classes.toolBar}>
+                        <IconButton className={classes.menuIcon}
+                            edge="start"
+                            color="inherit"
+                            aria-label="open drawer"
+                        >
+                            <LogoIcon />
+
+                        </IconButton>
+                        <Typography variant="h6">Firm@</Typography>
+                        <div className={classes.search}>
+                            <div className={classes.searchIcon}>
+                                <SearchIcon />
+                            </div>
+                            <InputBase
+                                placeholder="Search…"
+                                classes={{
+                                    root: classes.inputRoot,
+                                    input: classes.inputInput,
+                                }}
+                                inputProps={{ 'aria-label': 'search' }}
+                            />
+                        </div>
+                    </Toolbar>
+                </AppBar>
+            </div>
+        );
+    }
+}
+
+export default (styles)(Header);
