@@ -1,10 +1,8 @@
 import { red } from '@material-ui/core/colors';
 import makeStyles from '@material-ui/core/styles/makeStyles';
-import Typography from '@material-ui/core/Typography/Typography';
 import React from 'react';
-import IconAvatar from './Components/IconAvatar';
 import Header from './Header/Header';
-import NavigationBar from './Header/NavigationBar';
+import DynamicForm, { formFields } from './Components/DynamicForm';
 
 const useStyles = makeStyles({
   root: {
@@ -16,11 +14,24 @@ const useStyles = makeStyles({
   }
 });
 
+const createSignature: formFields[] = [
+  { id:"123asd",
+    label: "Hello world",
+    type:"text",
+    placeholder: "Compadre"
+  },
+  { id:"123asf",
+  label: "Hello sun",
+  type:"password",
+  placeholder: "bro"
+}
+]
 function App() {
   const classes = useStyles();
   return (
     <div className={classes.root}>
       <Header/>
+      <DynamicForm fields={createSignature} />
   </div>
   );
 }
