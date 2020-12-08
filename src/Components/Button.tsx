@@ -4,13 +4,20 @@ import * as React from "react";
 export interface ButtonProps {
   classes?: any;
   icon?: string;
+  text?: string;
 }
 
 const styles = withStyles(theme =>({
-    img: {
-        width:'20px',
-        marginLeft:'10px',
-        marginRight: '10px',
+    container: {
+      display: 'flex',
+      flexDirection: 'column',
+      justifyContent: 'center',
+      textAlign: 'center'
+    },
+    font: {
+        fontSize: '10px',
+        paddingTop: '6px',
+        fontFamily: 'Roboto'
     }
 }));
 
@@ -21,10 +28,11 @@ class Button extends React.Component<ButtonProps, any> {
 
 
 render() {
-  const { classes, icon } = this.props;
+  const { classes, icon, text } = this.props;
   return (
-  <div onClick={()=>alert('Hello world!')}>
-    <img className={classes.img} src={icon}/>
+  <div className={classes.container} onClick={()=>alert('Hello world!')}>
+    <i className={icon}></i>
+    <span className={classes.font}>{text}</span>
   </div>);
 }
 
