@@ -10,7 +10,7 @@ interface CreateSignatureProps {
   classes?: any;
 }
 
-class CreateSignature extends Component<CreateSignatureProps, any> {
+class Contacts extends Component<CreateSignatureProps, any> {
   constructor(props: CreateSignatureProps) {
     super(props);
   }
@@ -24,4 +24,4 @@ class CreateSignature extends Component<CreateSignatureProps, any> {
   }
 }
 
-export default CreateSignature;
+export default Contacts;

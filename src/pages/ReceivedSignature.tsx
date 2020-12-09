@@ -10,18 +10,18 @@ interface CreateSignatureProps {
   classes?: any;
 }
 
-class CreateSignature extends Component<CreateSignatureProps, any> {
+class ReceivedSignature extends Component<CreateSignatureProps, any> {
   constructor(props: CreateSignatureProps) {
     super(props);
   }
   render() {
     return (
       <div>
-        <h2>Create signature</h2>
+        <h2>Que si funciona</h2>
         <DynamicForm fields={createSignature} />
       </div>
     );
   }
 }
 
-export default CreateSignature;
+export default ReceivedSignature;
