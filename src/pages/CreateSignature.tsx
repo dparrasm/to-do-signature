@@ -3,7 +3,7 @@ import DynamicForm, { formFields } from "../Components/DynamicForm";
 
 const createSignature: formFields[] = [
   { id: "123asd", label: "Hello world", type: "text", placeholder: "Compadre" },
-  { id: "123asf", label: "Hello sun", type: "password", placeholder: "bro" }
+  { id: "123asf", label: "Hello sun", type: "text", placeholder: "bro" }
 ];
 
 interface CreateSignatureProps {
