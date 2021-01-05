@@ -9,7 +9,7 @@ import {
   BrowserRouter as Router,
   Link
 } from "react-router-dom";
-import { icons } from "../../Assets/icons";
+import { icons } from "./icons";
 
 const styles = withStyles((theme) => ({
   menuIcon: {
