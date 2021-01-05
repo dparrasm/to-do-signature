@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import DynamicForm, { formFields } from "../Components/DynamicForm";
+import DynamicForm, { formFields } from "../DynamicForm";
 
 const createSignature: formFields[] = [
   { id: "123asd", label: "Hello world", type: "text", placeholder: "Compadre" },
@@ -10,18 +10,18 @@ interface CreateSignatureProps {
   classes?: any;
 }
 
-class Contacts extends Component<CreateSignatureProps, any> {
+class ReceivedSignature extends Component<CreateSignatureProps, any> {
   constructor(props: CreateSignatureProps) {
     super(props);
   }
   render() {
     return (
       <div>
-        <h2>Create signature</h2>
+        <h2>Que si funciona</h2>
         <DynamicForm fields={createSignature} />
       </div>
     );
   }
 }
 
-export default Contacts;
+export default ReceivedSignature;

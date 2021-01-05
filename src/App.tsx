@@ -4,10 +4,10 @@ import React, { Component } from "react";
 import { Route, BrowserRouter as Router, Switch, Link } from "react-router-dom";
 import Header from "./Components/Header/Header";
 import User from "./Components/User/User";
-import Contacts from "./pages/Contacts";
-import CreateSignature from "./pages/CreateSignature";
-import ReceivedSignature from "./pages/ReceivedSignature";
-import Login from "./pages/Login";
+import Contacts from "./Components/Page/Contacts";
+import CreateSignature from "./Components/Page/CreateSignature";
+import ReceivedSignature from "./Components/Page/ReceivedSignature";
+import Login from "./Components/Page/Login";
 
 export interface AppProps {
   classes: any;

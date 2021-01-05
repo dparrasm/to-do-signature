@@ -1,16 +1,16 @@
 import React, { Component } from "react";
-import DynamicForm, { formFields } from "../Components/DynamicForm";
+import DynamicForm, { formFields } from "../DynamicForm";
 
 const createSignature: formFields[] = [
   { id: "123asd", label: "Hello world", type: "text", placeholder: "Compadre" },
-  { id: "123asf", label: "Hello sun", type: "text", placeholder: "bro" }
+  { id: "123asf", label: "Hello sun", type: "password", placeholder: "bro" }
 ];
 
 interface CreateSignatureProps {
   classes?: any;
 }
 
-class CreateSignature extends Component<CreateSignatureProps, any> {
+class Contacts extends Component<CreateSignatureProps, any> {
   constructor(props: CreateSignatureProps) {
     super(props);
   }
@@ -24,4 +24,4 @@ class CreateSignature extends Component<CreateSignatureProps, any> {
   }
 }
 
-export default CreateSignature;
+export default Contacts;

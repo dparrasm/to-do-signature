@@ -7,14 +7,9 @@ import React, { Component } from "react";
 import Button from "../Button";
 import {
   BrowserRouter as Router,
-  Switch,
-  Route,
   Link
 } from "react-router-dom";
 import { icons } from "../../Assets/icons";
-import CreateSignature from "../../pages/CreateSignature";
-import ReceivedSignature from "../../pages/ReceivedSignature";
-import Contacts from "../../pages/Contacts";
 
 const styles = withStyles((theme) => ({
   menuIcon: {
@@ -57,6 +52,8 @@ const styles = withStyles((theme) => ({
     }
   },
   appBar: {
+    display: 'flex',
+    flexDirection: 'row',
     color: "grey",
     height: "55px",
     minHeight: "55px",
@@ -75,6 +72,10 @@ const styles = withStyles((theme) => ({
     marginLeft: "100px",
     fontSize: "18px",
     paddingBottom: "-10px"
+  },
+  logout: {
+    marginLeft: '180px',
+    marginTop: '15px'
   }
 }));
 
@@ -147,10 +148,10 @@ class Header extends Component<HeaderProps, any> {
                   </Link>
                 </li>
               </ul>
-              <Link to="/">
-                <button onClick={this.props.onUserLogOut}>Log out</button>
-              </Link>
             </Toolbar>
+            <Link to="/" className={classes.logout}>
+                    <button onClick={this.props.onUserLogOut}>Log out</button>
+            </Link>
           </AppBar>
         </div>
       </Router>
