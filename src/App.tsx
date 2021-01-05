@@ -16,7 +16,8 @@ export interface AppProps {
 
 const styles = withStyles({
   root: {
-    width: "100%"
+    width: "100%",
+    height: "100%"
   },
   classes: {
     width: "100%",
@@ -27,10 +28,14 @@ const styles = withStyles({
     paddingRight: "50px"
   },
   body: {
-    display: "flex"
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center"
   },
   main: {
-    width: "100%"
+    width: "100%",
+    flexDirection: 'row',
+    display: 'flex'
   }
 });
 
@@ -103,11 +108,9 @@ class App extends Component<AppProps, state> {
                 <div className={classes.user}>
                   <User />
                 </div>
-                <div className={classes.main}>
                   {this.renderSwitch(this.state.form)}
                 </div>
               </div>
-            </div>
           ) : (
             <Route path="/">
               <Login onUserLogIn={this.onUserLogIn} />

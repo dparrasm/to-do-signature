@@ -19,7 +19,7 @@ const styles = {
   },
   list: {
     listStyleType: "none",
-    width: "60%",
+    width: "80%",
     paddingRight: "32px",
     backgroundColor: "white",
     paddingBottom: "50px",

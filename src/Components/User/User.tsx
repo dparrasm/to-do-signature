@@ -4,29 +4,30 @@ import React, { Component } from "react";
 
 const styles = {
   container: {
-    height: "400px",
-    width: "225px",
-    background: "white",
-    boxShadow: "0px 0px 5px 3px rgba(213,213,217,1)"
+    height: "100%",
+    width: "100%",
+    backgroundColor: 'none',
+    borderRadius: '5%'
   },
   cover: {
     width: '100%',
-    height: '25%'
+    height: '50px'
   },
   image: {
     backgroundColor: 'red',
-    height: '80px',
-    width: '80px',
+    height: '70px',
+    width: '70px',
     borderRadius: '50%',
     marginTop:'-40px',
     position: 'absolute' as 'absolute',
     marginLeft: '75px'
   },
   description: {
-    height: '75%',
+    height: '250px',
     width: '100%',
     backgroundColor: 'blue',
-    borderBottomRigthRadius: '10%'
+    borderBottomRightRadius: '5%',
+    borderBottomLeftRadius: '5%',
   }
 };
 
