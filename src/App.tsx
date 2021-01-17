@@ -24,18 +24,25 @@ const styles = withStyles({
     backgroundColor: red[100]
   },
   user: {
-    marginLeft: "50px",
-    paddingRight: "50px"
+    width: "15%",
+    minWidth: "160px",
+    paddingRight: "50px",
+    marginTop: '20px'
   },
   body: {
     display: "flex",
     alignItems: "center",
-    justifyContent: "center"
+    justifyContent: "center",
+    fontFamily: 'Roboto'
   },
   main: {
     width: "100%",
     flexDirection: 'row',
     display: 'flex'
+  },
+  webPage: {
+    width: "15%",
+    background: 'red'
   }
 });
 
@@ -108,7 +115,9 @@ class App extends Component<AppProps, state> {
                 <div className={classes.user}>
                   <User />
                 </div>
+                <div className="webPage">
                   {this.renderSwitch(this.state.form)}
+                  </div>
                 </div>
               </div>
           ) : (
