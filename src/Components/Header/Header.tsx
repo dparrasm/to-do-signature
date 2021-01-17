@@ -76,6 +76,14 @@ const styles = withStyles((theme) => ({
   logout: {
     marginLeft: '180px',
     marginTop: '15px'
+  },
+  link: {
+    textDecoration: "none" as "none",
+    color: "#717171"
+  },
+  logo: {
+    textDecoration: "none" as "none",
+    color: "#1877f2"
   }
 }));
 
@@ -98,8 +106,8 @@ class Header extends Component<HeaderProps, any> {
         <div>
           <AppBar className={classes.appBar} position="static">
             <Toolbar className={classes.toolBar}>
-              <Link to="/" onClick={() => this.props.pickForm("/")}>
-                <Typography variant="h6">firm@</Typography>
+              <Link className={classes.logo} to="/" onClick={() => this.props.pickForm("/")}>
+                <Typography variant="h5">firm@</Typography>
               </Link>
               <div className={classes.search}>
                 <div className={classes.searchIcon}>
@@ -117,6 +125,7 @@ class Header extends Component<HeaderProps, any> {
               <ul className={classes.iconBar}>
                 <li className={classes.iconBarElement}>
                   <Link
+                    className={classes.link}
                     to="/create"
                     onClick={() => this.props.pickForm("/create")}
                   >
@@ -127,7 +136,9 @@ class Header extends Component<HeaderProps, any> {
                   className={classes.iconBarElement}
                   onClick={() => this.props.pickForm("/send")}
                 >
-                  <Link to="/send">
+                  <Link
+                    className={classes.link}
+                    to="/send">
                     <Button icon={icons.send} text="Send" />
                   </Link>
                 </li>
@@ -135,7 +146,9 @@ class Header extends Component<HeaderProps, any> {
                   className={classes.iconBarElement}
                   onClick={() => this.props.pickForm("/received")}
                 >
-                  <Link to="/received">
+                  <Link 
+                    className={classes.link}
+                    to="/received">
                     <Button icon={icons.received} text="Received" />
                   </Link>
                 </li>
@@ -143,7 +156,9 @@ class Header extends Component<HeaderProps, any> {
                   className={classes.iconBarElement}
                   onClick={() => this.props.pickForm("/contacts")}
                 >
-                  <Link to="/contacts">
+                  <Link 
+                    className={classes.link}
+                    to="/contacts">
                     <Button icon={icons.contacts} text="Contacts" />
                   </Link>
                 </li>

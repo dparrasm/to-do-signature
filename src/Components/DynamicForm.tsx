@@ -15,7 +15,9 @@ const styles = {
   form: {
     display: "flex",
     justifyContent: "center",
-    alignItems: "center"
+    alignItems: "center",
+    width: "100%",
+    height: "100%"
   },
   list: {
     listStyleType: "none",
@@ -23,7 +25,10 @@ const styles = {
     paddingRight: "32px",
     backgroundColor: "white",
     paddingBottom: "50px",
-    boxShadow: "0px 0px 5px 3px rgba(213,213,217,1)"
+    borderStyle: 'solid',
+    borderColor: '#e0e0de',
+    borderWidth: '1px',
+    borderRadius: '5%'
   },
   field: {
     marginTop: "35px"

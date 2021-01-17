@@ -39,15 +39,15 @@ const styles = {
   },
   description: {
     height: '250px',
-    borderColor: '#e0e0de',
-    width: '100%',
-    backgroundColor: '#f3f2f0',
     borderStyle: 'solid',
+    borderColor: '#e0e0de',
+    borderWidth: '1px',
+    width: '100%',
+    backgroundColor: '#fff',
     borderBottomRightRadius: '5%',
     borderBottomLeftRadius: '5%',
     marginTop: '-30px',
     paddingTop: '40px',
-    borderWidth: '1px',
     textAlign: 'center' as 'center'
   }
 };

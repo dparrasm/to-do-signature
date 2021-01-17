@@ -22,36 +22,33 @@ interface LoginProps {
 const styles = {
   container: {
     display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: "150px",
+    marginBottom: "250px",
     fontFamily: "Robotica"
   },
   cockpit: {
-    width: "60%",
-    marginLeft: "200px",
-    marginTop: "50px"
+    width: "20%",
+    marginRight: "90px"
   },
   login: {
-    width: "50%",
-    minWidth: "400px",
     marginTop: "30px",
-    marginRight: "400px",
-    maxMarginRight:"400px",
     height: "200px",
-    borderRadius: "25%"
-  },
-  image: {
-    width: "445px",
-    height: "280px",
-    position: "inherit" as "inherit",
-    filter: "blur(1px)",
-    borderTopLeftRadius: "100%",
-    marginTop: "20px",
-    paddingRight: "20px"
+    borderRadius: "25%",
+    width: "25%"
   },
   description: {
     width: "400px",
     height: "100px",
     position: "absolute" as 'absolute',
     marginTop: "-20px",
+    fontFamily: "Roboto"
+  },
+  title: {
+    fontSize: "xxx-large",
+    fontStyle: "normal",
+    color: "#1877f2",
     fontFamily: "Roboto"
   }
 };
@@ -80,12 +77,10 @@ class Login extends Component<LoginProps, any> {
     const { classes } = this.props;
     return (
       <div>
-        <h2>firm@</h2>
-        {this.state.message}
         <div className={classes.container}>
           <div className={classes.cockpit}>
-            <h1 className={classes.description}>All your signatures on the same platform</h1>
-            <img src={Logo} className={classes.image}></img>
+            <h1 className={classes.title}>firm@</h1>
+            <h2 className={classes.description}>All your signatures on the same platform</h2>
           </div>
           <div className={classes.login}>
           <DynamicForm
