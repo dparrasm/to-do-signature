@@ -6,7 +6,7 @@ import Header from "./Components/Header/Header";
 import User from "./Components/User/User";
 import Contacts from "./Components/Page/Contacts";
 import CreateSignature from "./Components/Page/CreateSignature";
-import ReceivedSignature from "./Components/Page/ReceivedSignature";
+import ReceivedSignature from "./Components/Page/ReceivedSignature/ReceivedSignature";
 import Login from "./Components/Page/Login";
 
 export interface AppProps {
@@ -41,8 +41,7 @@ const styles = withStyles({
     display: 'flex'
   },
   webPage: {
-    width: "15%",
-    background: 'red'
+    width: "50%"
   }
 });
 
@@ -75,7 +74,7 @@ class App extends Component<AppProps, state> {
       case "/send":
         return <h1>send</h1>;
       case "/received":
-        return <h1>received</h1>;
+        return <ReceivedSignature />;
       case "/contacts":
         return <h1>contacts</h1>;
     }
@@ -115,7 +114,7 @@ class App extends Component<AppProps, state> {
                 <div className={classes.user}>
                   <User />
                 </div>
-                <div className="webPage">
+                <div className={classes.webPage}>
                   {this.renderSwitch(this.state.form)}
                   </div>
                 </div>

@@ -55,12 +55,14 @@ const styles = withStyles((theme) => ({
     display: 'flex',
     flexDirection: 'row',
     color: "grey",
-    height: "55px",
-    minHeight: "55px",
-    backgroundColor: "white"
+    height: "60px",
+    minHeight: "60px",
+    backgroundColor: "white",
+    boxShadow: "none" as "none",
+    border: "1px solid #e0e0de"
   },
   toolBar: {
-    marginTop: "-9px"
+    marginTop: "-9px",
   },
   iconBar: {
     width: "40%",

@@ -2,8 +2,8 @@ import React, { Component } from "react";
 import DynamicForm, { formFields } from "../DynamicForm";
 
 const createSignature: formFields[] = [
-  { id: "123asd", label: "Hello world", type: "text", placeholder: "Compadre" },
-  { id: "123asf", label: "Hello sun", type: "text", placeholder: "bro" }
+  { id: "123asd", label: "Title", type: "text", placeholder: "" },
+  { id: "123asf", label: "To", type: "text", placeholder: "" }
 ];
 
 interface CreateSignatureProps {

@@ -28,7 +28,7 @@ const styles = {
     borderStyle: 'solid',
     borderColor: '#e0e0de',
     borderWidth: '1px',
-    borderRadius: '5%'
+    borderRadius: '15px'
   },
   field: {
     marginTop: "35px"

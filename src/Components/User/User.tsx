@@ -19,8 +19,8 @@ const styles = {
     height: '60px',
     borderStyle: 'solid',
     borderColor: '#e0e0de',
-    borderTopLeftRadius: '5%',
-    borderTopRightRadius: '5%',
+    borderTopLeftRadius: '15px',
+    borderTopRightRadius: '15px',
     borderBottomStyle: 'none' as 'none',
     borderWidth: '1px'
   },
@@ -44,8 +44,8 @@ const styles = {
     borderWidth: '1px',
     width: '100%',
     backgroundColor: '#fff',
-    borderBottomRightRadius: '5%',
-    borderBottomLeftRadius: '5%',
+    borderBottomRightRadius: '15px',
+    borderBottomLeftRadius: '15px',
     marginTop: '-30px',
     paddingTop: '40px',
     textAlign: 'center' as 'center'
