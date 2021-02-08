@@ -1,5 +1,6 @@
 import { withStyles } from "@material-ui/core";
 import React, { Component } from "react";
+import DetailedSign from "../../DetailedSign/DetailedSign";
 
 const styles = withStyles({
   container: {
@@ -28,14 +29,8 @@ class ReceivedSignature extends Component<ReceivedSignatureProps, any> {
     const { classes } = this.props;
     return (
       <div className = "">
-        <h2>Pending signatures</h2>
-        <div className={classes.pedingSignatures}>
-        
-        </div>
-        <h2>Signed documents</h2>
-        <div className={classes.signedDocuments}>
-        
-        </div>
+        <h2>Documents to sign</h2>
+          <DetailedSign></DetailedSign>
       </div>
     );
   }
