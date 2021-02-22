@@ -1,10 +1,10 @@
 import { red } from "@material-ui/core/colors";
 import withStyles from "@material-ui/core/styles/withStyles";
 import React, { Component } from "react";
-import { Route, BrowserRouter as Router, Switch, Link } from "react-router-dom";
+import { Route, BrowserRouter as Router, Link } from "react-router-dom";
 import Header from "./Components/Header/Header";
+import SearchBar from "./Components/SearchBar/SearchBar";
 import User from "./Components/User/User";
-import Contacts from "./Components/Page/Contacts";
 import CreateSignature from "./Components/Page/CreateSignature";
 import ReceivedSignature from "./Components/Page/ReceivedSignature/ReceivedSignature";
 import Login from "./Components/Page/Login";
@@ -31,7 +31,6 @@ const styles = withStyles({
   },
   body: {
     display: "flex",
-    alignItems: "center",
     justifyContent: "center",
     fontFamily: 'Roboto'
   },
@@ -41,6 +40,7 @@ const styles = withStyles({
     display: 'flex'
   },
   webPage: {
+    marginTop: "20px",
     width: "50%"
   }
 });
@@ -100,7 +100,7 @@ class App extends Component<AppProps, state> {
   }
 
   render() {
-    const { classes, pickedForm } = this.props;
+    const { classes } = this.props;
     return (
       <Router>
         <div className={classes.root}>
@@ -115,6 +115,7 @@ class App extends Component<AppProps, state> {
                   <User />
                 </div>
                 <div className={classes.webPage}>
+                  <SearchBar />
                   {this.renderSwitch(this.state.form)}
                   </div>
                 </div>

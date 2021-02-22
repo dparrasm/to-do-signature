@@ -16,12 +16,7 @@ export interface NavBarProps {
 }
 
 class NavigationBar extends Component<NavBarProps, any> {
-    
-    constructor(props: NavBarProps){
-        super(props);
-    }
-
-  render() {
+     render() {
     
     const { classes } = this.props;
     return (

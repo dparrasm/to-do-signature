@@ -5,6 +5,7 @@ export interface ButtonProps {
   classes?: any;
   icon?: string;
   text?: string;
+
 }
 
 const styles = withStyles((theme) => ({
@@ -16,15 +17,11 @@ const styles = withStyles((theme) => ({
   },
   font: {
     fontSize: "10px",
-    paddingTop: "6px",
     fontFamily: "Roboto"
   }
 }));
 
 class Button extends React.Component<ButtonProps, any> {
-  constructor(props: ButtonProps) {
-    super(props);
-  }
 
   render() {
     const { classes, icon, text } = this.props;

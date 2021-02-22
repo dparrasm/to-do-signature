@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import withStyles from "@material-ui/core/styles/withStyles";
 import User from '../User/User';
-import { Avatar, Button, TextField } from '@material-ui/core';
+import { Avatar, Button } from '@material-ui/core';
 import pdfIcon from './pdfIcon.png';
 
 const styles = withStyles({
@@ -20,8 +20,8 @@ const styles = withStyles({
     document: {
         marginRight: "20px",
         marginLeft: "20px",
-        width: "115px",
-        height: "120px"
+        width: "55px",
+        height: "55px"
     },
     title: {
         marginTop: "0px",
@@ -45,7 +45,20 @@ const styles = withStyles({
     },
     button: {
         marginLeft: "5px"
-    }
+    },
+    documentInfo:{
+        display: "flex",
+        flexDirection: "row"
+    },
+    avatar: {
+        height: "25px",
+        width: "25px",
+        marginLeft: "20px",
+        fontSize: "smaller" as "smaller",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center"
+    } 
 });
 interface DetailedSignProps {
     classes: any;
@@ -55,21 +68,21 @@ interface state {
 }
 class DetailedSign extends Component<DetailedSignProps, state>{
 
-    constructor(props: DetailedSignProps) {
-        super(props);
-    }
-
     render() {
         const { classes } = this.props;
         return (
             <div className={classes.container}>
                 <form className={classes.form}>
                     <div className={classes.info}>
-                        <img className={classes.document} src={pdfIcon} />
-                        <div>
+                        <img alt="document" className={classes.document} src={pdfIcon} />
+                        <div className={classes.documentInfo}>
+                            <div>
                             <h1 className={classes.title}>Título del documento</h1>
                             <h2 className={classes.date}>06/02/2021</h2>
-                            <Avatar>D</Avatar>
+                            </div>
+                            <div>
+                            <Avatar  className = {classes.avatar}>D</Avatar>
+                            </div>
                         </div>
                     </div>
                     <div className={classes.options}>

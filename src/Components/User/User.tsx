@@ -1,4 +1,3 @@
-import classes from "*.module.css";
 import { withStyles } from "@material-ui/core";
 import React, { Component } from "react";
 import { Avatar } from '@material-ui/core';
@@ -57,16 +56,13 @@ interface UserProps {
 }
 
 class User extends Component<UserProps, any> {
-  constructor(props: UserProps) {
-    super(props);
-  }
 
   render() {
     const { classes } = this.props;
     return (
       <div>
         <div className={classes.container}>
-          <img className={classes.cover} src={cover}/>
+          <img alt="cover" className={classes.cover} src={cover}/>
           <Avatar className={classes.image} src="./avatar.jpg"/>
           <div className={classes.description}>
             Monsieur Dupont

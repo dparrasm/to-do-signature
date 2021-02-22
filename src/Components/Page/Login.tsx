@@ -1,8 +1,5 @@
 import withStyles from "@material-ui/core/styles/withStyles";
 import React, { Component } from "react";
-import DynamicForm, { formFields } from "../DynamicForm";
-import Logo from "../../loginSignature.jpeg";
-import { FullscreenExit, Height } from "@material-ui/icons";
 import { Button, TextField } from "@material-ui/core";
 
 interface LoginProps {
