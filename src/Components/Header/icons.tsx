@@ -1,7 +1,8 @@
 export const icons = {
-    create: "fas fa-edit",
+    documents: "far fa-file",
+    signed: "fas fa-file-signature",
     send: "far fa-paper-plane",
-    received: "far fa-envelope",
+    received: "fas fa-envelope-open-text",
     contacts: "far fa-id-badge",
     plus: "fas fa-file-upload"
 }
