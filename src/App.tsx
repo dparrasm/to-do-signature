@@ -52,6 +52,7 @@ export interface state {
 }
 
 class App extends Component<AppProps, state> {
+
   constructor(props: AppProps) {
     super(props);
     this.state = { form: "/", isAuth: false, message: "backup server off" };

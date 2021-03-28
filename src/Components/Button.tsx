@@ -5,6 +5,7 @@ export interface ButtonProps {
   classes?: any;
   icon?: string;
   text?: string;
+  onClick?: () => void;
 
 }
 
@@ -22,7 +23,9 @@ const styles = withStyles((theme) => ({
 }));
 
 class Button extends React.Component<ButtonProps, any> {
-
+  constructor(props: ButtonProps) {
+    super(props);
+  }
   render() {
     const { classes, icon, text } = this.props;
     return (

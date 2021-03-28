@@ -1,12 +1,17 @@
 import withStyles from "@material-ui/core/styles/withStyles";
 import React, { Component } from "react";
-import { Button, TextField } from "@material-ui/core";
+import { Button, Modal, TextField } from "@material-ui/core";
+import { Dialog } from "@material-ui/core";
+import Signup from "./Signup/Signup";
 
 interface LoginProps {
   classes?: any;
   onUserLogIn?: any;
 }
-
+interface LoginState {
+  message: string;
+  isModalOpen: boolean; 
+}
 const styles = {
   schema: {
     display: "flex",
@@ -108,11 +113,12 @@ const styles = {
   }
 };
 
-class Login extends Component<LoginProps, any> {
+class Login extends Component<LoginProps, LoginState> {
   constructor(props: LoginProps) {
     super(props);
     this.state = {
-      message: "Loading..."
+      message: "Loading...",
+      isModalOpen: false
     };
   }
 
@@ -128,6 +134,16 @@ class Login extends Component<LoginProps, any> {
       .then((res) => this.setState({ message: res }));
   }
 
+  handleOpen = () => {
+    debugger;
+    this.setState({isModalOpen: true});
+  }
+  handleClose = () => {
+    console.log("bb");
+    debugger;
+    this.setState({isModalOpen: false});
+  }
+  
   render() {
     const { classes } = this.props;
     return (
@@ -149,7 +165,7 @@ class Login extends Component<LoginProps, any> {
               />
               <TextField
                 className={classes.textField}
-                type="text"
+                type="password"
                 placeholder="Password"
                 variant="outlined"
                 size="small"
@@ -170,9 +186,11 @@ class Login extends Component<LoginProps, any> {
                 className={classes.link}
                 variant="contained"
                 color="primary"
+                onClick={this.handleOpen}
               >
                 Create New Account
               </Button>
+                <Signup shouldOpenModal={this.state.isModalOpen} handleClose={this.handleClose}/>
               </div>
             </form>
             </div>
