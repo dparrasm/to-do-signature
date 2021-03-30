@@ -4,6 +4,8 @@ import { Dialog } from "@material-ui/core";
 import React from "react";
 import './Signup.scss';
 import { icons } from "../../Header/icons";
+import { UserModel } from "../../User/UserModel";
+
 
 
 interface SignupProps {
@@ -12,14 +14,49 @@ interface SignupProps {
 }
 
 export default function Signup(props: SignupProps) {
-    // getModalStyle is not a pure function, we roll the style only on the first render
-    //const [modalStyle] = React.useState(getModalStyle);
-    const [open, setOpen] = React.useState(false);
+    const [user,setUser] = React.useState({
+        name: '',
+        surname: '',
+        email: '',
+        password: ''
+    });
 
-    React.useEffect(() => {
-        props.shouldOpenModal ? setOpen(true) : setOpen(false);
-    })
-
+    const handleInputChange = (e) =>{
+        console.log(e, " is my value")
+        setUser({
+            ...user,
+            [e.target.name] : e.target.value
+        });
+    }
+    const onUserSignup = (event) => {
+        event.preventDefault();
+        fetch("/api/register", {
+          method: "POST",
+          body: JSON.stringify({
+            name: user.name,
+            surname: user.surname,
+            email: user.email,
+            password: user.password
+          }),
+          headers: {
+            "Content-Type": "application/json"
+          }
+        })
+          .then((res) => {
+            if (res.status === 200) {
+              alert("User created, routing to login page");
+            } else {
+              alert(
+                `This email is already registered: ${user.email}`
+              );
+            }
+            props.handleClose();
+          })
+          .catch((err) => {
+            console.error(err.errmsg);
+            alert("Error registering new user please try again.");
+          });
+      };
     const body = (
         <div className="user-container">
             <div className="title">
@@ -32,39 +69,48 @@ export default function Signup(props: SignupProps) {
             <div className="message">Regístrate para jugar con tus firmitas</div>
             <div className="username">
                 <TextField
+                    name = "name"
                     className="field"
                     type="text"
                     placeholder="Name"
                     variant="outlined"
                     size="small"
-                />
+                    onChange={handleInputChange}
+                 />
                 <div className="separator"/>
                 <TextField
+                    name = "surname"
                     className="field"
                     type="text"
                     placeholder="Surname"
                     variant="outlined"
                     size="small"
+                    onChange={handleInputChange}
                 />
             </div>
             <TextField
+                name="email"
                 className="field"
                 type="text"
                 placeholder="Email"
                 variant="outlined"
                 size="small"
+                onChange={handleInputChange}
             />
             <TextField
+                name="password"
                 className="field"
                 type="password"
                 placeholder="password"
                 variant="outlined"
                 size="small"
+                onChange={handleInputChange}
             />
             <Button
                 className="button"
                 variant="contained"
                 color="primary"
+                onClick={onUserSignup}
             >
                 Sign up
         </Button>
@@ -72,9 +118,7 @@ export default function Signup(props: SignupProps) {
     )
     return (
         <Dialog
-            open={open}
-            aria-labelledby="simple-modal-title"
-            aria-describedby="simple-modal-description"
+            open={props.shouldOpenModal}
         >
             {body}
         </Dialog>

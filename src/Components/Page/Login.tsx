@@ -1,8 +1,8 @@
 import withStyles from "@material-ui/core/styles/withStyles";
 import React, { Component } from "react";
-import { Button, Modal, TextField } from "@material-ui/core";
-import { Dialog } from "@material-ui/core";
+import { Button, TextField } from "@material-ui/core";
 import Signup from "./Signup/Signup";
+import { UserModel } from "../User/UserModel";
 
 interface LoginProps {
   classes?: any;
@@ -10,7 +10,8 @@ interface LoginProps {
 }
 interface LoginState {
   message: string;
-  isModalOpen: boolean; 
+  isModalOpen: boolean;
+  user: UserModel;
 }
 const styles = {
   schema: {
@@ -82,7 +83,8 @@ const styles = {
     borderRadius: "10px",
     minWidth: "300px",
     maxWidth: "350px",
-    boxShadow: "0 2px 4px rgb(0 0 0 / 10%), 0 8px 16px rgb(0 0 0 / 10%)"
+    boxShadow: "0 2px 4px rgb(0 0 0 / 10%), 0 8px 16px rgb(0 0 0 / 10%)",
+    minHeight: "300px"
   },
   formFields: {
     display: "flex",
@@ -118,7 +120,13 @@ class Login extends Component<LoginProps, LoginState> {
     super(props);
     this.state = {
       message: "Loading...",
-      isModalOpen: false
+      isModalOpen: false,
+      user: {
+        name: '',
+        surname: '',
+        email: '',
+        password: ''
+      }
     };
   }
 
@@ -134,16 +142,20 @@ class Login extends Component<LoginProps, LoginState> {
       .then((res) => this.setState({ message: res }));
   }
 
+  handleInputChange = (e) => {
+    console.log(e.target.value, " is my LOGIN value");
+    this.setState({user: {
+      ...this.state.user,
+      [e.target.name] : e.target.value
+    }})
+  }
   handleOpen = () => {
-    debugger;
     this.setState({isModalOpen: true});
   }
   handleClose = () => {
-    console.log("bb");
-    debugger;
     this.setState({isModalOpen: false});
   }
-  
+
   render() {
     const { classes } = this.props;
     return (
@@ -157,18 +169,22 @@ class Login extends Component<LoginProps, LoginState> {
             <div className={classes.form}>
             <form className={classes.formFields}>
               <TextField
+                name = "email"
                 className={classes.textField}
                 type="text"
-                placeholder="Username"
+                placeholder="Email"
                 variant="outlined"
                 size="small"
+                onChange={this.handleInputChange}
               />
               <TextField
+                name="password"
                 className={classes.textField}
                 type="password"
                 placeholder="Password"
                 variant="outlined"
                 size="small"
+                onChange={this.handleInputChange}
               />
               <Button
                 className={classes.button}
@@ -194,8 +210,6 @@ class Login extends Component<LoginProps, LoginState> {
               </div>
             </form>
             </div>
-
-
           </div>
         </div>
         <div className={classes.footer}>
