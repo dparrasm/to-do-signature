@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import withStyles from "@material-ui/core/styles/withStyles";
-import User from '../User/User';
+import User from '../user/User';
 import { Avatar, Button } from '@material-ui/core';
-import pdfIcon from './pdfIcon.png';
+import pdfIcon from '../../assets/pdfIcon.png';
 
 const styles = withStyles({
     container: {

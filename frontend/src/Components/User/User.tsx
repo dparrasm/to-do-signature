@@ -1,7 +1,7 @@
 import { withStyles } from "@material-ui/core";
 import React, { Component } from "react";
 import { Avatar } from '@material-ui/core';
-import cover from './cover.jpeg';
+import cover from '../../assets/cover.jpeg';
 
 const styles = {
   container: {

@@ -1,10 +1,10 @@
 import { Button, TextField } from "@material-ui/core";
-import IconButton from "../../Button";
+import IconButton from "../../../components/iconButton/IconButton";
 import { Dialog } from "@material-ui/core";
 import React from "react";
 import './Signup.scss';
-import { icons } from "../../Header/icons";
-import { UserModel } from "../../User/UserModel";
+import { icons } from "../../../utils/icons";
+import { UserModel } from "../../../components/user/UserModel";
 
 
 

@@ -2,12 +2,12 @@ import { Toolbar, withStyles } from "@material-ui/core";
 import AppBar from "@material-ui/core/AppBar/AppBar";
 import Typography from "@material-ui/core/Typography/Typography";
 import React, { Component } from "react";
-import Button from "../Button";
+import IconButton from "../iconButton/IconButton";
 import {
   BrowserRouter as Router,
   Link
 } from "react-router-dom";
-import { icons } from "./icons";
+import { icons } from "../../utils/icons";
 
 const styles = withStyles((theme) => ({
   menuIcon: {
@@ -89,7 +89,7 @@ class Header extends Component<HeaderProps, any> {
                   <Link
                     className={classes.link}
                     to="/documents">
-                    <Button icon={icons.documents} text="Documents" />
+                    <IconButton icon={icons.documents} text="Documents" />
                   </Link>
                 </li>
                 <li
@@ -99,7 +99,7 @@ class Header extends Component<HeaderProps, any> {
                   <Link
                     className={classes.link}
                     to="/send">
-                    <Button icon={icons.send} text="Send" />
+                    <IconButton icon={icons.send} text="Send" />
                   </Link>
                 </li>
                 <li
@@ -109,7 +109,7 @@ class Header extends Component<HeaderProps, any> {
                   <Link
                     className={classes.link}
                     to="/received">
-                    <Button icon={icons.received} text="Inbox" />
+                    <IconButton icon={icons.received} text="Inbox" />
                   </Link>
                 </li>
                 <li className={classes.iconBarElement}>
@@ -118,7 +118,7 @@ class Header extends Component<HeaderProps, any> {
                     to="/create"
                     onClick={() => this.props.pickForm("/signed")}
                   >
-                    <Button icon={icons.signed} text="Signed" />
+                    <IconButton icon={icons.signed} text="Signed" />
                   </Link>
                 </li>
                 <li
@@ -128,7 +128,7 @@ class Header extends Component<HeaderProps, any> {
                   <Link
                     className={classes.link}
                     to="/contacts">
-                    <Button icon={icons.contacts} text="Contacts" />
+                    <IconButton icon={icons.contacts} text="Contacts" />
                   </Link>
                 </li>
                 <li>

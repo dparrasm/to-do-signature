@@ -1,8 +1,8 @@
 import withStyles from "@material-ui/core/styles/withStyles";
 import React, { Component } from "react";
 import { Button, TextField } from "@material-ui/core";
-import Signup from "./Signup/Signup";
-import { UserModel } from "../User/UserModel";
+import Signup from "./signup/Signup";
+import { UserModel } from "../../components/user/UserModel";
 
 interface LoginProps {
   classes?: any;

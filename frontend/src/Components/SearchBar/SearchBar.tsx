@@ -2,8 +2,8 @@ import React, { Component } from "react";
 import SearchIcon from "@material-ui/icons/Search";
 import InputBase from "@material-ui/core/InputBase";
 import { withStyles } from "@material-ui/core";
-import { icons } from "../Header/icons";
-import Button from "../Button";
+import { icons } from "../../utils/icons";
+import IconButton from "../iconButton/IconButton";
 const styles = withStyles((theme) => ({
     container: {
         backgroundColor: 'white',
@@ -79,7 +79,7 @@ class searchBar extends Component<SearchBarProps, any>{
             <div className={classes.container}>
             <form className={classes.form}>
                 <div className={classes.buttonIcon}>
-                <Button icon={icons.plus}/>
+                <IconButton icon={icons.plus}/>
                 </div>
                 <div className={classes.search}>
                     <div className={classes.searchIcon}>

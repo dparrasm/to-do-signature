@@ -23,8 +23,6 @@ class NavigationBar extends Component<NavBarProps, any> {
       <AppBar className={classes.transparentBar}>
         <Toolbar>
         <LogoIcon></LogoIcon>
-
-
         </Toolbar>
       </AppBar>
     );

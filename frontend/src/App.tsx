@@ -2,12 +2,12 @@ import { red } from "@material-ui/core/colors";
 import withStyles from "@material-ui/core/styles/withStyles";
 import React, { Component } from "react";
 import { Route, BrowserRouter as Router, Link } from "react-router-dom";
-import Header from "./Components/Header/Header";
-import SearchBar from "./Components/SearchBar/SearchBar";
-import User from "./Components/User/User";
-import CreateSignature from "./Components/Page/CreateSignature";
-import ReceivedSignature from "./Components/Page/ReceivedSignature/ReceivedSignature";
-import Login from "./Components/Page/Login";
+import Header from "./components/header/Header";
+import SearchBar from "./components/searchBar/SearchBar";
+import User from "./components/user/User";
+import CreateSignature from "./pages/createSignature/CreateSignature";
+import ReceivedSignature from "./pages/receivedSignature/ReceivedSignature";
+import Login from "./pages/login/Login";
 
 export interface AppProps {
   classes: any;
