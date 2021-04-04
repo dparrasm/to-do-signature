@@ -30,7 +30,7 @@ export default function Signup(props: SignupProps) {
     }
     const onUserSignup = (event) => {
         event.preventDefault();
-        fetch("/api/register", {
+        fetch("/api/users", {
           method: "POST",
           body: JSON.stringify({
             name: user.name,
