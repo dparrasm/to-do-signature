@@ -48,14 +48,13 @@ const styles = withStyles({
 export interface state {
   form: string;
   isAuth: boolean;
-  message?: string;
 }
 
 class App extends Component<AppProps, state> {
 
   constructor(props: AppProps) {
     super(props);
-    this.state = { form: "/", isAuth: false, message: "backup server off" };
+    this.state = { form: "/", isAuth: false };
     this.pickForm = this.pickForm.bind(this);
     this.onUserLogIn = this.onUserLogIn.bind(this);
     this.onUserLogOut = this.onUserLogOut.bind(this);
@@ -82,22 +81,10 @@ class App extends Component<AppProps, state> {
   }
 
   onUserLogIn() {
-    this.setState({ form: "/", isAuth: true, message: "" });
+    this.setState({ form: "/", isAuth: true});
   }
   onUserLogOut() {
     this.setState({ isAuth: false });
-  }
-
-  componentDidMount() {
-    //GET message from server using fetch api
-    fetch("/api/secret", {
-      method: "get",
-      headers: new Headers({
-        "Access-Control-Allow-Origin": "*"
-      })
-    })
-      .then((res) => res.text())
-      .then((res) => this.setState({ message: res }));
   }
 
   render() {
@@ -126,15 +113,6 @@ class App extends Component<AppProps, state> {
               <Login onUserLogIn={this.onUserLogIn} />
             </Route>
           )}
-          <ul>
-            <li>
-              <Link to="/secret">Secret</Link>
-            </li>
-          </ul>
-          <p>{this.state.message}</p>
-          <Route path="/secret">
-            <div>{this.state.message}</div>
-          </Route>
         </div>
       </Router>
     );

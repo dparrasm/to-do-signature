@@ -3,6 +3,7 @@ const router = express.Router();
 import {check, validationResult} from 'express-validator';
 import bcrypt from 'bcryptjs';
 const jwt = require('jsonwebtoken');
+const config = require('config');
 
 // @route   POST api/users
 // @desc    Register an user
@@ -65,7 +66,7 @@ router.post(
             res.send('User registered ');
         }catch(err){
             console.error(err.message);
-            res.status(500).send('Server error');
+            res.status(500).send('Server error on user resgistering');
         }       
 });
 

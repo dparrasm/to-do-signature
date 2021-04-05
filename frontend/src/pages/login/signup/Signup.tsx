@@ -4,7 +4,6 @@ import { Dialog } from "@material-ui/core";
 import React from "react";
 import './Signup.scss';
 import { icons } from "../../../utils/icons";
-import { UserModel } from "../../../components/user/UserModel";
 
 
 
@@ -47,7 +46,7 @@ export default function Signup(props: SignupProps) {
               alert("User created, routing to login page");
             } else {
               alert(
-                `This email is already registered: ${user.email}`
+                `Invalid credentials`
               );
             }
             props.handleClose();

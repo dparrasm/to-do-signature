@@ -130,18 +130,6 @@ class Login extends Component<LoginProps, LoginState> {
     };
   }
 
-  componentDidMount() {
-    //GET message from server using fetch api
-    fetch("/api/home", {
-      method: "get",
-      headers: new Headers({
-        "Access-Control-Allow-Origin": "*"
-      })
-    })
-      .then((res) => res.text())
-      .then((res) => this.setState({ message: res }));
-  }
-
   handleInputChange = (e) => {
     console.log(e.target.value, " is my LOGIN value");
     this.setState({user: {
@@ -156,6 +144,34 @@ class Login extends Component<LoginProps, LoginState> {
     this.setState({isModalOpen: false});
   }
 
+  onUserLogin = (event) => {
+    debugger;
+    event.preventDefault();
+    fetch("/api/auth", {
+      method: "POST",
+      body: JSON.stringify({
+        email: this.state.user.email,
+        password: this.state.user.password
+      }),
+      headers: {
+        "Content-Type": "application/json"
+      }
+    })
+      .then((res) => {
+        if (res.status === 200) {
+          alert("Login de puta madre");
+          this.props?.onUserLogIn();
+        } else {
+          alert(
+            `Invalid credentials`
+          );
+        }
+      })
+      .catch((err) => {
+        console.error(err.errmsg);
+        alert("Error login");
+      });
+  };
   render() {
     const { classes } = this.props;
     return (
@@ -190,9 +206,7 @@ class Login extends Component<LoginProps, LoginState> {
                 className={classes.button}
                 variant="contained"
                 color="primary"
-                onClick={
-                  this.props?.onUserLogIn || console.log("Submit clicked!")
-                }
+                onClick={this.onUserLogin}
               >
                 Log In
               </Button>

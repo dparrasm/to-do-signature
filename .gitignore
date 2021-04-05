@@ -10,7 +10,12 @@
 /coverage
 
 # production
-/build
+/backend/build
+
+
+# config
+/frontend/package-lock.json
+/backend/package-lock.json
 
 # misc
 .DS_Store

@@ -9,7 +9,10 @@ import {
 } from "react-router-dom";
 import { icons } from "../../utils/icons";
 
-const styles = withStyles((theme) => ({
+const styles = withStyles(({
+  header: {
+    padding: "25px"
+  },
   menuIcon: {
     marginRight: "10px"
   },
@@ -73,8 +76,8 @@ class Header extends Component<HeaderProps, any> {
     const { classes } = this.props;
     return (
       <Router>
-        <div>
-          <AppBar className={classes.appBar} position="static">
+        <div className={classes.header}>
+          <AppBar className={classes.appBar} >
             <Toolbar className={classes.toolBar}>
             <div className={classes.iconContainer}>
                 <Link className={classes.logo} to="/" onClick={() => this.props.pickForm("/")}>
