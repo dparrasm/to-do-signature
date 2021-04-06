@@ -8,6 +8,9 @@ import User from "./components/user/User";
 import CreateSignature from "./pages/createSignature/CreateSignature";
 import ReceivedSignature from "./pages/receivedSignature/ReceivedSignature";
 import Login from "./pages/login/Login";
+//Redux
+import  { Provider } from 'react-redux';
+import store from './store';
 
 export interface AppProps {
   classes: any;
@@ -90,6 +93,7 @@ class App extends Component<AppProps, state> {
   render() {
     const { classes } = this.props;
     return (
+      <Provider store = {store}>
       <Router>
         <div className={classes.root}>
           {this.state.isAuth ? (
@@ -115,6 +119,7 @@ class App extends Component<AppProps, state> {
           )}
         </div>
       </Router>
+      </Provider>
     );
   }
 }
