@@ -1,0 +1,4 @@
+{
+    "mongoURI": "mongodb://localhost/react-auth",
+    "jwtToken": "mysecret"
+}
