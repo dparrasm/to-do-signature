@@ -2,10 +2,10 @@ import withStyles from "@material-ui/core/styles/withStyles";
 import React, { Component } from "react";
 import { Button, TextField } from "@material-ui/core";
 import Signup from "./signup/Signup";
-import { UserModel } from "../../components/user/UserModel";
 import { connect, ConnectedProps } from "react-redux";
 import { setAlert } from "../../reducers/actions/alertActions";
-import Alert from "../../components/alert/Alert";
+import Alert from "../../Components/alert/Alert";
+import { UserModel } from "../../Components/user/UserModel";
 
 interface LoginProps {
   classes?: any;

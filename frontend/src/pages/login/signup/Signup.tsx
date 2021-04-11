@@ -1,11 +1,11 @@
 import { Button, TextField } from "@material-ui/core";
-import IconButton from "../../../components/iconButton/IconButton";
 import { Dialog } from "@material-ui/core";
 import React from "react";
 import "./Signup.scss";
 import { register } from "../../../reducers/actions/authActions";
 import { icons } from "../../../utils/icons";
 import { connect, ConnectedProps } from "react-redux";
+import IconButton from "../../../Components/IconButton/IconButton";
 
 interface SignupProps {
   shouldOpenModal: boolean;

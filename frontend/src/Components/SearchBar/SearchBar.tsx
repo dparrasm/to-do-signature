@@ -3,7 +3,7 @@ import SearchIcon from "@material-ui/icons/Search";
 import InputBase from "@material-ui/core/InputBase";
 import { withStyles } from "@material-ui/core";
 import { icons } from "../../utils/icons";
-import IconButton from "../iconButton/IconButton";
+import IconButton from "../IconButton/IconButton";
 const styles = withStyles((theme) => ({
     container: {
         backgroundColor: 'white',

@@ -2,12 +2,13 @@ import { Toolbar, withStyles } from "@material-ui/core";
 import AppBar from "@material-ui/core/AppBar/AppBar";
 import Typography from "@material-ui/core/Typography/Typography";
 import React, { Component } from "react";
-import IconButton from "../iconButton/IconButton";
+// import IconButton from "../conButton/IconButton";
 import {
   BrowserRouter as Router,
   Link
 } from "react-router-dom";
 import { icons } from "../../utils/icons";
+import IconButton from "../IconButton/IconButton";
 
 const styles = withStyles(({
   header: {
