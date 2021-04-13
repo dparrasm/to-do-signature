@@ -8,9 +8,11 @@ import Login from "./pages/login/Login";
 //Redux
 import { Provider } from "react-redux";
 import store from "./store";
-import Header from "./Components/Header/Header";
-import SearchBar from "./Components/SearchBar/SearchBar";
-import User from "./Components/user/User";
+import Header from "./components/header/Header";
+import SearchBar from "./components/searchBar/SearchBar";
+import User from "./components/user/User";
+import { loadUser } from "./reducers/actions/authActions";
+import setAuthToken from "./utils/setAuthToken";
 
 export interface AppProps {
   classes: any;
@@ -53,6 +55,10 @@ export interface state {
   isAuth: boolean;
 }
 
+if (localStorage.token) {
+  setAuthToken(localStorage.token);
+}
+
 class App extends Component<AppProps, state> {
   constructor(props: AppProps) {
     super(props);
@@ -88,7 +94,9 @@ class App extends Component<AppProps, state> {
   onUserLogOut() {
     this.setState({ isAuth: false });
   }
-
+  componentDidMount() {
+    store.dispatch(loadUser());
+  }
   render() {
     const { classes } = this.props;
     return (

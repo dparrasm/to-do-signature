@@ -3,67 +3,70 @@ import AppBar from "@material-ui/core/AppBar/AppBar";
 import Typography from "@material-ui/core/Typography/Typography";
 import React, { Component } from "react";
 // import IconButton from "../conButton/IconButton";
-import {
-  BrowserRouter as Router,
-  Link
-} from "react-router-dom";
+import { BrowserRouter as Router, Link } from "react-router-dom";
 import { icons } from "../../utils/icons";
-import IconButton from "../IconButton/IconButton";
+import IconButton from "../iconButton/IconButton";
 
-const styles = withStyles(({
-  header: {
-    padding: "25px"
-  },
+const styles = withStyles({
   menuIcon: {
-    marginRight: "10px"
+    marginRight: "10px",
   },
   appBar: {
     color: "grey",
     height: "60px",
     minHeight: "60px",
     backgroundColor: "white",
-    border: "1px solid #e0e0de"
+    border: "1px solid #e0e0de",
   },
   toolBar: {
-    marginTop: "-9px",
+    height: "60px",
+    minHeight: "60px",
     width: "100%",
-    justifyContent: "center",
     alignItems: "center",
-    display: 'flex',
-    flexDirection: 'row',
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "center",
   },
   iconBar: {
+    padding: "0px",
     display: "inline-flex",
     listStyleType: "none",
-    width: "50%"
+    width: "50%",
+    justifyContent: "space-around",
   },
   iconBarElement: {
     marginTop: "10px",
-    marginLeft: "100px",
     fontSize: "18px",
-    paddingBottom: "-10px"
+    paddingBottom: "-10px",
   },
   logout: {
-    marginLeft: '180px',
-    marginTop: '15px'
+    marginTop: "15px",
   },
   link: {
     textDecoration: "none" as "none",
-    color: "#717171"
+    color: "#717171",
   },
   logo: {
     textDecoration: "none" as "none",
-    color: "#1877f2"
+    color: "#1877f2",
   },
   iconContainer: {
     width: "15%",
     minWidth: "160px",
     paddingRight: "50px",
     display: "flex",
-    justifyContent:"center",
-    alignItems: "center"
-  }
-}));
+    justifyContent: "center",
+  },
+  logoutContainer: {
+    paddingLeft: "35px",
+    borderLeftStyle: "solid" as "solid",
+    borderWidth: "1px",
+    height: "100%",
+    display: "flex",
+    alignItems: "center",
+    borderColor: "#e0e0de",
+  },
+});
 
 export interface HeaderProps {
   classes?: any;
@@ -78,21 +81,23 @@ class Header extends Component<HeaderProps, any> {
     return (
       <Router>
         <div className={classes.header}>
-          <AppBar className={classes.appBar} >
-            <Toolbar className={classes.toolBar}>
-            <div className={classes.iconContainer}>
-                <Link className={classes.logo} to="/" onClick={() => this.props.pickForm("/")}>
+          <div className={classes.appBar}>
+            <div className={classes.toolBar}>
+              <div className={classes.iconContainer}>
+                <Link
+                  className={classes.logo}
+                  to="/"
+                  onClick={() => this.props.pickForm("/")}
+                >
                   <Typography variant="h5">firm@</Typography>
                 </Link>
               </div>
               <ul className={classes.iconBar}>
-              <li
+                <li
                   className={classes.iconBarElement}
                   onClick={() => this.props.pickForm("/send")}
                 >
-                  <Link
-                    className={classes.link}
-                    to="/documents">
+                  <Link className={classes.link} to="/documents">
                     <IconButton icon={icons.documents} text="Documents" />
                   </Link>
                 </li>
@@ -100,9 +105,7 @@ class Header extends Component<HeaderProps, any> {
                   className={classes.iconBarElement}
                   onClick={() => this.props.pickForm("/send")}
                 >
-                  <Link
-                    className={classes.link}
-                    to="/send">
+                  <Link className={classes.link} to="/send">
                     <IconButton icon={icons.send} text="Send" />
                   </Link>
                 </li>
@@ -110,9 +113,7 @@ class Header extends Component<HeaderProps, any> {
                   className={classes.iconBarElement}
                   onClick={() => this.props.pickForm("/received")}
                 >
-                  <Link
-                    className={classes.link}
-                    to="/received">
+                  <Link className={classes.link} to="/received">
                     <IconButton icon={icons.received} text="Inbox" />
                   </Link>
                 </li>
@@ -129,21 +130,20 @@ class Header extends Component<HeaderProps, any> {
                   className={classes.iconBarElement}
                   onClick={() => this.props.pickForm("/contacts")}
                 >
-                  <Link
-                    className={classes.link}
-                    to="/contacts">
+                  <Link className={classes.link} to="/contacts">
                     <IconButton icon={icons.contacts} text="Contacts" />
                   </Link>
                 </li>
                 <li>
-                  <Link to="/" className={classes.logout}>
-                    <button onClick={this.props.onUserLogOut}>Log out</button>
-                  </Link>
+                  <div className={classes.logoutContainer}>
+                    <Link to="/" className={classes.logout}>
+                      <button onClick={this.props.onUserLogOut}>Log out</button>
+                    </Link>
+                  </div>
                 </li>
               </ul>
-            </Toolbar>
-
-          </AppBar>
+            </div>
+          </div>
         </div>
       </Router>
     );

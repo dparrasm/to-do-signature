@@ -5,7 +5,7 @@ import "./Signup.scss";
 import { register } from "../../../reducers/actions/authActions";
 import { icons } from "../../../utils/icons";
 import { connect, ConnectedProps } from "react-redux";
-import IconButton from "../../../Components/IconButton/IconButton";
+import IconButton from "../../../components/iconButton/IconButton";
 
 interface SignupProps {
   shouldOpenModal: boolean;

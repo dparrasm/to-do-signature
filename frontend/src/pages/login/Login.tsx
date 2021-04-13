@@ -4,8 +4,8 @@ import { Button, TextField } from "@material-ui/core";
 import Signup from "./signup/Signup";
 import { connect, ConnectedProps } from "react-redux";
 import { setAlert } from "../../reducers/actions/alertActions";
-import Alert from "../../Components/alert/Alert";
-import { UserModel } from "../../Components/user/UserModel";
+import Alert from "../../components/alert/Alert";
+import { UserModel } from "../../components/user/UserModel";
 
 interface LoginProps {
   classes?: any;

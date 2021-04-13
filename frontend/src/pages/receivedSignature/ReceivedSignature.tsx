@@ -1,6 +1,6 @@
 import { withStyles } from "@material-ui/core";
 import React, { Component } from "react";
-import DetailedSign from "../../Components/DetailedSign/DetailedSign";
+import DetailedSign from "../../components/detailedSign/DetailedSign";
 
 const styles = withStyles({
   container: {
