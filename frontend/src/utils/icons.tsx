@@ -5,5 +5,7 @@ export const icons = {
     received: "fas fa-envelope-open-text",
     contacts: "far fa-id-badge",
     plus: "fas fa-file-upload",
-    closeIcon: "fas fa-times"
+    closeIcon: "fas fa-times",
+    logout: "fas fa-sign-out-alt",
+    tools: "fas fa-tools"
 }

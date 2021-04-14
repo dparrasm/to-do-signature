@@ -28,8 +28,10 @@ const styles = withStyles({
     justifyContent: "center",
   },
   iconBar: {
+    height: "100%",
     padding: "0px",
     display: "inline-flex",
+    alignItems: "baseline",
     listStyleType: "none",
     width: "50%",
     justifyContent: "space-around",
@@ -39,12 +41,10 @@ const styles = withStyles({
     fontSize: "18px",
     paddingBottom: "-10px",
   },
-  logout: {
-    marginTop: "15px",
-  },
   link: {
     textDecoration: "none" as "none",
     color: "#717171",
+    lineHeight: "25px",
   },
   logo: {
     textDecoration: "none" as "none",
@@ -134,10 +134,10 @@ class Header extends Component<HeaderProps, any> {
                     <IconButton icon={icons.contacts} text="Contacts" />
                   </Link>
                 </li>
-                <li>
+                <li onClick={this.props.onUserLogOut}>
                   <div className={classes.logoutContainer}>
-                    <Link to="/" className={classes.logout}>
-                      <button onClick={this.props.onUserLogOut}>Log out</button>
+                    <Link to="/" className={classes.link}>
+                      <IconButton icon={icons.logout} text="Logout" />
                     </Link>
                   </div>
                 </li>

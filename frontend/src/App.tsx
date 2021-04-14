@@ -79,12 +79,16 @@ class App extends Component<AppProps, state> {
         return <h1>home</h1>;
       case "/create":
         return <CreateSignature />;
+      case "/documents":
+        return <CreateSignature />;
       case "/send":
-        return <h1>send</h1>;
+        return <h1>hola</h1>;
       case "/received":
         return <ReceivedSignature />;
       case "/contacts":
         return <h1>contacts</h1>;
+      default:
+        return <h1>Ruta no definida</h1>;
     }
   }
 
