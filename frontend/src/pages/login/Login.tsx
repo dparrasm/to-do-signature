@@ -141,7 +141,10 @@ class Login extends Component<
       },
     };
   }
+  componentDidMount(){
 
+  };
+  
   handleInputChange = (e) => {
     console.log(e.target.value, " is my LOGIN value");
     this.setState({

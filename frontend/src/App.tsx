@@ -47,16 +47,13 @@ const styles = withStyles({
   webPage: {
     marginTop: "20px",
     width: "50%",
+    textAlign: "center",
   },
 });
 
 export interface state {
   form: string;
   isAuth: boolean;
-}
-
-if (localStorage.token) {
-  setAuthToken(localStorage.token);
 }
 
 class App extends Component<AppProps, state> {
@@ -76,17 +73,42 @@ class App extends Component<AppProps, state> {
   renderSwitch(param: string) {
     switch (param) {
       case "/":
-        return <h1>home</h1>;
-      case "/create":
-        return <CreateSignature />;
+        return (
+          <div>
+            <h1>Home</h1>
+            <CreateSignature />
+          </div>
+        );
+      case "/signed":
+        return (
+          <div>
+            <h1>Signed</h1>
+            <CreateSignature />
+          </div>
+        );
       case "/documents":
-        return <CreateSignature />;
+        return (
+          <div>
+            <h1>Documents</h1>
+            <CreateSignature />
+          </div>
+        );
       case "/send":
-        return <h1>hola</h1>;
+        return (
+          <div>
+            <h1>Send</h1>
+            <CreateSignature />
+          </div>
+        );
       case "/received":
         return <ReceivedSignature />;
       case "/contacts":
-        return <h1>contacts</h1>;
+        return (
+          <div>
+            <h1>Contacts</h1>
+            <CreateSignature />
+          </div>
+        );
       default:
         return <h1>Ruta no definida</h1>;
     }
@@ -103,6 +125,9 @@ class App extends Component<AppProps, state> {
   }
   render() {
     const { classes } = this.props;
+    if (localStorage.token) {
+      setAuthToken(localStorage.token);
+    }
     return (
       <Provider store={store}>
         <Router>

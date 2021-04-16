@@ -95,7 +95,7 @@ class Header extends Component<HeaderProps, any> {
               <ul className={classes.iconBar}>
                 <li
                   className={classes.iconBarElement}
-                  onClick={() => this.props.pickForm("/send")}
+                  onClick={() => this.props.pickForm("/documents")}
                 >
                   <Link className={classes.link} to="/documents">
                     <IconButton icon={icons.documents} text="Documents" />
