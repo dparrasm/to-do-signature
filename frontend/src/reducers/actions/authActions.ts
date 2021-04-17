@@ -7,6 +7,7 @@ import {
   AUTH_ERROR,
 } from "./types";
 import setAuthToken from "../../utils/setAuthToken";
+
 // Load User
 export const loadUser = () => async (dispatch) => {
   if (localStorage.token) {
@@ -26,25 +27,24 @@ export const loadUser = () => async (dispatch) => {
 };
 
 // Register User
-export const register = ({ name, surname, email, password }) => async (
-  dispatch
-) => {
+export const register = ({ name, surname, email, password }) => 
+  async dispatch => {
+  
   const config = {
     headers: {
       "Content-Type": "application/json",
-    },
+  },
   };
 
   const body = JSON.stringify({ name, surname, email, password });
 
   try {
-    debugger;
     const res = await axios.post("/api/users", body, config);
-
     dispatch({
       type: REGISTER_SUCCESS,
       payload: res.data,
     });
+
   } catch (err) {
     const errors = err.response.data.errors;
 

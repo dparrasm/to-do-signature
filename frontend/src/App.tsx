@@ -56,6 +56,9 @@ export interface state {
   form: string;
   isAuth: boolean;
 }
+if (localStorage.token) {
+  setAuthToken(localStorage.token);
+}
 
 class App extends Component<AppProps, state> {
   constructor(props: AppProps) {
@@ -133,9 +136,6 @@ class App extends Component<AppProps, state> {
   }
   render() {
     const { classes } = this.props;
-    if (localStorage.token) {
-      setAuthToken(localStorage.token);
-    }
     return (
       <Provider store={store}>
         <Router>
