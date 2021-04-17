@@ -45,7 +45,6 @@ const styles = {
     width: "400px",
     height: "100px",
     position: "absolute" as "absolute",
-    marginTop: "-20px",
     fontFamily: "Roboto",
   },
   link: {
@@ -56,12 +55,6 @@ const styles = {
     backgroundColor: "#166fe5",
     marginTop: "10px",
     width: "85%",
-  },
-  title: {
-    fontSize: "xxx-large",
-    fontStyle: "normal",
-    color: "#1877f2",
-    fontFamily: "Roboto",
   },
   footer: {
     backgroundColor: "white",
@@ -141,10 +134,8 @@ class Login extends Component<
       },
     };
   }
-  componentDidMount(){
+  componentDidMount() {}
 
-  };
-  
   handleInputChange = (e) => {
     console.log(e.target.value, " is my LOGIN value");
     this.setState({
@@ -175,7 +166,6 @@ class Login extends Component<
     })
       .then((res) => {
         if (res.status === 200) {
-          alert("Login de puta madre");
           this.props?.onUserLogIn();
         } else {
           this.props.setAlert("Invalid credentials", "error");
@@ -192,7 +182,7 @@ class Login extends Component<
       <div className={classes.schema}>
         <div className={classes.container}>
           <div className={classes.cockpit}>
-            <h1 className={classes.title}>firm@</h1>
+            <h1 className="firma-title main">Firm@</h1>
             <h2 className={classes.description}>
               All your signatures on the same platform
             </h2>

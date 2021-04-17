@@ -49,14 +49,45 @@ const styles = {
     paddingTop: "40px",
     textAlign: "center" as "center",
   },
+  tasks: {
+    height: "75%",
+    textAlign: "left" as "left",
+    marginTop: "15px",
+  },
   link: {
     bottom: "1px",
     color: "blue",
+    fontSize: "small",
+  },
+  number: {
+    color: "#0077B5",
+    fontSize: "13px",
+  },
+  activity: {
+    display: "inline-flex",
+    width: "100%",
+    marginBottom: "10px",
+  },
+  info: {
+    paddingLeft: "10px",
+    color: "grey",
+    fontSize: "13px",
+    width: "80%",
+  },
+  button: {
+    background: "none !important" as "none !important",
+    border: "none" as "none",
+    padding: "0 !important",
+    fontFamily: "arial, sans-serif",
+    color: "#069",
+    textDecoration: "underline",
+    cursor: "pointer",
   },
 };
 
 interface UserProps {
   classes?: any;
+  pickForm: any;
 }
 
 class User extends Component<UserProps, any> {
@@ -69,12 +100,23 @@ class User extends Component<UserProps, any> {
           <Avatar className={classes.image} src="./avatar.jpg" />
           <div className={classes.description}>
             Monsieur Dupont
-            <p>Pending signatures: 6</p>
-            <p>Received signatures: 1</p>
+            <div className={classes.tasks}>
+              <div className={classes.activity}>
+                <div className={classes.info}>Pending signatures</div>
+                <div className={classes.number}>6</div>
+              </div>
+              <div className={classes.activity}>
+                <div className={classes.info}>Received signatures</div>
+                <div className={classes.number}>1</div>
+              </div>
+            </div>
             <div>
-              <a href="" className={classes.link}>
+              <button
+                className={classes.button}
+                onClick={() => this.props.pickForm("/user")}
+              >
                 Edit profile
-              </a>
+              </button>
             </div>
           </div>
         </div>

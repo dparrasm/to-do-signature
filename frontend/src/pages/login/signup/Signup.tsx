@@ -38,7 +38,7 @@ function Signup(
   const body = (
     <div className="user-container">
       <div className="title">
-        <div className="logo">firm@</div>
+        <div className="firma-title modal">firm@</div>
         <div className="close-button" onClick={props.handleClose}>
           <IconButton icon={icons.closeIcon} />
         </div>

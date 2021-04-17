@@ -5,6 +5,7 @@ import { Route, BrowserRouter as Router, Link } from "react-router-dom";
 import CreateSignature from "./pages/createSignature/CreateSignature";
 import ReceivedSignature from "./pages/receivedSignature/ReceivedSignature";
 import Login from "./pages/login/Login";
+import "./comun.scss";
 //Redux
 import { Provider } from "react-redux";
 import store from "./store";
@@ -30,7 +31,7 @@ const styles = withStyles({
   },
   user: {
     width: "15%",
-    minWidth: "160px",
+    minWidth: "200px",
     paddingRight: "50px",
     marginTop: "20px",
   },
@@ -59,7 +60,7 @@ export interface state {
 class App extends Component<AppProps, state> {
   constructor(props: AppProps) {
     super(props);
-    this.state = { form: "/", isAuth: false };
+    this.state = { form: "/", isAuth: true };
     this.pickForm = this.pickForm.bind(this);
     this.onUserLogIn = this.onUserLogIn.bind(this);
     this.onUserLogOut = this.onUserLogOut.bind(this);
@@ -109,6 +110,13 @@ class App extends Component<AppProps, state> {
             <CreateSignature />
           </div>
         );
+      case "/user":
+        return (
+          <div>
+            <h1>User</h1>
+            <CreateSignature />
+          </div>
+        );
       default:
         return <h1>Ruta no definida</h1>;
     }
@@ -140,7 +148,7 @@ class App extends Component<AppProps, state> {
                 />
                 <div className={classes.body}>
                   <div className={classes.user}>
-                    <User />
+                    <User pickForm={this.pickForm} />
                   </div>
                   <div className={classes.webPage}>
                     <SearchBar />
