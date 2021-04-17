@@ -6,6 +6,8 @@ import React, { Component } from "react";
 import { BrowserRouter as Router, Link } from "react-router-dom";
 import { icons } from "../../utils/icons";
 import IconButton from "../iconButton/IconButton";
+import { connect, ConnectedProps } from 'react-redux'; 
+import { logout } from "../../reducers/actions/authActions";
 
 const styles = withStyles({
   menuIcon: {
@@ -73,9 +75,20 @@ export interface HeaderProps {
   form?: string;
   pickForm: any;
   onUserLogOut: any;
+  auth: any;
+  logout: any;
 }
 
-class Header extends Component<HeaderProps, any> {
+class Header extends Component<HeaderProps & ConnectedProps<typeof connector>, any> {
+  constructor(props: HeaderProps & ConnectedProps<typeof connector>) {
+    super(props);
+  }
+
+  logout = () => {
+    this.props.onUserLogOut();
+    this.props.logout();
+  }
+  
   render() {
     const { classes } = this.props;
     return (
@@ -134,7 +147,7 @@ class Header extends Component<HeaderProps, any> {
                     <IconButton icon={icons.contacts} text="Contacts" />
                   </Link>
                 </li>
-                <li onClick={this.props.onUserLogOut}>
+                <li onClick={this.logout}>
                   <div className={classes.logoutContainer}>
                     <Link to="/" className={classes.link}>
                       <IconButton icon={icons.logout} text="Logout" />
@@ -149,5 +162,8 @@ class Header extends Component<HeaderProps, any> {
     );
   }
 }
-
-export default styles(Header);
+const mapStateToProps =state => ({
+  auth: state.auth
+});
+const connector = connect(mapStateToProps, { logout });
+export default connector(styles(Header));

@@ -7,6 +7,7 @@ import {
   AUTH_ERROR,
   LOGIN_SUCCESS,
   LOGIN_FAIL,
+  LOGOUT
 } from "./types";
 import setAuthToken from "../../utils/setAuthToken";
 
@@ -90,3 +91,6 @@ export const login = (email, password) =>
     });
   }
 };
+export const logout = () => dispatch => {
+  dispatch({type: LOGOUT});
+}

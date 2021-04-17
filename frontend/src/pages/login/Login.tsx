@@ -159,17 +159,16 @@ class Login extends Component<
 
   onUserLogin = (event) => {
     event.preventDefault();
-    //this.props.onUserLogIn();
     this.props.login(this.state.user.email, this.state.user.password);
   };
   render() {
     const { classes } = this.props;
 
-    // Redirect if logged in
-    // if (this.props.isAuthenticated) {
-    //   this.props.onUserLogIn();
-    //   return <Redirect to="/documents" />;
-    // }
+    //Redirect if logged in
+    if (this.props.isAuthenticated) {
+      this.props.onUserLogIn();
+      return <Redirect to="/documents" />;
+    }
     return (
       <div className={classes.schema}>
         <div className={classes.container}>

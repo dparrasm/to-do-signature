@@ -2,6 +2,7 @@ import { withStyles } from "@material-ui/core";
 import React, { Component } from "react";
 import { Avatar } from "@material-ui/core";
 import cover from "../../assets/cover.jpeg";
+import { connect, ConnectedProps } from "react-redux";
 
 const styles = {
   container: {
@@ -88,9 +89,16 @@ const styles = {
 interface UserProps {
   classes?: any;
   pickForm: any;
+  user: any;
 }
 
-class User extends Component<UserProps, any> {
+class User extends Component<
+  UserProps & ConnectedProps<typeof connector>,
+  any
+> {
+  constructor(props: UserProps & ConnectedProps<typeof connector>) {
+    super(props);
+  }
   render() {
     const { classes } = this.props;
     return (
@@ -99,7 +107,7 @@ class User extends Component<UserProps, any> {
           <img alt="cover" className={classes.cover} src={cover} />
           <Avatar className={classes.image} src="./avatar.jpg" />
           <div className={classes.description}>
-            Monsieur Dupont
+            {this.props.user.name} {this.props.user.surname}
             <div className={classes.tasks}>
               <div className={classes.activity}>
                 <div className={classes.info}>Pending signatures</div>
@@ -124,5 +132,8 @@ class User extends Component<UserProps, any> {
     );
   }
 }
-
-export default withStyles(styles)(User);
+const mapStateToProps = (state) => ({
+  user: state.auth.user,
+});
+const connector = connect(mapStateToProps, {});
+export default connector(withStyles(styles)(User));
