@@ -6,10 +6,14 @@ import { connect, ConnectedProps } from "react-redux";
 import { setAlert } from "../../reducers/actions/alertActions";
 import Alert from "../../components/alert/Alert";
 import { UserModel } from "../../components/user/UserModel";
+import { login } from "../../reducers/actions/authActions";
+import { Redirect } from "react-router-dom";
 
 interface LoginProps {
   classes?: any;
   onUserLogIn?: any;
+  login: any;
+  isAuthenticated?: boolean;
 }
 interface LoginState {
   message: string;
@@ -97,12 +101,13 @@ const styles = {
     marginTop: "20px",
     width: "85%",
   },
-  h2: {
+  passwordLink: {
     color: "#166fe5",
     fontFamily: "Roboto",
     fontWeight: "bolder" as "bolder",
     fontSize: "smaller",
     marginTop: "20px",
+    textDecoration: "none" as "none",
   },
   linkContainer: {
     marginTop: "8px",
@@ -154,30 +159,17 @@ class Login extends Component<
 
   onUserLogin = (event) => {
     event.preventDefault();
-    fetch("/api/auth", {
-      method: "POST",
-      body: JSON.stringify({
-        email: this.state.user.email,
-        password: this.state.user.password,
-      }),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
-      .then((res) => {
-        if (res.status === 200) {
-          this.props?.onUserLogIn();
-        } else {
-          this.props.setAlert("Invalid credentials", "error");
-        }
-      })
-      .catch((err) => {
-        console.error(err.errmsg);
-        alert("Error login");
-      });
+    //this.props.onUserLogIn();
+    this.props.login(this.state.user.email, this.state.user.password);
   };
   render() {
     const { classes } = this.props;
+
+    // Redirect if logged in
+    // if (this.props.isAuthenticated) {
+    //   this.props.onUserLogIn();
+    //   return <Redirect to="/documents" />;
+    // }
     return (
       <div className={classes.schema}>
         <div className={classes.container}>
@@ -218,7 +210,13 @@ class Login extends Component<
                   >
                     Log In
                   </Button>
-                  <h2 className={classes.h2}>Forgot Password ?</h2>
+                  <a
+                    className={classes.passwordLink}
+                    target="_blank"
+                    href="https://smallbiztrends.com/2015/02/ways-to-remember-passwords.html"
+                  >
+                    Forgot Password ?
+                  </a>
                   <div className={classes.linkContainer}>
                     <Button
                       className={classes.link}
@@ -248,6 +246,9 @@ class Login extends Component<
     );
   }
 }
+const mapStateToProps = (state) => ({
+  isAuthenticated: state.auth.isAuthenticated,
+});
 
-const connector = connect(null, { setAlert });
+const connector = connect(mapStateToProps, { setAlert, login });
 export default connector(withStyles(styles)(Login));

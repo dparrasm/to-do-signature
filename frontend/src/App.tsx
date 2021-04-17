@@ -63,7 +63,7 @@ if (localStorage.token) {
 class App extends Component<AppProps, state> {
   constructor(props: AppProps) {
     super(props);
-    this.state = { form: "/", isAuth: true };
+    this.state = { form: "/", isAuth: false };
     this.pickForm = this.pickForm.bind(this);
     this.onUserLogIn = this.onUserLogIn.bind(this);
     this.onUserLogOut = this.onUserLogOut.bind(this);
@@ -168,4 +168,4 @@ class App extends Component<AppProps, state> {
   }
 }
 
-export default styles(App);
+export default (styles(App));
