@@ -77,6 +77,7 @@ export interface HeaderProps {
   onUserLogOut: any;
   auth: any;
   logout: any;
+  path?: string;
 }
 
 class Header extends Component<HeaderProps & ConnectedProps<typeof connector>, any> {
@@ -162,8 +163,9 @@ class Header extends Component<HeaderProps & ConnectedProps<typeof connector>, a
     );
   }
 }
-const mapStateToProps =state => ({
-  auth: state.auth
+const mapStateToProps = state => ({
+  auth: state.auth,
+  path: state.path
 });
 const connector = connect(mapStateToProps, { logout });
 export default connector(styles(Header));

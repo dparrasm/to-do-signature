@@ -2,8 +2,8 @@ import React, { Component } from "react";
 import SearchIcon from "@material-ui/icons/Search";
 import InputBase from "@material-ui/core/InputBase";
 import { withStyles } from "@material-ui/core";
-import { icons } from "../../utils/icons";
-import IconButton from "../iconButton/IconButton";
+import Filepicker from "./filepicker/Filepicker";
+
 const styles = withStyles((theme) => ({
   container: {
     backgroundColor: "white",
@@ -53,20 +53,6 @@ const styles = withStyles((theme) => ({
     boxShadow: "none",
     height: "10%",
   },
-  buttonIcon: {
-    backgroundColor: "#1877f2",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    height: "40px",
-    width: "40px",
-    minWidth: "40px",
-    borderRadius: "25px",
-    color: "white",
-    fontSize: "14px",
-    marginLeft: "20px",
-    cursor: "pointer",
-  },
 }));
 export interface SearchBarProps {
   classes?: any;
@@ -77,9 +63,7 @@ class searchBar extends Component<SearchBarProps, any> {
     return (
       <div className={classes.container}>
         <form className={classes.form}>
-          <div className={classes.buttonIcon}>
-            <IconButton icon={icons.plus} />
-          </div>
+          <Filepicker />
           <div className={classes.search}>
             <div className={classes.searchIcon}>
               <SearchIcon />
