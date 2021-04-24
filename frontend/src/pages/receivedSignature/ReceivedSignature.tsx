@@ -27,9 +27,13 @@ const styles = withStyles({
 
 interface ReceivedSignatureProps {
   classes?: any;
+  pickForm: any;
 }
 
 class ReceivedSignature extends Component<ReceivedSignatureProps, any> {
+  handleSign = () => {
+    this.props.pickForm("/sign")
+  }
   render() {
     const { classes } = this.props;
     return (
@@ -38,7 +42,7 @@ class ReceivedSignature extends Component<ReceivedSignatureProps, any> {
           <h2 className={classes.h2}>Documents to sign</h2>
           <h2 className={classes.h2}>1 - 50</h2>
         </div>
-        <DetailedSign></DetailedSign>
+        <DetailedSign handleSign={this.handleSign}></DetailedSign>
       </div>
     );
   }

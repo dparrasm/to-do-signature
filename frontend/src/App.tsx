@@ -5,6 +5,7 @@ import { Route, BrowserRouter as Router, Link } from "react-router-dom";
 import CreateSignature from "./pages/createSignature/CreateSignature";
 import ReceivedSignature from "./pages/receivedSignature/ReceivedSignature";
 import Login from "./pages/login/Login";
+import SignDocument from "./components/detailedSign/signDocument/SignDocument";
 import "./comun.scss";
 //Redux
 import { Provider } from "react-redux";
@@ -105,7 +106,7 @@ class App extends Component<AppProps, state> {
           </div>
         );
       case "/received":
-        return <ReceivedSignature />;
+        return <ReceivedSignature pickForm={this.pickForm} />;
       case "/contacts":
         return (
           <div>
@@ -146,15 +147,19 @@ class App extends Component<AppProps, state> {
                   pickForm={this.pickForm}
                   onUserLogOut={this.onUserLogOut}
                 />
-                <div className={classes.body}>
-                  <div className={classes.user}>
-                    <User pickForm={this.pickForm} />
+                {this.state.form !== "/sign" ? (
+                  <div className={classes.body}>
+                    <div className={classes.user}>
+                      <User pickForm={this.pickForm} />
+                    </div>
+                    <div className={classes.webPage}>
+                      <SearchBar />
+                      {this.renderSwitch(this.state.form)}
+                    </div>
                   </div>
-                  <div className={classes.webPage}>
-                    <SearchBar />
-                    {this.renderSwitch(this.state.form)}
-                  </div>
-                </div>
+                ) : (
+                  <SignDocument />
+                )}
               </div>
             ) : (
               <Route path="/">
@@ -168,4 +173,4 @@ class App extends Component<AppProps, state> {
   }
 }
 
-export default (styles(App));
+export default styles(App);
