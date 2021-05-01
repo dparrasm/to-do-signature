@@ -5,15 +5,10 @@ import { connect, ConnectedProps } from "react-redux";
 import { setPath } from "../../reducers/actions/routerActions";
 
 interface MainViewProps {
-  classes?: any;
-  path?: string;
+  path: string;
 }
-function MainView(props: MainViewProps & ConnectedProps<typeof connector>) {
-  // useEffect(() => {
-  //   debugger;
-  //   setPath(document.location.pathname);
-  // }, []);
 
+function MainView(props: MainViewProps & ConnectedProps<typeof connector>) {
   switch (props.path != null ? props.path : document.location.pathname) {
     case "/":
       return (

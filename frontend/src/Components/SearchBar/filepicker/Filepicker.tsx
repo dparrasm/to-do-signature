@@ -10,9 +10,6 @@ function Filepicker() {
     // accept: '.ics,.pdf',
     accept: [".json", ".pdf"],
   });
-  let counter = 0;
-  console.log(filesContent[0]?.name);
-  console.log(filesContent.length);
 
   if (errors.length > 0) return <p>Error!</p>;
 

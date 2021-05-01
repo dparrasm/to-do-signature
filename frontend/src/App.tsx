@@ -51,16 +51,16 @@ const styles = withStyles({
   },
   link: {
     textDecoration: "none" as "none",
-    // color: "#717171",
     color: "red",
     lineHeight: "25px",
   },
 });
 
 export interface state {
-  form: string;
   isAuth: boolean;
+  form?:string;
 }
+
 if (localStorage.token) {
   setAuthToken(localStorage.token);
 }
@@ -68,26 +68,23 @@ if (localStorage.token) {
 class App extends Component<AppProps, state> {
   constructor(props: AppProps) {
     super(props);
-    this.state = { form: "/", isAuth: false };
-    this.pickForm = this.pickForm.bind(this);
+    this.state = { isAuth: false };
     this.onUserLogIn = this.onUserLogIn.bind(this);
     this.onUserLogOut = this.onUserLogOut.bind(this);
   }
 
-  pickForm(clicked: string) {
-    console.log(clicked);
-    this.setState({ form: clicked });
-  }
-
-  onUserLogIn() {
-    this.setState({ form: "/", isAuth: true });
-  }
-  onUserLogOut() {
-    this.setState({ isAuth: false });
-  }
   componentDidMount() {
     store.dispatch(loadUser());
   }
+
+  onUserLogIn() {
+    this.setState({ isAuth: true });
+  }
+
+  onUserLogOut() {
+    this.setState({ isAuth: false });
+  }
+ 
   render() {
     const { classes } = this.props;
     return (
