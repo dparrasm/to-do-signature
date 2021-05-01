@@ -7,16 +7,16 @@ import { setAlert } from "../../reducers/actions/alertActions";
 import Alert from "../../components/alert/Alert";
 import { UserModel } from "../../components/user/UserModel";
 import { login } from "../../reducers/actions/authActions";
-import { Redirect } from "react-router-dom";
+import MainView from "../mainView/MainView";
 
 interface LoginProps {
   classes?: any;
   onUserLogIn?: any;
   login: any;
   isAuthenticated?: boolean;
+  loading: boolean;
 }
 interface LoginState {
-  message: string;
   isModalOpen: boolean;
   user: UserModel;
 }
@@ -129,7 +129,6 @@ class Login extends Component<
     super(props);
 
     this.state = {
-      message: "Loading...",
       isModalOpen: false,
       user: {
         name: "",
@@ -142,7 +141,6 @@ class Login extends Component<
   componentDidMount() {}
 
   handleInputChange = (e) => {
-    console.log(e.target.value, " is my LOGIN value");
     this.setState({
       user: {
         ...this.state.user,
@@ -165,9 +163,9 @@ class Login extends Component<
     const { classes } = this.props;
 
     //Redirect if logged in
-    if (this.props.isAuthenticated) {
+    if (this.props.isAuthenticated && !this.props.loading) {
       this.props.onUserLogIn();
-      return <Redirect to="/documents" />;
+      return <MainView />;
     }
     return (
       <div className={classes.schema}>
@@ -247,6 +245,7 @@ class Login extends Component<
 }
 const mapStateToProps = (state) => ({
   isAuthenticated: state.auth.isAuthenticated,
+  loading: state.auth.loading,
 });
 
 const connector = connect(mapStateToProps, { setAlert, login });

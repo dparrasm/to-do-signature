@@ -1,20 +1,18 @@
 import { red } from "@material-ui/core/colors";
 import withStyles from "@material-ui/core/styles/withStyles";
 import React, { Component } from "react";
-import { Route, BrowserRouter as Router, Link } from "react-router-dom";
-import CreateSignature from "./pages/createSignature/CreateSignature";
-import ReceivedSignature from "./pages/receivedSignature/ReceivedSignature";
+import { BrowserRouter as Router } from "react-router-dom";
 import Login from "./pages/login/Login";
 import SignDocument from "./components/detailedSign/signDocument/SignDocument";
 import "./comun.scss";
 //Redux
-import { Provider } from "react-redux";
-import store from "./store";
 import Header from "./components/header/Header";
 import SearchBar from "./components/searchBar/SearchBar";
 import User from "./components/user/User";
 import { loadUser } from "./reducers/actions/authActions";
 import setAuthToken from "./utils/setAuthToken";
+import store from "./store";
+import MainView from "./pages/mainView/MainView";
 
 export interface AppProps {
   classes: any;
@@ -51,6 +49,12 @@ const styles = withStyles({
     width: "50%",
     textAlign: "center",
   },
+  link: {
+    textDecoration: "none" as "none",
+    // color: "#717171",
+    color: "red",
+    lineHeight: "25px",
+  },
 });
 
 export interface state {
@@ -75,57 +79,6 @@ class App extends Component<AppProps, state> {
     this.setState({ form: clicked });
   }
 
-  renderSwitch(param: string) {
-    switch (param) {
-      case "/":
-        return (
-          <div>
-            <h1>Home</h1>
-            <CreateSignature />
-          </div>
-        );
-      case "/signed":
-        return (
-          <div>
-            <h1>Signed</h1>
-            <CreateSignature />
-          </div>
-        );
-      case "/documents":
-        return (
-          <div>
-            <h1>Documents</h1>
-            <CreateSignature />
-          </div>
-        );
-      case "/send":
-        return (
-          <div>
-            <h1>Send</h1>
-            <CreateSignature />
-          </div>
-        );
-      case "/received":
-        return <ReceivedSignature pickForm={this.pickForm} />;
-      case "/contacts":
-        return (
-          <div>
-            <h1>Contacts</h1>
-            <CreateSignature />
-          </div>
-        );
-      case "/user":
-        return (
-          <div>
-            <h1>User</h1>
-            <CreateSignature />
-          </div>
-        );
-      default:
-        return <h1>Ruta no definida</h1>;
-    }
-  }
-
   onUserLogIn() {
     this.setState({ form: "/", isAuth: true });
   }
@@ -138,37 +91,30 @@ class App extends Component<AppProps, state> {
   render() {
     const { classes } = this.props;
     return (
-      <Provider store={store}>
+      <div className={classes.root}>
         <Router>
-          <div className={classes.root}>
-            {this.state.isAuth ? (
-              <div>
-                <Header
-                  pickForm={this.pickForm}
-                  onUserLogOut={this.onUserLogOut}
-                />
-                {this.state.form !== "/sign" ? (
-                  <div className={classes.body}>
-                    <div className={classes.user}>
-                      <User pickForm={this.pickForm} />
-                    </div>
-                    <div className={classes.webPage}>
-                      <SearchBar />
-                      {this.renderSwitch(this.state.form)}
-                    </div>
+          {this.state.isAuth ? (
+            <div>
+              <Header onUserLogOut={this.onUserLogOut} />
+              {this.state.form !== "/sign" ? (
+                <div className={classes.body}>
+                  <div className={classes.user}>
+                    <User />
                   </div>
-                ) : (
-                  <SignDocument />
-                )}
-              </div>
-            ) : (
-              <Route path="/">
-                <Login onUserLogIn={this.onUserLogIn} />
-              </Route>
-            )}
-          </div>
+                  <div className={classes.webPage}>
+                    <SearchBar />
+                    <MainView />
+                  </div>
+                </div>
+              ) : (
+                <SignDocument />
+              )}
+            </div>
+          ) : (
+            <Login onUserLogIn={this.onUserLogIn} />
+          )}
         </Router>
-      </Provider>
+      </div>
     );
   }
 }

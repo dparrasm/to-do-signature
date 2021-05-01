@@ -2,7 +2,9 @@ import { withStyles } from "@material-ui/core";
 import React, { Component } from "react";
 import { Avatar } from "@material-ui/core";
 import cover from "../../assets/cover.jpeg";
+import { Link } from "react-router-dom";
 import { connect, ConnectedProps } from "react-redux";
+import { setPath } from "../../reducers/actions/routerActions";
 
 const styles = {
   container: {
@@ -88,10 +90,8 @@ const styles = {
 
 interface UserProps {
   classes?: any;
-  pickForm: any;
   user: any;
 }
-
 class User extends Component<
   UserProps & ConnectedProps<typeof connector>,
   any
@@ -99,6 +99,9 @@ class User extends Component<
   constructor(props: UserProps & ConnectedProps<typeof connector>) {
     super(props);
   }
+  redirect = (path: string) => {
+    this.props.setPath(path);
+  };
   render() {
     const { classes } = this.props;
     return (
@@ -107,7 +110,7 @@ class User extends Component<
           <img alt="cover" className={classes.cover} src={cover} />
           <Avatar className={classes.image} src="./avatar.jpg" />
           <div className={classes.description}>
-            {this.props.user.name} {this.props.user.surname}
+            {this.props?.user?.name} {this.props?.user?.surname}
             <div className={classes.tasks}>
               <div className={classes.activity}>
                 <div className={classes.info}>Pending signatures</div>
@@ -119,12 +122,13 @@ class User extends Component<
               </div>
             </div>
             <div>
-              <button
+              <Link
+                to="/user"
                 className={classes.button}
-                onClick={() => this.props.pickForm("/user")}
+                onClick={() => this.redirect("/user")}
               >
                 Edit profile
-              </button>
+              </Link>
             </div>
           </div>
         </div>
@@ -134,6 +138,7 @@ class User extends Component<
 }
 const mapStateToProps = (state) => ({
   user: state.auth.user,
+  path: state.path,
 });
-const connector = connect(mapStateToProps, {});
+const connector = connect(mapStateToProps, { setPath });
 export default connector(withStyles(styles)(User));
