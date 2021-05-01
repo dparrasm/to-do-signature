@@ -6,13 +6,17 @@ import { connect, ConnectedProps } from "react-redux";
 import { setAlert } from "../../reducers/actions/alertActions";
 import Alert from "../../components/alert/Alert";
 import { UserModel } from "../../components/user/UserModel";
+import { login } from "../../reducers/actions/authActions";
+import MainView from "../mainView/MainView";
 
 interface LoginProps {
   classes?: any;
   onUserLogIn?: any;
+  login: any;
+  isAuthenticated?: boolean;
+  loading: boolean;
 }
 interface LoginState {
-  message: string;
   isModalOpen: boolean;
   user: UserModel;
 }
@@ -45,7 +49,6 @@ const styles = {
     width: "400px",
     height: "100px",
     position: "absolute" as "absolute",
-    marginTop: "-20px",
     fontFamily: "Roboto",
   },
   link: {
@@ -56,12 +59,6 @@ const styles = {
     backgroundColor: "#166fe5",
     marginTop: "10px",
     width: "85%",
-  },
-  title: {
-    fontSize: "xxx-large",
-    fontStyle: "normal",
-    color: "#1877f2",
-    fontFamily: "Roboto",
   },
   footer: {
     backgroundColor: "white",
@@ -104,12 +101,13 @@ const styles = {
     marginTop: "20px",
     width: "85%",
   },
-  h2: {
+  passwordLink: {
     color: "#166fe5",
     fontFamily: "Roboto",
     fontWeight: "bolder" as "bolder",
     fontSize: "smaller",
     marginTop: "20px",
+    textDecoration: "none" as "none",
   },
   linkContainer: {
     marginTop: "8px",
@@ -131,7 +129,6 @@ class Login extends Component<
     super(props);
 
     this.state = {
-      message: "Loading...",
       isModalOpen: false,
       user: {
         name: "",
@@ -141,12 +138,9 @@ class Login extends Component<
       },
     };
   }
-  componentDidMount(){
+  componentDidMount() {}
 
-  };
-  
   handleInputChange = (e) => {
-    console.log(e.target.value, " is my LOGIN value");
     this.setState({
       user: {
         ...this.state.user,
@@ -163,36 +157,21 @@ class Login extends Component<
 
   onUserLogin = (event) => {
     event.preventDefault();
-    fetch("/api/auth", {
-      method: "POST",
-      body: JSON.stringify({
-        email: this.state.user.email,
-        password: this.state.user.password,
-      }),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
-      .then((res) => {
-        if (res.status === 200) {
-          alert("Login de puta madre");
-          this.props?.onUserLogIn();
-        } else {
-          this.props.setAlert("Invalid credentials", "error");
-        }
-      })
-      .catch((err) => {
-        console.error(err.errmsg);
-        alert("Error login");
-      });
+    this.props.login(this.state.user.email, this.state.user.password);
   };
   render() {
     const { classes } = this.props;
+
+    //Redirect if logged in
+    if (this.props.isAuthenticated && !this.props.loading) {
+      this.props.onUserLogIn();
+      return <MainView />;
+    }
     return (
       <div className={classes.schema}>
         <div className={classes.container}>
           <div className={classes.cockpit}>
-            <h1 className={classes.title}>firm@</h1>
+            <h1 className="firma-title main">Firm@</h1>
             <h2 className={classes.description}>
               All your signatures on the same platform
             </h2>
@@ -228,7 +207,13 @@ class Login extends Component<
                   >
                     Log In
                   </Button>
-                  <h2 className={classes.h2}>Forgot Password ?</h2>
+                  <a
+                    className={classes.passwordLink}
+                    target="_blank"
+                    href="https://smallbiztrends.com/2015/02/ways-to-remember-passwords.html"
+                  >
+                    Forgot Password ?
+                  </a>
                   <div className={classes.linkContainer}>
                     <Button
                       className={classes.link}
@@ -258,6 +243,10 @@ class Login extends Component<
     );
   }
 }
+const mapStateToProps = (state) => ({
+  isAuthenticated: state.auth.isAuthenticated,
+  loading: state.auth.loading,
+});
 
-const connector = connect(null, { setAlert });
+const connector = connect(mapStateToProps, { setAlert, login });
 export default connector(withStyles(styles)(Login));

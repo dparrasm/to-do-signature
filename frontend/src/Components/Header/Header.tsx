@@ -1,11 +1,13 @@
-import { Toolbar, withStyles } from "@material-ui/core";
-import AppBar from "@material-ui/core/AppBar/AppBar";
-import Typography from "@material-ui/core/Typography/Typography";
+import { withStyles } from "@material-ui/core";
 import React, { Component } from "react";
+import { Link} from "react-router-dom";
 // import IconButton from "../conButton/IconButton";
-import { BrowserRouter as Router, Link } from "react-router-dom";
 import { icons } from "../../utils/icons";
 import IconButton from "../iconButton/IconButton";
+import { connect, ConnectedProps } from "react-redux";
+import { logout } from "../../reducers/actions/authActions";
+import { setPath } from "../../reducers/actions/routerActions";
+import "../../comun.scss";
 
 const styles = withStyles({
   menuIcon: {
@@ -71,83 +73,102 @@ const styles = withStyles({
 export interface HeaderProps {
   classes?: any;
   form?: string;
-  pickForm: any;
   onUserLogOut: any;
+  auth: any;
+  logout: any;
 }
 
-class Header extends Component<HeaderProps, any> {
+class Header extends Component<
+  HeaderProps & ConnectedProps<typeof connector>,
+  any
+> {
+  constructor(props: HeaderProps & ConnectedProps<typeof connector>) {
+    super(props);
+  }
+
+  logout = () => {
+    this.props.onUserLogOut();
+    this.props.logout();
+  };
+
+  redirect = (path: string) => {
+    this.props.setPath(path);
+  };
+
   render() {
     const { classes } = this.props;
     return (
-      <Router>
-        <div className={classes.header}>
-          <div className={classes.appBar}>
-            <div className={classes.toolBar}>
-              <div className={classes.iconContainer}>
-                <Link
-                  className={classes.logo}
-                  to="/"
-                  onClick={() => this.props.pickForm("/")}
-                >
-                  <Typography variant="h5">firm@</Typography>
-                </Link>
+      <div className={classes.header}>
+        <div className={classes.appBar}>
+          <div className={classes.toolBar}>
+            <div className={classes.iconContainer}>
+              <div onClick={() => this.redirect("/")}>
+                <h1 className="firma-title header">firm@</h1>
               </div>
-              <ul className={classes.iconBar}>
-                <li
-                  className={classes.iconBarElement}
-                  onClick={() => this.props.pickForm("/documents")}
-                >
-                  <Link className={classes.link} to="/documents">
-                    <IconButton icon={icons.documents} text="Documents" />
-                  </Link>
-                </li>
-                <li
-                  className={classes.iconBarElement}
-                  onClick={() => this.props.pickForm("/send")}
-                >
-                  <Link className={classes.link} to="/send">
-                    <IconButton icon={icons.send} text="Send" />
-                  </Link>
-                </li>
-                <li
-                  className={classes.iconBarElement}
-                  onClick={() => this.props.pickForm("/received")}
-                >
-                  <Link className={classes.link} to="/received">
-                    <IconButton icon={icons.received} text="Inbox" />
-                  </Link>
-                </li>
-                <li className={classes.iconBarElement}>
-                  <Link
-                    className={classes.link}
-                    to="/create"
-                    onClick={() => this.props.pickForm("/signed")}
-                  >
-                    <IconButton icon={icons.signed} text="Signed" />
-                  </Link>
-                </li>
-                <li
-                  className={classes.iconBarElement}
-                  onClick={() => this.props.pickForm("/contacts")}
-                >
-                  <Link className={classes.link} to="/contacts">
-                    <IconButton icon={icons.contacts} text="Contacts" />
-                  </Link>
-                </li>
-                <li onClick={this.props.onUserLogOut}>
-                  <div className={classes.logoutContainer}>
-                    <Link to="/" className={classes.link}>
-                      <IconButton icon={icons.logout} text="Logout" />
-                    </Link>
-                  </div>
-                </li>
-              </ul>
             </div>
+            <ul className={classes.iconBar}>
+              <li
+                className={classes.iconBarElement}
+                onClick={() => this.redirect("/documents")}
+              >
+                <Link className={classes.link} to="/documents">
+                  <IconButton icon={icons.documents} text="Documents" />
+                </Link>
+              </li>
+              <li
+                className={classes.iconBarElement}
+                // onClick={() => this.props.pickForm("/send")
+                onClick={() => this.redirect("/send")}
+              >
+                <Link className={classes.link} to="/send">
+                  <IconButton icon={icons.send} text="Send" />
+                </Link>
+              </li>
+              <li
+                className={classes.iconBarElement}
+                onClick={() => this.redirect("/received")}
+              >
+                <Link className={classes.link} to="/received">
+                  <IconButton icon={icons.received} text="Inbox" />
+                </Link>
+              </li>
+              <li
+                className={classes.iconBarElement}
+                onClick={() => this.redirect("/signed")}
+              >
+                <Link className={classes.link} to="/signed">
+                  <IconButton icon={icons.signed} text="Signed" />
+                </Link>
+              </li>
+              <li
+                className={classes.iconBarElement}
+                onClick={() => this.redirect("/contacts")}
+              >
+                <Link className={classes.link} to="/contacts">
+                  <IconButton icon={icons.contacts} text="Contacts" />
+                </Link>
+              </li>
+              <li onClick={this.logout}>
+                <div className={classes.logoutContainer}>
+                  <Link
+                    to="/"
+                    onClick={() => this.redirect("/")}
+                    className={classes.link}
+                  >
+                    <IconButton icon={icons.logout} text="Logout" />
+                  </Link>
+                </div>
+              </li>
+            </ul>
           </div>
         </div>
-      </Router>
+      </div>
     );
   }
 }
-
-export default styles(Header);
+const mapStateToProps = (state) => ({
+  auth: state.auth,
+  path: state.path,
+});
+const connector = connect(mapStateToProps, { logout, setPath });
+export default connector(styles(Header));

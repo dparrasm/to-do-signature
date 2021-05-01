@@ -1,0 +1,67 @@
+@import url("https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Indie+Flower&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Indie+Flower&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Lobster&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Lobster&family=Yesteryear&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=La+Belle+Aurore&family=Lobster&family=Yesteryear&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Calligraffitti&family=Meddon&display=swap");
+
+.dialog-content {
+  margin: 4px !important;
+}
+
+.dialog-input {
+  width: 100% !important;
+}
+
+.container {
+  display: flex;
+  margin-top: 20px;
+}
+
+.square {
+  overflow-wrap: break-word;
+  font-size: 25px;
+  height: 65px;
+  width: 250px;
+  border: 1px solid black;
+  margin-left: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  word-wrap: break-word;
+}
+
+.active {
+  border: 1px solid #aed0ea;
+  background: #e0f2ff;
+}
+
+.font-1 {
+  font-family: "Dancing Script", cursive;
+}
+.font-2 {
+  font-family: "Indie Flower", cursive;
+}
+.font-3 {
+  font-family: "Lobster", cursive;
+}
+.font-4 {
+  font-family: "Yesteryear", cursive;
+}
+.font-5 {
+  font-family: "La Belle Aurore", cursive;
+}
+.font-6 {
+  font-family: "Calligraffitti", cursive;
+}
+
+.footer {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 20px;
+  margin-right: 20px;
+}

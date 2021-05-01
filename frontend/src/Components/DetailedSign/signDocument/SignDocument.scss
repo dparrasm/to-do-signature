@@ -1,0 +1,36 @@
+.root-sign-document {
+  display: flex;
+  height: 100%;
+}
+
+.sign-tools {
+  background-color: white;
+  width: 300px;
+  margin-right: 50px;
+  margin-top: 1px;
+  border: 1px solid darkgrey;
+  box-shadow: 5px 5px 5px 1px #ccc;
+  border-radius: 5px;
+  min-width: 130px;
+
+  .container-tools {
+    margin-left: 15px;
+    margin-right: 15px;
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+.document-container {
+  margin-top: 20px;
+  height: 100%;
+  max-height: calc(100vh - 80px);
+  overflow: auto;
+  border: 1px solid darkgrey;
+  box-shadow: 5px 5px 5px 1px #ccc;
+  border-radius: 5px;
+}
+
+.react-pdf__Page__canvas {
+  margin: 0 auto;
+}

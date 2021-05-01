@@ -1,0 +1,21 @@
+@import url("https://fonts.googleapis.com/css2?family=Yesteryear&display=swap");
+
+.firma-title {
+  font-family: "Yesteryear", cursive;
+  color: #1877f2;
+  font-style: normal;
+  &.main {
+    font-size: 80px;
+    line-height: 1px;
+  }
+  &.modal {
+    font-size: 30px;
+  }
+  &.header {
+    font-size: 40px;
+  }
+  //????
+  .margin-right-10 {
+    margin-right: 10px;
+  }
+}
