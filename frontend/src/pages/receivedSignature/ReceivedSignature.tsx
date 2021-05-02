@@ -1,6 +1,8 @@
 import { withStyles } from "@material-ui/core";
 import React, { Component } from "react";
+import { connect, ConnectedProps } from "react-redux";
 import DetailedSign from "../../components/detailedSign/DetailedSign";
+import { setPath } from "../../reducers/actions/routerActions";
 
 const styles = withStyles({
   container: {
@@ -27,13 +29,15 @@ const styles = withStyles({
 
 interface ReceivedSignatureProps {
   classes?: any;
-  pickForm: any;
 }
 
-class ReceivedSignature extends Component<ReceivedSignatureProps, any> {
+class ReceivedSignature extends Component<
+  ReceivedSignatureProps & ConnectedProps<typeof connector>,
+  any
+> {
   handleSign = () => {
-    this.props.pickForm("/sign")
-  }
+    //TODO
+  };
   render() {
     const { classes } = this.props;
     return (
@@ -47,5 +51,8 @@ class ReceivedSignature extends Component<ReceivedSignatureProps, any> {
     );
   }
 }
-
-export default styles(ReceivedSignature);
+const mapStateToProps = (state) => ({
+  path: state.path,
+});
+const connector = connect(mapStateToProps, { setPath });
+export default connector(styles(ReceivedSignature));
