@@ -4,7 +4,7 @@ import User from "../user/User";
 import { Avatar, Button } from "@material-ui/core";
 import pdfIcon from "../../assets/pdfIcon.png";
 import { Redirect } from "react-router";
-import { Route } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const styles = withStyles({
   container: {
@@ -91,13 +91,15 @@ class DetailedSign extends Component<DetailedSignProps, state> {
             </div>
           </div>
           <div className={classes.options}>
-            <Button
-              color="primary"
-              onClick={this.handleSign}
-              className={classes.button}
-            >
-              Sign
-            </Button>
+            <Link to="/sign">
+              <Button
+                color="primary"
+                onClick={this.handleSign}
+                className={classes.button}
+              >
+                Sign
+              </Button>
+            </Link>
             <Button color="primary" className={classes.button}>
               Send
             </Button>

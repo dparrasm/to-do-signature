@@ -1,7 +1,7 @@
 import { red } from "@material-ui/core/colors";
 import withStyles from "@material-ui/core/styles/withStyles";
 import React, { Component } from "react";
-import { BrowserRouter as Router } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Login from "./pages/login/Login";
 import SignDocument from "./components/detailedSign/signDocument/SignDocument";
 import "./comun.scss";
@@ -13,10 +13,13 @@ import { loadUser } from "./reducers/actions/authActions";
 import setAuthToken from "./utils/setAuthToken";
 import store from "./store";
 import MainView from "./pages/mainView/MainView";
+import { connect } from "react-redux";
+import CreateSignature from "./pages/createSignature/CreateSignature";
+import ReceivedSignature from "./pages/receivedSignature/ReceivedSignature";
 
 export interface AppProps {
   classes: any;
-  pickedForm: string;
+  path?: string;
 }
 
 const styles = withStyles({
@@ -58,7 +61,7 @@ const styles = withStyles({
 
 export interface state {
   isAuth: boolean;
-  form?:string;
+  path?: string;
 }
 
 if (localStorage.token) {
@@ -75,6 +78,7 @@ class App extends Component<AppProps, state> {
 
   componentDidMount() {
     store.dispatch(loadUser());
+    this.setState({ path: document.location.pathname });
   }
 
   onUserLogIn() {
@@ -84,36 +88,68 @@ class App extends Component<AppProps, state> {
   onUserLogOut() {
     this.setState({ isAuth: false });
   }
- 
+
   render() {
     const { classes } = this.props;
     return (
       <div className={classes.root}>
         <Router>
-          {this.state.isAuth ? (
-            <div>
-              <Header onUserLogOut={this.onUserLogOut} />
-              {this.state.form !== "/sign" ? (
+          <Switch>
+            <Route path="/sign">
+              <SignDocument />
+            </Route>
+
+            {this.state.isAuth ? (
+              <div>
+                <Header onUserLogOut={this.onUserLogOut} />
                 <div className={classes.body}>
                   <div className={classes.user}>
                     <User />
                   </div>
                   <div className={classes.webPage}>
                     <SearchBar />
-                    <MainView />
+                    <Route path="/signed">
+                      <div>
+                        <h1>Signed</h1>
+                        <CreateSignature />
+                      </div>
+                    </Route>
+                    <Route path="/send">
+                      <div>
+                        <h1>Send</h1>
+                        <CreateSignature />
+                      </div>
+                    </Route>
+                    <Route path="/contacts">
+                      <div>
+                        <h1>Contacts</h1>
+                        <CreateSignature />
+                      </div>
+                    </Route>
+                    <Route path="/received">
+                      <ReceivedSignature />
+                    </Route>
+                    <Route path="/documents">
+                      <div>
+                        <h1>Documents</h1>
+                        <CreateSignature />
+                      </div>
+                    </Route>
+                    {/* <MainView /> */}
                   </div>
                 </div>
-              ) : (
-                <SignDocument />
-              )}
-            </div>
-          ) : (
-            <Login onUserLogIn={this.onUserLogIn} />
-          )}
+              </div>
+            ) : (
+              <Login onUserLogIn={this.onUserLogIn} />
+            )}
+          </Switch>
         </Router>
       </div>
     );
   }
 }
-
+// const mapStateToProps = (state) => ({
+//   path: state.path,
+// });
+// const connector = connect(mapStateToProps, {});
 export default styles(App);
