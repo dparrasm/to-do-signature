@@ -1,58 +1,46 @@
-import { withStyles } from "@material-ui/core";
-import React, { Component } from "react";
-import { connect, ConnectedProps } from "react-redux";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import DetailedSign from "../../components/detailedSign/DetailedSign";
-import { setPath } from "../../reducers/actions/routerActions";
+import { rootState } from "../../reducers";
+import { loadDocuments } from "../../reducers/actions/documentActions";
+import "./ReceivedSignature.scss";
 
-const styles = withStyles({
-  container: {
-    height: "100%",
-    width: "100%",
-  },
-  pedingSignatures: {
-    borderRadius: "15px",
-    backgroundColor: "white",
-  },
-  signedDocuments: {
-    borderRadius: "15px",
-    backgroundColor: "white",
-  },
-  h2: {
-    fontSize: "17px",
-    marginLeft: "20px",
-  },
-  info: {
-    display: "flex",
-    flexDirection: "row",
-  },
-});
-
-interface ReceivedSignatureProps {
-  classes?: any;
+function handleSign() {
+  return console.log("Handlesing");
 }
+export interface document {
+  author: String;
+  date: String;
+  title: String;
+}
+export default function ReceivedSignature() {
+  const dispatch = useDispatch();
+  const documentsToSign: document[] = useSelector(
+    (state: rootState) => state.document
+  );
+  useEffect(() => {
+    dispatch(loadDocuments());
+  }, [dispatch]);
 
-class ReceivedSignature extends Component<
-  ReceivedSignatureProps & ConnectedProps<typeof connector>,
-  any
-> {
-  handleSign = () => {
-    //TODO
-  };
-  render() {
-    const { classes } = this.props;
-    return (
-      <div className={classes.container}>
-        <div className={classes.info}>
-          <h2 className={classes.h2}>Documents to sign</h2>
-          <h2 className={classes.h2}>1 - 50</h2>
-        </div>
-        <DetailedSign handleSign={this.handleSign}></DetailedSign>
+  return (
+    <div className="container">
+      <div className="info">
+        <h2 className="h2">Documents to sign</h2>
+        <h2 className="h2">1 - 50</h2>
       </div>
-    );
-  }
+      <DetailedSign
+        title="DOCUMENTO TEST 1"
+        date="01/01/1999"
+        handleSign={handleSign}
+      ></DetailedSign>
+      {documentsToSign.map((d, index) => (
+        <DetailedSign
+          key={index}
+          title={d.title}
+          date="01/01/1999"
+          handleSign={handleSign}
+        ></DetailedSign>
+      ))}
+    </div>
+  );
 }
-const mapStateToProps = (state) => ({
-  path: state.path,
-});
-const connector = connect(mapStateToProps, { setPath });
-export default connector(styles(ReceivedSignature));

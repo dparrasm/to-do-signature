@@ -8,3 +8,6 @@ export const LOGIN_SUCCESS = "LOGIN_SUCCES";
 export const LOGIN_FAIL = "LOGIN_FAIL";
 export const LOGOUT = "LOGOUT";
 export const SET_PATH = "SET_PATH";
+export const POST_DOCUMENT = "POST_DOCUMENT";
+export const GET_DOCUMENTS = "GET_DOCUMENTS";
+export const DOCUMENT_FAIL = "DOCUMENT_FAIL";

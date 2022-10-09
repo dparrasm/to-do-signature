@@ -3,7 +3,6 @@ import withStyles from "@material-ui/core/styles/withStyles";
 import User from "../user/User";
 import { Avatar, Button } from "@material-ui/core";
 import pdfIcon from "../../assets/pdfIcon.png";
-import { Redirect } from "react-router";
 import { Link } from "react-router-dom";
 
 const styles = withStyles({
@@ -14,6 +13,7 @@ const styles = withStyles({
     borderColor: "#e0e0de",
     borderWidth: "1px",
     borderRadius: "15px 15px 15px 15px",
+    marginBottom: "10px",
   },
   form: {
     paddingTop: "5px",
@@ -64,6 +64,8 @@ const styles = withStyles({
 interface DetailedSignProps {
   classes: any;
   handleSign?: any;
+  title: String;
+  date: String;
 }
 interface state {
   user: typeof User;
@@ -76,42 +78,44 @@ class DetailedSign extends Component<DetailedSignProps, state> {
   render() {
     const { classes } = this.props;
     return (
-      <div className={classes.container}>
-        <form className={classes.form}>
-          <div className={classes.info}>
-            <img alt="document" className={classes.document} src={pdfIcon} />
-            <div className={classes.documentInfo}>
-              <div>
-                <h1 className={classes.title}>Título del documento</h1>
-                <h2 className={classes.date}>06/02/2021</h2>
-              </div>
-              <div>
-                <Avatar className={classes.avatar}>D</Avatar>
+      <>
+        <div className={classes.container}>
+          <form className={classes.form}>
+            <div className={classes.info}>
+              <img alt="document" className={classes.document} src={pdfIcon} />
+              <div className={classes.documentInfo}>
+                <div>
+                  <h1 className={classes.title}>{this.props.title}</h1>
+                  <h2 className={classes.date}>{this.props.date}</h2>
+                </div>
+                <div>
+                  <Avatar className={classes.avatar}>D</Avatar>
+                </div>
               </div>
             </div>
-          </div>
-          <div className={classes.options}>
-            <Link to="/sign">
-              <Button
-                color="primary"
-                onClick={this.handleSign}
-                className={classes.button}
-              >
-                Sign
+            <div className={classes.options}>
+              <Link to="/sign">
+                <Button
+                  color="primary"
+                  onClick={this.handleSign}
+                  className={classes.button}
+                >
+                  Sign
+                </Button>
+              </Link>
+              <Button color="primary" className={classes.button}>
+                Send
               </Button>
-            </Link>
-            <Button color="primary" className={classes.button}>
-              Send
-            </Button>
-            <Button color="primary" className={classes.button}>
-              Download
-            </Button>
-            <Button color="secondary" className={classes.button}>
-              Delete
-            </Button>
-          </div>
-        </form>
-      </div>
+              <Button color="primary" className={classes.button}>
+                Download
+              </Button>
+              <Button color="secondary" className={classes.button}>
+                Delete
+              </Button>
+            </div>
+          </form>
+        </div>
+      </>
     );
   }
 }

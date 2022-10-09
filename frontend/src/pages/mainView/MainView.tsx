@@ -1,8 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import CreateSignature from "../createSignature/CreateSignature";
 import { connect, ConnectedProps } from "react-redux";
-//TODO ver por qué no se puede actualizar el state al hacer refresh
-import { setPath } from "../../reducers/actions/routerActions";
 
 interface MainViewProps {
   path: string;

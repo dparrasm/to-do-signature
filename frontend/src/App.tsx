@@ -5,15 +5,12 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Login from "./pages/login/Login";
 import SignDocument from "./components/detailedSign/signDocument/SignDocument";
 import "./comun.scss";
-//Redux
 import Header from "./components/header/Header";
 import SearchBar from "./components/searchBar/SearchBar";
 import User from "./components/user/User";
 import { loadUser } from "./reducers/actions/authActions";
 import setAuthToken from "./utils/setAuthToken";
 import store from "./store";
-import MainView from "./pages/mainView/MainView";
-import { connect } from "react-redux";
 import CreateSignature from "./pages/createSignature/CreateSignature";
 import ReceivedSignature from "./pages/receivedSignature/ReceivedSignature";
 
@@ -135,7 +132,6 @@ class App extends Component<AppProps, state> {
                         <CreateSignature />
                       </div>
                     </Route>
-                    {/* <MainView /> */}
                   </div>
                 </div>
               </div>
@@ -148,8 +144,5 @@ class App extends Component<AppProps, state> {
     );
   }
 }
-// const mapStateToProps = (state) => ({
-//   path: state.path,
-// });
-// const connector = connect(mapStateToProps, {});
+
 export default styles(App);
