@@ -1,115 +1,66 @@
 import React, { Component } from "react";
-import withStyles from "@material-ui/core/styles/withStyles";
-import User from "../user/User";
 import { Avatar, Button } from "@material-ui/core";
 import pdfIcon from "../../assets/pdfIcon.png";
 import { Link } from "react-router-dom";
+import store from "../../store";
+import { deleteDocument } from "../../reducers/actions/documentActions";
+import "./DetailedSign.scss";
 
-const styles = withStyles({
-  container: {
-    backgroundColor: "white",
-    padding: "10px 10px 10px 10px",
-    borderStyle: "solid" as "solid",
-    borderColor: "#e0e0de",
-    borderWidth: "1px",
-    borderRadius: "15px 15px 15px 15px",
-    marginBottom: "10px",
-  },
-  form: {
-    paddingTop: "5px",
-  },
-  document: {
-    marginRight: "20px",
-    marginLeft: "20px",
-    width: "55px",
-    height: "55px",
-  },
-  title: {
-    marginTop: "0px",
-    fontSize: "larger",
-  },
-  date: {
-    marginTop: "-10px",
-    fontSize: "small",
-    paddingBotom: "30px",
-  },
-  info: {
-    display: "flex",
-    flexDirection: "row",
-  },
-  options: {
-    marginTop: "15px",
-    borderTopStyle: "solid" as "solid",
-    borderColor: "#e0e0de",
-    borderWidth: "1px",
-    paddingTop: "2px",
-  },
-  button: {
-    marginLeft: "5px",
-  },
-  documentInfo: {
-    display: "flex",
-    flexDirection: "row",
-  },
-  avatar: {
-    height: "25px",
-    width: "25px",
-    marginLeft: "20px",
-    fontSize: "smaller" as "smaller",
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-});
 interface DetailedSignProps {
-  classes: any;
   handleSign?: any;
   title: String;
   date: String;
+  id: String;
 }
-interface state {
-  user: typeof User;
-}
-class DetailedSign extends Component<DetailedSignProps, state> {
+
+export default class DetailedSign extends Component<DetailedSignProps, any> {
   handleSign = (): any => {
     this.props.handleSign();
   };
 
+  deleteFile(id) {
+    store.dispatch(deleteDocument(id));
+  }
+
   render() {
-    const { classes } = this.props;
+    const { id } = this.props;
     return (
       <>
-        <div className={classes.container}>
-          <form className={classes.form}>
-            <div className={classes.info}>
-              <img alt="document" className={classes.document} src={pdfIcon} />
-              <div className={classes.documentInfo}>
+        <div className="sign-container">
+          <form className="form">
+            <div className="info">
+              <img alt="document" className="document" src={pdfIcon} />
+              <div className="documentInfo">
                 <div>
-                  <h1 className={classes.title}>{this.props.title}</h1>
-                  <h2 className={classes.date}>{this.props.date}</h2>
+                  <h1 className="title">{this.props.title}</h1>
+                  <h2 className="date">{this.props.date}</h2>
                 </div>
                 <div>
-                  <Avatar className={classes.avatar}>D</Avatar>
+                  <Avatar className="signatures-avatar">D</Avatar>
                 </div>
               </div>
             </div>
-            <div className={classes.options}>
+            <div className="options">
               <Link to="/sign">
                 <Button
                   color="primary"
                   onClick={this.handleSign}
-                  className={classes.button}
+                  className="sign-button"
                 >
                   Sign
                 </Button>
               </Link>
-              <Button color="primary" className={classes.button}>
+              <Button color="primary" className="sign-button">
                 Send
               </Button>
-              <Button color="primary" className={classes.button}>
+              <Button color="primary" className="sign-button">
                 Download
               </Button>
-              <Button color="secondary" className={classes.button}>
+              <Button
+                color="secondary"
+                className="sign-button"
+                onClick={() => this.deleteFile(id)}
+              >
                 Delete
               </Button>
             </div>
@@ -119,5 +70,3 @@ class DetailedSign extends Component<DetailedSignProps, state> {
     );
   }
 }
-
-export default styles(DetailedSign);

@@ -9,17 +9,20 @@ function handleSign() {
   return console.log("Handlesing");
 }
 export interface document {
+  _id: String;
   author: String;
   date: String;
   title: String;
 }
 export default function ReceivedSignature() {
   const dispatch = useDispatch();
+  // const [documentToSign, setDocumentToSign] = useState()
   const documentsToSign: document[] = useSelector(
     (state: rootState) => state.document
   );
   useEffect(() => {
     dispatch(loadDocuments());
+
   }, [dispatch]);
 
   return (
@@ -28,18 +31,16 @@ export default function ReceivedSignature() {
         <h2 className="h2">Documents to sign</h2>
         <h2 className="h2">1 - 50</h2>
       </div>
-      <DetailedSign
-        title="DOCUMENTO TEST 1"
-        date="01/01/1999"
-        handleSign={handleSign}
-      ></DetailedSign>
       {documentsToSign.map((d, index) => (
-        <DetailedSign
-          key={index}
-          title={d.title}
-          date="01/01/1999"
-          handleSign={handleSign}
-        ></DetailedSign>
+        <div>
+          <DetailedSign
+            key={index}
+            id={d._id}
+            title={d.title}
+            date="01/01/1999"
+            handleSign={handleSign}
+          ></DetailedSign>
+        </div>
       ))}
     </div>
   );

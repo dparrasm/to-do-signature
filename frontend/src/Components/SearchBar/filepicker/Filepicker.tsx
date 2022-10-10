@@ -1,18 +1,10 @@
-import React, { useEffect, useReducer, useState } from "react";
+import React, { useEffect } from "react";
 import { useFilePicker } from "use-file-picker";
 import { icons } from "../../../utils/icons";
 import IconButton from "../../iconButton/IconButton";
 import "./Filepicker.scss";
 import { postDocuments } from "../../../reducers/actions/documentActions";
-import { useDispatch, useSelector } from "react-redux";
-import store from "../../../store";
-import { rootState } from "../../../reducers";
-
-const initialState = {
-  author: "David Parras Martínez",
-  creationDate: "01/01/2022",
-  title: "InitialState",
-};
+import { useDispatch } from "react-redux";
 
 export default function Filepicker() {
   const [openFileSelector, { filesContent }] = useFilePicker({

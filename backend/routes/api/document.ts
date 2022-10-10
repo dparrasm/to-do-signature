@@ -67,4 +67,23 @@ router.post("/", (req, res, next) => {
   });
 });
 
+// @route   DELETE api/document
+// @desc    Test route
+// @access  Public
+
+router.delete("/:id", (req, res, next) => {
+  Document.findByIdAndRemove(req.params.id)
+    .exec()
+    .then((docs) => {
+      console.log(docs);
+      res.status(200).json(docs);
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).json({
+        error: err,
+      });
+    });
+});
+
 module.exports = router;

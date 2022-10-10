@@ -10,4 +10,5 @@ export const LOGOUT = "LOGOUT";
 export const SET_PATH = "SET_PATH";
 export const POST_DOCUMENT = "POST_DOCUMENT";
 export const GET_DOCUMENTS = "GET_DOCUMENTS";
+export const DELETE_DOCUMENT = "DELETE_DOCUMENT";
 export const DOCUMENT_FAIL = "DOCUMENT_FAIL";
