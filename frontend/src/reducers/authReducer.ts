@@ -5,7 +5,8 @@ import {
   AUTH_ERROR,
   LOGIN_FAIL,
   LOGIN_SUCCESS,
-  LOGOUT
+  LOGOUT,
+  USER_UPDATED,
 } from "./actions/types";
 
 const initialState = {
@@ -14,6 +15,7 @@ const initialState = {
   //We already made our request to the backend and got the response.
   loading: true,
   user: null,
+  profilePicture: null,
 };
 
 export default function (state = initialState, action) {
@@ -27,6 +29,11 @@ export default function (state = initialState, action) {
         loading: false,
         user: payload,
       };
+    case USER_UPDATED:
+      return {
+        ...state,
+        profilePicture: payload,
+      };
     case REGISTER_SUCCESS:
     case LOGIN_SUCCESS:
       localStorage.setItem("token", payload.token);
@@ -39,7 +46,7 @@ export default function (state = initialState, action) {
     case REGISTER_FAIL:
     case AUTH_ERROR:
     case LOGIN_FAIL:
-    case LOGOUT:  
+    case LOGOUT:
       localStorage.removeItem("token");
       return {
         ...state,

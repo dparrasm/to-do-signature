@@ -63,7 +63,7 @@ class searchBar extends Component<SearchBarProps, any> {
     return (
       <div className={classes.container}>
         <form className={classes.form}>
-          <Filepicker />
+          <Filepicker accept=".pdf" multiple={true} />
           <div className={classes.search}>
             <div className={classes.searchIcon}>
               <SearchIcon />

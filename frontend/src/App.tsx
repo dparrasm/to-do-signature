@@ -13,6 +13,7 @@ import setAuthToken from "./utils/setAuthToken";
 import store from "./store";
 import CreateSignature from "./pages/createSignature/CreateSignature";
 import ReceivedSignature from "./pages/receivedSignature/ReceivedSignature";
+import UserProfile from "./pages/userProfile/UserProfile";
 
 export interface AppProps {
   classes: any;
@@ -104,7 +105,6 @@ class App extends Component<AppProps, state> {
                     <User />
                   </div>
                   <div className={classes.webPage}>
-                    <SearchBar />
                     <Route path="/signed">
                       <div>
                         <h1>Signed</h1>
@@ -131,6 +131,9 @@ class App extends Component<AppProps, state> {
                         <h1>Documents</h1>
                         <CreateSignature />
                       </div>
+                    </Route>
+                    <Route path="/user">
+                      <UserProfile />
                     </Route>
                   </div>
                 </div>

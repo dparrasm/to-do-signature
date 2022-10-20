@@ -5,7 +5,6 @@ import "./Signup.scss";
 import { icons } from "../../../utils/icons";
 import { connect, ConnectedProps } from "react-redux";
 import IconButton from "../../../components/iconButton/IconButton";
-
 import { register } from "../../../reducers/actions/authActions";
 
 interface SignupProps {

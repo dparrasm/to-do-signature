@@ -1,6 +1,6 @@
 import { withStyles } from "@material-ui/core";
 import React, { Component } from "react";
-import { Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 // import IconButton from "../conButton/IconButton";
 import { icons } from "../../utils/icons";
 import IconButton from "../iconButton/IconButton";
@@ -18,7 +18,7 @@ const styles = withStyles({
     height: "60px",
     minHeight: "60px",
     backgroundColor: "white",
-    border: "1px solid #e0e0de",
+    borderBottom: "1px solid #e0e0de",
   },
   toolBar: {
     height: "60px",

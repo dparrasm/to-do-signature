@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import DetailedSign from "../../components/detailedSign/DetailedSign";
 import { rootState } from "../../reducers";
 import { loadDocuments } from "../../reducers/actions/documentActions";
+import SearchBar from "../../components/searchBar/SearchBar";
 import "./ReceivedSignature.scss";
 
 function handleSign() {
@@ -22,26 +23,29 @@ export default function ReceivedSignature() {
   );
   useEffect(() => {
     dispatch(loadDocuments());
-
   }, [dispatch]);
 
   return (
-    <div className="container">
-      <div className="info">
-        <h2 className="h2">Documents to sign</h2>
-        <h2 className="h2">1 - 50</h2>
-      </div>
-      {documentsToSign.map((d, index) => (
-        <div>
-          <DetailedSign
-            key={index}
-            id={d._id}
-            title={d.title}
-            date="01/01/1999"
-            handleSign={handleSign}
-          ></DetailedSign>
+    <div>
+      <SearchBar />
+
+      <div className="container">
+        <div className="info">
+          <h2 className="h2">Documents to sign</h2>
+          <h2 className="h2">1 - 50</h2>
         </div>
-      ))}
+        {documentsToSign.map((d, index) => (
+          <div>
+            <DetailedSign
+              key={index}
+              id={d._id}
+              title={d.title}
+              date="01/01/1999"
+              handleSign={handleSign}
+            ></DetailedSign>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }

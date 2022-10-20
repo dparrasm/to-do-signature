@@ -46,6 +46,18 @@ function SignDocument(props) {
       <div className="sign-tools">
         <div className="container-tools">
           <h2>SIGN &amp; EDIT</h2>
+          <h3>CAMPOS</h3>
+          ---------------
+          <h6>Firma</h6>
+          <h6>Iniciales</h6>
+          <h6>Fecha de la firma</h6>
+          ----------------
+          <h6>Nombre completo</h6>
+          <h6>Nombre</h6>
+          <h6>Apellidos</h6>
+          <h6>Direccion de correo electrónico</h6>
+          ----------------
+          <h6>Texto</h6>
           <Button onClick={openSignModal} variant="contained" color="primary">
             <i className={`${icons.pen} margin-right-10`} />
             Add signature
