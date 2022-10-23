@@ -54,3 +54,32 @@
     justify-content: center;
     align-items: center;
   }
+.table{
+    z-index:-900;
+    border-collapse: collapse;
+    width: 100%;
+}
+.table td{
+    text-align: left;
+    font-size: 12;
+}
+.table tr{
+    border-bottom: 1px solid #e0e0de;
+}
+.td{
+    position: absolute;
+    z-index: 1;
+}
+.document-info{
+    height: 100px;
+    display: flex;
+    flex-direction: column;
+    /* align-content: center; */
+    align-items: baseline;
+    justify-content: center;
+    padding: 10px 10px 10px 10px;
+}
+.document-subtitle{
+    font-size: 10px;
+    color:gray;
+}

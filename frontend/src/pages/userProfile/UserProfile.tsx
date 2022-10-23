@@ -38,10 +38,9 @@ export default function UserProfile() {
         badgeContent={<Filepicker accept="image/*" multiple={false} />}
       >
         <Avatar
-          className="user-avatar"
+          style={{ height: "70px", width: "70px" }}
           alt="David Parras"
           src={userAvatar}
-          // sx={{ width: 56, height: 56 }}
         />
       </Badge>
       <div className="user">

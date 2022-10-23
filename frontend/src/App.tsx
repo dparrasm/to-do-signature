@@ -1,7 +1,12 @@
 import { red } from "@material-ui/core/colors";
 import withStyles from "@material-ui/core/styles/withStyles";
 import React, { Component } from "react";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Redirect,
+  Route,
+  Switch,
+} from "react-router-dom";
 import Login from "./pages/login/Login";
 import SignDocument from "./components/detailedSign/signDocument/SignDocument";
 import "./comun.scss";
@@ -33,12 +38,13 @@ const styles = withStyles({
     width: "15%",
     minWidth: "200px",
     paddingRight: "50px",
-    marginTop: "20px",
+    //marginTop: "20px",
   },
   body: {
     display: "flex",
     justifyContent: "center",
     fontFamily: "Roboto",
+    height: "100%",
   },
   main: {
     width: "100%",
@@ -46,8 +52,8 @@ const styles = withStyles({
     display: "flex",
   },
   webPage: {
-    marginTop: "20px",
-    width: "50%",
+    width: "100%",
+    height: "100%",
     textAlign: "center",
   },
   link: {
@@ -98,12 +104,12 @@ class App extends Component<AppProps, state> {
             </Route>
 
             {this.state.isAuth ? (
-              <div>
+              <div className={classes.provisional}>
                 <Header onUserLogOut={this.onUserLogOut} />
                 <div className={classes.body}>
-                  <div className={classes.user}>
+                  {/* <div className={classes.user}>
                     <User />
-                  </div>
+                  </div> */}
                   <div className={classes.webPage}>
                     <Route path="/signed">
                       <div>
@@ -111,24 +117,20 @@ class App extends Component<AppProps, state> {
                         <CreateSignature />
                       </div>
                     </Route>
-                    <Route path="/send">
+                    <Route path="/profile">
                       <div>
-                        <h1>Send</h1>
-                        <CreateSignature />
+                        <UserProfile />
                       </div>
                     </Route>
-                    <Route path="/contacts">
-                      <div>
-                        <h1>Contacts</h1>
-                        <CreateSignature />
-                      </div>
-                    </Route>
-                    <Route path="/received">
+                    <Route path="/manage">
                       <ReceivedSignature />
                     </Route>
-                    <Route path="/documents">
+                    <Route exact path="/">
+                      <Redirect to="/home" />
+                    </Route>
+                    <Route path="/home">
                       <div>
-                        <h1>Documents</h1>
+                        <h1>Home</h1>
                         <CreateSignature />
                       </div>
                     </Route>

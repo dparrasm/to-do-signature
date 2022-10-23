@@ -1,0 +1,14 @@
+.popperEncima{
+    left: 0px;
+    position: absolute;
+    top: 0px;
+    z-index: 200;
+    width: 400px;
+}
+.popper{
+    position: absolute;
+    inset: 0px 86px auto auto;
+    display: block;
+    width:130px;
+    transform: translate(-20px, 22px);
+}

@@ -7,7 +7,6 @@ import { setAlert } from "../../reducers/actions/alertActions";
 import Alert from "../../components/alert/Alert";
 import { UserModel } from "../../components/user/UserModel";
 import { login } from "../../reducers/actions/authActions";
-import MainView from "../mainView/MainView";
 
 interface LoginProps {
   classes?: any;
@@ -163,9 +162,9 @@ class Login extends Component<
     const { classes } = this.props;
 
     //Redirect if logged in
+    //Aquí es donde hacemos que no se salga el usuario de la página todo el rato.
     if (this.props.isAuthenticated && !this.props.loading) {
       this.props.onUserLogIn();
-      return <MainView />;
     }
     return (
       <div className={classes.schema}>

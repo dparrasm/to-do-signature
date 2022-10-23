@@ -109,27 +109,18 @@ class Header extends Component<
             <ul className={classes.iconBar}>
               <li
                 className={classes.iconBarElement}
-                onClick={() => this.redirect("/documents")}
+                onClick={() => this.redirect("/home")}
               >
-                <Link className={classes.link} to="/documents">
-                  <IconButton icon={icons.documents} text="Documents" />
+                <Link className={classes.link} to="/home">
+                  <IconButton icon={icons.documents} text="Home" />
                 </Link>
               </li>
               <li
                 className={classes.iconBarElement}
-                // onClick={() => this.props.pickForm("/send")
-                onClick={() => this.redirect("/send")}
+                onClick={() => this.redirect("/manage")}
               >
-                <Link className={classes.link} to="/send">
-                  <IconButton icon={icons.send} text="Send" />
-                </Link>
-              </li>
-              <li
-                className={classes.iconBarElement}
-                onClick={() => this.redirect("/received")}
-              >
-                <Link className={classes.link} to="/received">
-                  <IconButton icon={icons.received} text="Inbox" />
+                <Link className={classes.link} to="/manage">
+                  <IconButton icon={icons.received} text="Manage" />
                 </Link>
               </li>
               <li
@@ -142,10 +133,10 @@ class Header extends Component<
               </li>
               <li
                 className={classes.iconBarElement}
-                onClick={() => this.redirect("/contacts")}
+                onClick={() => this.redirect("/profile")}
               >
-                <Link className={classes.link} to="/contacts">
-                  <IconButton icon={icons.contacts} text="Contacts" />
+                <Link className={classes.link} to="/profile">
+                  <IconButton icon={icons.contacts} text="Profile" />
                 </Link>
               </li>
               <li onClick={this.logout}>

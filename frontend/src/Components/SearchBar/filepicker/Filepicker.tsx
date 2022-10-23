@@ -38,7 +38,6 @@ export default function Filepicker(props) {
   return (
     <div className="icon-button" onClick={() => openFileSelector()}>
       <IconButton icon={icons.plus} />
-      {!!filesContent.length && <img src={filesContent[0].content} />}
     </div>
   );
 }

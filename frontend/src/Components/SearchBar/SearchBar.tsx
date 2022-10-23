@@ -11,7 +11,7 @@ const styles = withStyles((theme) => ({
     borderStyle: "solid",
     borderWidth: "1px",
     borderRadius: "15px",
-    width: "100%",
+    width: "60%",
     height: "50px",
     alignItems: "center",
     justifyContent: "center",
