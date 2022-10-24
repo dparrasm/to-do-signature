@@ -8,17 +8,15 @@ import {
   Switch,
 } from "react-router-dom";
 import Login from "./pages/login/Login";
-import SignDocument from "./components/detailedSign/signDocument/SignDocument";
 import "./comun.scss";
 import Header from "./components/header/Header";
-import SearchBar from "./components/searchBar/SearchBar";
-import User from "./components/user/User";
 import { loadUser } from "./reducers/actions/authActions";
 import setAuthToken from "./utils/setAuthToken";
 import store from "./store";
 import CreateSignature from "./pages/createSignature/CreateSignature";
 import ReceivedSignature from "./pages/receivedSignature/ReceivedSignature";
 import UserProfile from "./pages/userProfile/UserProfile";
+import SignDocument from "./components/detailedSign/signDocument/SignDocument";
 
 export interface AppProps {
   classes: any;
@@ -102,18 +100,14 @@ class App extends Component<AppProps, state> {
             <Route path="/sign">
               <SignDocument />
             </Route>
-
             {this.state.isAuth ? (
-              <div className={classes.provisional}>
+              <div>
                 <Header onUserLogOut={this.onUserLogOut} />
                 <div className={classes.body}>
-                  {/* <div className={classes.user}>
-                    <User />
-                  </div> */}
                   <div className={classes.webPage}>
-                    <Route path="/signed">
+                    <Route path="/report">
                       <div>
-                        <h1>Signed</h1>
+                        <h1>Report</h1>
                         <CreateSignature />
                       </div>
                     </Route>

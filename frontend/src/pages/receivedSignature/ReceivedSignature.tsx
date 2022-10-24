@@ -32,14 +32,14 @@ export default function ReceivedSignature() {
       </div>
       <div className="container-documents">
         <div className="table-header">
-          <h1 className="tab">Bandeja de entrada</h1>
-          <SearchBar />
+          <div className="tab">
+            <h1>Inbox</h1>
+          </div>
+          <div className="received-signature-searchbar">
+            <SearchBar />
+          </div>
         </div>
         <div>
-          <div className="info">
-            <h2 className="h2">Documents to sign</h2>
-            <h2 className="h2">1 - 50</h2>
-          </div>
           <DetailedSign
             handleSign={handleSign}
             documentsToSign={documentsToSign}

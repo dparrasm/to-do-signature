@@ -33,11 +33,22 @@ export default function Filepicker(props) {
         });
         break;
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filesContent]);
-
   return (
-    <div className="icon-button" onClick={() => openFileSelector()}>
-      <IconButton icon={icons.plus} />
-    </div>
+    <>
+      {props.title === "START" ? (
+        <button
+          className="filepicker-button"
+          onClick={() => openFileSelector()}
+        >
+          {props.title}
+        </button>
+      ) : (
+        <div className="icon-button" onClick={() => openFileSelector()}>
+          <IconButton icon={icons.camera} />
+        </div>
+      )}
+    </>
   );
 }

@@ -32,17 +32,20 @@ export default function UserProfile() {
 
   return (
     <div className="user-container">
-      <Badge
-        overlap="circular"
-        anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
-        badgeContent={<Filepicker accept="image/*" multiple={false} />}
-      >
-        <Avatar
-          style={{ height: "70px", width: "70px" }}
-          alt="David Parras"
-          src={userAvatar}
-        />
-      </Badge>
+      <div className="profile-picture">
+        <div className="title">Profile picture</div>
+        <Badge
+          overlap="circular"
+          anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+          badgeContent={<Filepicker accept="image/*" multiple={false} />}
+        >
+          <Avatar
+            style={{ height: "200px", width: "200px" }}
+            alt="David Parras"
+            src={userAvatar}
+          />
+        </Badge>
+      </div>
       <div className="user">
         <div className="username">
           <TextField

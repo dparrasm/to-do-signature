@@ -6,7 +6,6 @@ export interface IconButtonProps {
   icon?: string;
   text?: string;
   onClick?: () => void;
-
 }
 
 const styles = withStyles((theme) => ({
@@ -14,18 +13,15 @@ const styles = withStyles((theme) => ({
     display: "flex",
     flexDirection: "column",
     justifyContent: "center",
-    textAlign: "center"
+    textAlign: "center",
   },
   font: {
     fontSize: "10px",
-    fontFamily: "Roboto"
-  }
+    fontFamily: "Roboto",
+  },
 }));
 
 class IconButton extends React.Component<IconButtonProps, any> {
-  constructor(props: IconButtonProps) {
-    super(props);
-  }
   render() {
     const { classes, icon, text } = this.props;
     return (

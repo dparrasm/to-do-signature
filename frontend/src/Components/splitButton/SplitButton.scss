@@ -12,3 +12,23 @@
     width:130px;
     transform: translate(-20px, 22px);
 }
+a {
+    text-decoration: none;
+}
+.split-button {
+    border-style: none;
+    width: 90px;
+    height: 100%;
+    background: #1877f2;
+    color: white;
+    border-radius: 3px 0px 0px 3px;
+    cursor:pointer;
+}
+.split-button-arrow{
+    border-style: none;
+    border-radius: 0px 3px 3px 0px;
+    color: white;
+    background: #1877f2;
+    cursor: pointer;
+
+}

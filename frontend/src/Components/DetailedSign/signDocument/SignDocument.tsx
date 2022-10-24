@@ -1,7 +1,7 @@
 import "./SignDocument.scss";
 import React, { useState } from "react";
 import { Document, Page, pdfjs } from "react-pdf";
-import { Text, View, StyleSheet } from "@react-pdf/renderer";
+import { StyleSheet } from "@react-pdf/renderer";
 import { Button } from "@material-ui/core";
 import { icons } from "../../../utils/icons";
 import SignModal from "../signModal/SignModal";

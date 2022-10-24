@@ -2,6 +2,7 @@ export const icons = {
   documents: "far fa-file",
   signed: "fas fa-file-signature",
   send: "far fa-paper-plane",
+  draft: "fa-light fa-file",
   received: "fas fa-envelope-open-text",
   contacts: "far fa-id-badge",
   plus: "fas fa-file-upload",
@@ -9,4 +10,6 @@ export const icons = {
   logout: "fas fa-sign-out-alt",
   tools: "fas fa-tools",
   pen: "fas fa-pen",
+  trashcan: "fas fa-trash-alt",
+  camera: "fas fa-camera",
 };

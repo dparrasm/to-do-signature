@@ -6,16 +6,7 @@ import Filepicker from "./filepicker/Filepicker";
 
 const styles = withStyles((theme) => ({
   container: {
-    backgroundColor: "white",
-    borderColor: "#e0e0de",
-    borderStyle: "solid",
-    borderWidth: "1px",
-    borderRadius: "15px",
-    width: "60%",
-    height: "50px",
-    alignItems: "center",
-    justifyContent: "center",
-    display: "flex",
+    width: "100%",
   },
   form: {
     display: "flex",
@@ -23,13 +14,13 @@ const styles = withStyles((theme) => ({
   },
   search: {
     display: "flex",
-    width: "90%",
+    width: "100%",
     borderWidth: "1px",
     borderStyle: "solid",
-    borderRadius: "25px 15px 15px 25px",
-    marginLeft: "15px",
-    marginRight: "5px",
-    borderColor: "#e0e0de",
+    borderRadius: "25px 25px 25px 25px",
+    //marginLeft: "15px",
+    //marginRight: "5px",
+    borderColor: "rgb(134, 134, 134)",
   },
   searchIcon: {
     color: "#717171",
@@ -63,7 +54,7 @@ class searchBar extends Component<SearchBarProps, any> {
     return (
       <div className={classes.container}>
         <form className={classes.form}>
-          <Filepicker accept=".pdf" multiple={true} />
+          {/* <Filepicker accept=".pdf" multiple={true} /> */}
           <div className={classes.search}>
             <div className={classes.searchIcon}>
               <SearchIcon />

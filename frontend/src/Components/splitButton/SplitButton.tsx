@@ -61,12 +61,17 @@ export default function SplitButton(props) {
           ref={anchorRef}
           aria-label="split button"
         >
-          <Link to="/sign">
-            <Button onClick={() => handleMenuItemClick(-1)}>SIGN</Button>
+          <Link className="split-button-link" to="/sign">
+            <button
+              className="split-button"
+              onClick={() => handleMenuItemClick(-1)}
+            >
+              SIGN
+            </button>
           </Link>
-          <Button color="primary" size="small" onClick={() => handleToggle()}>
+          <button className="split-button-arrow" onClick={() => handleToggle()}>
             <ArrowDropDownIcon />
-          </Button>
+          </button>
         </ButtonGroup>
         <Popper
           className="popperEncima"

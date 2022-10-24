@@ -27,26 +27,32 @@ const styles = withStyles({
     alignItems: "center",
     display: "flex",
     flexDirection: "row",
-    justifyContent: "center",
+    // justifyContent: "center",
   },
   iconBar: {
     height: "100%",
     padding: "0px",
     display: "inline-flex",
-    alignItems: "baseline",
+    alignItems: "center",
     listStyleType: "none",
-    width: "50%",
+    width: "100%",
     justifyContent: "space-around",
   },
   iconBarElement: {
-    marginTop: "10px",
+    height: "100%",
+    width: "10%",
     fontSize: "18px",
-    paddingBottom: "-10px",
+    display: "flex",
+    alignItems: "center",
+    //borderBottom: "1px solid black",
   },
   link: {
     textDecoration: "none" as "none",
     color: "#717171",
     lineHeight: "25px",
+    "&:hover": {
+      color: "#1877f2",
+    },
   },
   logo: {
     textDecoration: "none" as "none",
@@ -57,7 +63,7 @@ const styles = withStyles({
     minWidth: "160px",
     paddingRight: "50px",
     display: "flex",
-    justifyContent: "center",
+    justifyContent: "end",
   },
   logoutContainer: {
     paddingLeft: "35px",
@@ -82,10 +88,6 @@ class Header extends Component<
   HeaderProps & ConnectedProps<typeof connector>,
   any
 > {
-  constructor(props: HeaderProps & ConnectedProps<typeof connector>) {
-    super(props);
-  }
-
   logout = () => {
     this.props.onUserLogOut();
     this.props.logout();
@@ -112,7 +114,7 @@ class Header extends Component<
                 onClick={() => this.redirect("/home")}
               >
                 <Link className={classes.link} to="/home">
-                  <IconButton icon={icons.documents} text="Home" />
+                  Home
                 </Link>
               </li>
               <li
@@ -120,15 +122,15 @@ class Header extends Component<
                 onClick={() => this.redirect("/manage")}
               >
                 <Link className={classes.link} to="/manage">
-                  <IconButton icon={icons.received} text="Manage" />
+                  Manage
                 </Link>
               </li>
               <li
                 className={classes.iconBarElement}
-                onClick={() => this.redirect("/signed")}
+                onClick={() => this.redirect("/report")}
               >
-                <Link className={classes.link} to="/signed">
-                  <IconButton icon={icons.signed} text="Signed" />
+                <Link className={classes.link} to="/report">
+                  Reports
                 </Link>
               </li>
               <li
@@ -136,7 +138,7 @@ class Header extends Component<
                 onClick={() => this.redirect("/profile")}
               >
                 <Link className={classes.link} to="/profile">
-                  <IconButton icon={icons.contacts} text="Profile" />
+                  Profile
                 </Link>
               </li>
               <li onClick={this.logout}>

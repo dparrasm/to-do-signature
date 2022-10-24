@@ -137,7 +137,6 @@ class Login extends Component<
       },
     };
   }
-  componentDidMount() {}
 
   handleInputChange = (e) => {
     this.setState({
