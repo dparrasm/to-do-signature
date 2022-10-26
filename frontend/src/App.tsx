@@ -17,6 +17,7 @@ import CreateSignature from "./pages/createSignature/CreateSignature";
 import ReceivedSignature from "./pages/receivedSignature/ReceivedSignature";
 import UserProfile from "./pages/userProfile/UserProfile";
 import SignDocument from "./components/detailedSign/signDocument/SignDocument";
+import Home from "./pages/home/Home";
 
 export interface AppProps {
   classes: any;
@@ -97,6 +98,9 @@ class App extends Component<AppProps, state> {
       <div className={classes.root}>
         <Router>
           <Switch>
+            <Route exact path="/">
+              <Redirect to="/home" />
+            </Route>
             <Route path="/sign">
               <SignDocument />
             </Route>
@@ -119,14 +123,8 @@ class App extends Component<AppProps, state> {
                     <Route path="/manage">
                       <ReceivedSignature />
                     </Route>
-                    <Route exact path="/">
-                      <Redirect to="/home" />
-                    </Route>
                     <Route path="/home">
-                      <div>
-                        <h1>Home</h1>
-                        <CreateSignature />
-                      </div>
+                      <Home />
                     </Route>
                     <Route path="/user">
                       <UserProfile />

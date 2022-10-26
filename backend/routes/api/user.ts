@@ -70,4 +70,32 @@ router.post(
   }
 );
 
+// @route   PUT api/users
+// @desc    Update an user
+// @access  Public
+router.put("/", async (req, res, next) => {
+  const { email } = req.body;
+  let newUser = req.body;
+  try {
+    let user = await User.findOne({ email });
+    if (user === null) {
+      return res
+        .status(400)
+        .json({ errors: [{ msg: "User does not exists" }] });
+    }
+
+    Object.keys(user).forEach((key) => {
+      if (newUser[key] !== "") {
+        user[key] = newUser[key];
+      }
+    });
+    delete user._id;
+    await User.findOneAndUpdate({ email }, user, { useFindAndModify: false });
+    res.json("User updated");
+  } catch (err: any) {
+    console.error(err.message);
+    res.status(500).send("Server error on user updating");
+  }
+});
+
 module.exports = router;

@@ -40,6 +40,7 @@ export default function UserProfile() {
           badgeContent={<Filepicker accept="image/*" multiple={false} />}
         >
           <Avatar
+            className="user-profile-avatar"
             style={{ height: "200px", width: "200px" }}
             alt="David Parras"
             src={userAvatar}
