@@ -5,6 +5,7 @@ import {
   GET_DOCUMENTS,
   POST_DOCUMENT,
   DELETE_DOCUMENT,
+  GET_DOCUMENT,
 } from "./types";
 
 export const loadDocuments = () => async (dispatch) => {
@@ -30,12 +31,12 @@ export const loadDocuments = () => async (dispatch) => {
 };
 
 export const postDocuments =
-  ({ author, creationDate, title }) =>
+  ({ author, creationDate, title, fileContent }) =>
   async (dispatch) => {
     const config = {
       headers: { "Content-Type": "application/json" },
     };
-    const body = JSON.stringify({ author, creationDate, title });
+    const body = JSON.stringify({ author, creationDate, title, fileContent });
     try {
       const doc = await axios.post("api/document", body, config);
       dispatch({
@@ -52,6 +53,28 @@ export const postDocuments =
       });
     }
   };
+
+export const getDocument = (id) => async (dispatch) => {
+  const config = {
+    headers: { "Content-Type": "application/json" },
+  };
+  try {
+    const document = await axios.get("api/document/" + id, config);
+    console.log(document);
+    dispatch({
+      type: GET_DOCUMENT,
+      payload: document.data,
+    });
+  } catch (err: any) {
+    const errors = err?.response?.data?.errors;
+    if (errors) {
+      errors.forEach((error) => dispatch(setAlert(error.msg, "error")));
+    }
+    dispatch({
+      type: DOCUMENT_FAIL,
+    });
+  }
+};
 
 export const deleteDocument = (id) => async (dispatch) => {
   try {

@@ -3,15 +3,18 @@ import {
   GET_DOCUMENTS,
   POST_DOCUMENT,
   DELETE_DOCUMENT,
+  GET_DOCUMENT,
 } from "./actions/types";
 const initialState = [] as any;
 
 export default function (state = initialState, action) {
   const { type, payload } = action;
-  console.log(type.toString());
   switch (type) {
+    case GET_DOCUMENT: {
+      return { ...state, readingDocument: payload };
+    }
     case GET_DOCUMENTS:
-      return payload;
+      return { ...state, payload };
     case POST_DOCUMENT:
       return state.concat(payload.createdDocument);
     case DELETE_DOCUMENT:

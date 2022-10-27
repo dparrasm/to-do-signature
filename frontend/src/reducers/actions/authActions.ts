@@ -9,6 +9,7 @@ import {
   LOGIN_FAIL,
   LOGOUT,
   USER_UPDATED,
+  USER_PICTURE_UPDATED,
 } from "./types";
 import setAuthToken from "../../utils/setAuthToken";
 
@@ -29,13 +30,37 @@ export const loadUser = () => async (dispatch) => {
     });
   }
 };
-//Update user
-export const updateUser = (fileContent) => async(dispatch) => {
+export const updatePicture = (fileContent) => async (dispatch) => {
   dispatch({
-    type: USER_UPDATED,
-    payload: fileContent
-  })
-}
+    type: USER_PICTURE_UPDATED,
+    payload: fileContent,
+  });
+};
+//Update user
+export const updateUser = (user) => async (dispatch) => {
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  };
+
+  const body = JSON.stringify(user);
+  console.log(body);
+  try {
+    const res = await axios.put("/api/users", body, config);
+    dispatch({
+      type: USER_UPDATED,
+      payload: user,
+    });
+    console.log(res.data);
+  } catch (err: any) {
+    const errors = err.response.data.errors;
+
+    if (errors) {
+      errors.forEach((error) => dispatch(setAlert(error.msg, "error")));
+    }
+  }
+};
 // Register User
 export const register =
   ({ name, surname, email, password }) =>

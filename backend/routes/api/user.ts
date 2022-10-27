@@ -76,6 +76,7 @@ router.post(
 router.put("/", async (req, res, next) => {
   const { email } = req.body;
   let newUser = req.body;
+
   try {
     let user = await User.findOne({ email });
     if (user === null) {
@@ -83,12 +84,7 @@ router.put("/", async (req, res, next) => {
         .status(400)
         .json({ errors: [{ msg: "User does not exists" }] });
     }
-
-    Object.keys(user).forEach((key) => {
-      if (newUser[key] !== "") {
-        user[key] = newUser[key];
-      }
-    });
+    user = { ...newUser, user };
     delete user._id;
     await User.findOneAndUpdate({ email }, user, { useFindAndModify: false });
     res.json("User updated");

@@ -10,6 +10,7 @@ const Document = require("../../models/Document");
 
 router.get("/", (req, res, next) => {
   Document.find()
+    .select("-fileContent")
     .exec()
     .then((docs) => {
       console.log(docs);
@@ -27,10 +28,11 @@ router.get("/", (req, res, next) => {
 // @desc    Test route
 // @access  Public
 
-router.get("/:title", (req, res, next) => {
-  Document.find({ title: req.params.title })
+router.get("/:id", (req, res, next) => {
+  Document.findById(req.params.id)
     .exec()
     .then((docs) => {
+      console.log("hola");
       console.log(docs);
       res.status(200).json(docs);
     })
@@ -52,6 +54,7 @@ router.post("/", (req, res, next) => {
     author: req.body.author,
     date: req.body.date,
     title: req.body.title,
+    fileContent: req.body.fileContent,
   });
   document
     .save()

@@ -6,7 +6,7 @@ import { loadDocuments } from "../../reducers/actions/documentActions";
 import SearchBar from "../../components/searchBar/SearchBar";
 import "./ReceivedSignature.scss";
 import Column from "../../components/column/Column";
-import { Redirect } from "react-router-dom";
+
 export interface document {
   _id: String;
   author: String;
@@ -16,7 +16,7 @@ export interface document {
 export default function ReceivedSignature() {
   const dispatch = useDispatch();
   const documentsToSign: document[] = useSelector(
-    (state: rootState) => state.document
+    (state: rootState) => state?.document?.payload
   );
   const handleSign = () => {
     return console.log("Handlesign");

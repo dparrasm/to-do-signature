@@ -7,6 +7,7 @@ import {
   LOGIN_SUCCESS,
   LOGOUT,
   USER_UPDATED,
+  USER_PICTURE_UPDATED,
 } from "./actions/types";
 
 const initialState = {
@@ -15,12 +16,10 @@ const initialState = {
   //We already made our request to the backend and got the response.
   loading: true,
   user: null,
-  profilePicture: null,
 };
 
 export default function (state = initialState, action) {
   const { type, payload } = action;
-
   switch (type) {
     case USER_LOADED:
       return {
@@ -32,7 +31,7 @@ export default function (state = initialState, action) {
     case USER_UPDATED:
       return {
         ...state,
-        profilePicture: payload,
+        user: payload,
       };
     case REGISTER_SUCCESS:
     case LOGIN_SUCCESS:

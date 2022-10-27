@@ -1,7 +1,10 @@
 import React from "react";
 import { Avatar } from "@material-ui/core";
 import CircularProgress from "@material-ui/core/CircularProgress";
-import { deleteDocument } from "../../reducers/actions/documentActions";
+import {
+  deleteDocument,
+  getDocument,
+} from "../../reducers/actions/documentActions";
 import SplitButton from "../splitButton/SplitButton";
 import "./DetailedSign.scss";
 import { useDispatch } from "react-redux";
@@ -20,8 +23,8 @@ export default function DetailedSign(props) {
         break;
       case "SIGN":
         console.log("Firmando documento " + documentAction.id);
+        dispatch(getDocument(documentAction.id));
         props.handleSign();
-        // dispatch(setPath("/sign"));
         break;
       default:
         console.log("Unknown action");

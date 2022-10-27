@@ -1,6 +1,8 @@
 import "./SignDocument.scss";
 import React, { useState } from "react";
 import { Document, Page, pdfjs } from "react-pdf";
+import { useSelector } from "react-redux";
+import { rootState } from "../../reducers";
 import { StyleSheet } from "@react-pdf/renderer";
 import { Button } from "@material-ui/core";
 import { icons } from "../../../utils/icons";
@@ -21,7 +23,9 @@ const styles = StyleSheet.create({
 function SignDocument(props) {
   const [numPages, setNumPages] = useState(null);
   const [isModalOpen, setModalOpen] = useState(false);
-
+  const document: any = useSelector(
+    (state: rootState) => state?.document?.readingDocument?.fileContent
+  );
   // Hook from pdf library to control pageNumber maybe use later
   // const [pageNumber, setPageNumber] = useState(null);
 
@@ -66,17 +70,11 @@ function SignDocument(props) {
       </div>
       <div className="document-container">
         <Document
-          file="./lorem-ipsum.pdf"
+          file={document}
           onLoadSuccess={onDocumentLoadSuccess}
           onLoadError={loadError}
         >
-          {Array.from(new Array(numPages), (el, index) => (
-            <Page key={`page_${index + 1}`} scale={1.5} pageNumber={index + 1}>
-              {/* <View style={styles.section}>
-                <Text>hola david</Text> 
-              </View>*/}
-            </Page>
-          ))}
+          <Page pageNumber={1} />
         </Document>
         <SignModal shouldOpenModal={isModalOpen} handleClose={closeSignModal} />
       </div>

@@ -5,6 +5,7 @@ const DocumentSchema = new mongoose.Schema({
   author: String,
   date: String,
   title: String,
+  fileContent: String,
 });
 
 module.exports = mongoose.model("Document", DocumentSchema);

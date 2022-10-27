@@ -19,7 +19,11 @@ export default function Filepicker(props) {
   useEffect(() => {
     switch (props.accept) {
       case "image/*":
-        dispatch(updateUser(filesContent[0]?.content));
+        if (filesContent[0]?.content) {
+          let user = props.user;
+          user = { ...user, avatar: filesContent[0]?.content };
+          dispatch(updateUser(user));
+        }
         break;
       default:
         filesContent.map((file) => {
@@ -28,6 +32,7 @@ export default function Filepicker(props) {
               author: "David",
               creationDate: Date.now.toString(),
               title: file.name,
+              fileContent: file.content,
             })
           );
         });

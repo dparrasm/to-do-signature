@@ -6,25 +6,8 @@ import { rootState } from "../../reducers";
 import { useSelector } from "react-redux";
 
 export default function UserProfile() {
-  const [user, setUser] = React.useState({
-    name: "",
-    surname: "",
-    email: "",
-    password: "",
-  });
+  const user = useSelector((state: rootState) => state.auth?.user);
 
-  const { name, surname, email, password } = user;
-
-  const userAvatar = useSelector(
-    (state: rootState) => state.auth.profilePicture
-  );
-  console.log(JSON.stringify(userAvatar));
-  const handleInputChange = (e) => {
-    setUser({
-      ...user,
-      [e.target.name]: e.target.value,
-    });
-  };
   const updateUser = async (event) => {
     console.log("Updating user..");
     //Aquí iría el dispatch
@@ -37,13 +20,15 @@ export default function UserProfile() {
         <Badge
           overlap="circular"
           anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
-          badgeContent={<Filepicker accept="image/*" multiple={false} />}
+          badgeContent={
+            <Filepicker user={user} accept="image/*" multiple={false} />
+          }
         >
           <Avatar
             className="user-profile-avatar"
             style={{ height: "200px", width: "200px" }}
             alt="David Parras"
-            src={userAvatar}
+            src={user ? user.avatar : ""}
           />
         </Badge>
       </div>
@@ -56,7 +41,6 @@ export default function UserProfile() {
             placeholder="Name"
             variant="outlined"
             size="small"
-            onChange={handleInputChange}
           />
           <div className="separator" />
           <TextField
@@ -66,7 +50,6 @@ export default function UserProfile() {
             placeholder="Surname"
             variant="outlined"
             size="small"
-            onChange={handleInputChange}
           />
         </div>
         <TextField
@@ -76,7 +59,6 @@ export default function UserProfile() {
           placeholder="Email"
           variant="outlined"
           size="small"
-          onChange={handleInputChange}
         />
         <TextField
           name="password"
@@ -85,7 +67,6 @@ export default function UserProfile() {
           placeholder="password"
           variant="outlined"
           size="small"
-          onChange={handleInputChange}
         />
       </div>
       <div className="button-actions">

@@ -8,7 +8,6 @@
 .home-user-info{
     display: flex;
     flex-direction: row;
-    justify-content: space-around;
     width: 75%;
 }
 .drag-and-drop{
@@ -72,7 +71,29 @@
     justify-content: center;
     margin-bottom: 10px;
     color: #fff;
+    width:30%;
 }
 .user-actions-required-number{
     font-size: 40px;
+}
+.user-required-data-actions-container{
+	display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+.user-required-data{
+	text-align: left;
+    padding-left: 50px;
+    color: #fff;
+    padding-bottom: 15px;
+}
+.user-required-data h1{
+    font-size: 30px;
+    margin:0px;
+}
+.user-actions-required-container{
+	display: flex;
+    justify-content: space-around;
+    width: 100%;
+    margin-left: 50px;
 }
