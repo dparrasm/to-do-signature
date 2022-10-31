@@ -1,7 +1,7 @@
 import { Button, TextField, Badge, Avatar } from "@material-ui/core";
 import React from "react";
 import "./UserProfile.scss";
-import Filepicker from "../../components/searchBar/filepicker/Filepicker";
+import Filepicker from "../../components/filepicker/Filepicker";
 import { rootState } from "../../reducers";
 import { useSelector } from "react-redux";
 
@@ -15,8 +15,10 @@ export default function UserProfile() {
 
   return (
     <div className="user-container">
-      <div className="profile-picture">
-        <div className="title">Profile picture</div>
+      <div className="user-container-info">
+        <div className="title">
+          <h1>Profile picture</h1>
+        </div>
         <Badge
           overlap="circular"
           anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
@@ -32,42 +34,52 @@ export default function UserProfile() {
           />
         </Badge>
       </div>
-      <div className="user">
-        <div className="username">
-          <TextField
-            name="name"
-            className="field"
-            type="text"
-            placeholder="Name"
-            variant="outlined"
-            size="small"
-          />
-          <div className="separator" />
-          <TextField
-            name="surname"
-            className="field"
-            type="text"
-            placeholder="Surname"
-            variant="outlined"
-            size="small"
-          />
+      <div className="user-security-data-container">
+        <div className="title">
+          <h1>Credentials</h1>
         </div>
-        <TextField
-          name="email"
-          className="field"
-          type="text"
-          placeholder="Email"
-          variant="outlined"
-          size="small"
-        />
-        <TextField
-          name="password"
-          className="field"
-          type="password"
-          placeholder="password"
-          variant="outlined"
-          size="small"
-        />
+        <div className="user-security-data">
+          <div className="username">
+            <TextField
+              name="name"
+              className="smallField"
+              type="text"
+              placeholder="Name"
+              variant="outlined"
+              size="small"
+              value={user.name}
+            />
+            <TextField
+              name="surname"
+              className="small-field-no-margin"
+              type="text"
+              placeholder="Surname"
+              variant="outlined"
+              size="small"
+              value={user.surname}
+            />
+          </div>
+          <div className="user-security-data-big-fields">
+            <TextField
+              name="email"
+              className="field"
+              type="text"
+              placeholder="Email"
+              variant="outlined"
+              size="small"
+              value={user.email}
+            />
+            <TextField
+              name="password"
+              className="field"
+              type="password"
+              placeholder="password"
+              variant="outlined"
+              size="small"
+              value="1234"
+            />
+          </div>
+        </div>
       </div>
       <div className="button-actions">
         <Button

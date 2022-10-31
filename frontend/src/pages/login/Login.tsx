@@ -5,7 +5,6 @@ import Signup from "./signup/Signup";
 import { connect, ConnectedProps } from "react-redux";
 import { setAlert } from "../../reducers/actions/alertActions";
 import Alert from "../../components/alert/Alert";
-import { UserModel } from "../../components/user/UserModel";
 import { login } from "../../reducers/actions/authActions";
 
 interface LoginProps {
@@ -17,7 +16,7 @@ interface LoginProps {
 }
 interface LoginState {
   isModalOpen: boolean;
-  user: UserModel;
+  user: any;
 }
 const styles = {
   schema: {

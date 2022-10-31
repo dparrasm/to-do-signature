@@ -4,8 +4,13 @@ import {
   POST_DOCUMENT,
   DELETE_DOCUMENT,
   GET_DOCUMENT,
+  SEARCH_DOCUMENT,
 } from "./actions/types";
-const initialState = [] as any;
+
+const initialState = {
+  documentsLoaded: [] as any,
+  readingDocument: {} as any,
+} as any;
 
 export default function (state = initialState, action) {
   const { type, payload } = action;
@@ -14,11 +19,28 @@ export default function (state = initialState, action) {
       return { ...state, readingDocument: payload };
     }
     case GET_DOCUMENTS:
-      return { ...state, payload };
+      return { ...state, documentsLoaded: payload };
+
     case POST_DOCUMENT:
-      return state.concat(payload.createdDocument);
+      return {
+        ...state,
+        documentsLoaded: state.documentsLoaded.concat(payload.createdDocument),
+      };
+    case SEARCH_DOCUMENT: {
+      return {
+        ...state,
+        documentsLoaded: state.documentsLoaded.filter((document) =>
+          document.title.includes(payload)
+        ),
+      };
+    }
     case DELETE_DOCUMENT:
-      return state.filter((document) => document._id !== payload);
+      return {
+        ...state,
+        documentsLoaded: state.documentsLoaded.filter(
+          (document) => document._id !== payload
+        ),
+      };
     case DOCUMENT_FAIL:
       return state;
     default:

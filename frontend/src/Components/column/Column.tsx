@@ -1,14 +1,18 @@
 import React from "react";
 import "./Column.scss";
 import { icons } from "../../utils/icons";
-import Filepicker from "../searchBar/filepicker/Filepicker";
+import Filepicker from "../filepicker/Filepicker";
+import { Link } from "react-router-dom";
 
 export default function Column() {
   return (
     <div className="container">
       <div className="column-list">
         <div>
-          <Filepicker title="START" accept=".pdf" multiple={true} />
+          <Link to="/prepare">
+            <button>START</button>
+            {/* <Filepicker title="START" accept=".pdf" multiple={true} /> */}
+          </Link>
         </div>
         <div className="envelopes">
           <h4>Envelopes</h4>

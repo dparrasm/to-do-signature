@@ -1,11 +1,12 @@
 import React, { useEffect } from "react";
 import { useFilePicker } from "use-file-picker";
-import { icons } from "../../../utils/icons";
-import IconButton from "../../iconButton/IconButton";
+import { icons } from "../../utils/icons";
+import IconButton from "../iconButton/IconButton";
 import "./Filepicker.scss";
-import { postDocuments } from "../../../reducers/actions/documentActions";
-import { useDispatch } from "react-redux";
-import { updateUser } from "../../../reducers/actions/authActions";
+import { postDocuments } from "../../reducers/actions/documentActions";
+import { useDispatch, useSelector } from "react-redux";
+import { updateUser } from "../../reducers/actions/authActions";
+import { rootState } from "../../reducers";
 
 export default function Filepicker(props) {
   const [openFileSelector, { filesContent }] = useFilePicker({
@@ -15,6 +16,7 @@ export default function Filepicker(props) {
     maxFileSize: 16,
   });
   const dispatch = useDispatch();
+  const user = useSelector((state: rootState) => state.auth?.user?.email);
 
   useEffect(() => {
     switch (props.accept) {
@@ -29,10 +31,12 @@ export default function Filepicker(props) {
         filesContent.map((file) => {
           dispatch(
             postDocuments({
-              author: "David",
-              creationDate: Date.now.toString(),
+              author: user,
               title: file.name,
               fileContent: file.content,
+              receivers: [""],
+              signedBy: [""],
+              signed: false,
             })
           );
         });
@@ -42,7 +46,7 @@ export default function Filepicker(props) {
   }, [filesContent]);
   return (
     <>
-      {props.title === "START" ? (
+      {props.title !== undefined ? (
         <button
           className="filepicker-button"
           onClick={() => openFileSelector()}

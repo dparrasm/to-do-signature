@@ -13,11 +13,11 @@ import Header from "./components/header/Header";
 import { loadUser } from "./reducers/actions/authActions";
 import setAuthToken from "./utils/setAuthToken";
 import store from "./store";
-import CreateSignature from "./pages/createSignature/CreateSignature";
-import ReceivedSignature from "./pages/receivedSignature/ReceivedSignature";
+import Manage from "./pages/manage/Manage";
 import UserProfile from "./pages/userProfile/UserProfile";
-import SignDocument from "./components/detailedSign/signDocument/SignDocument";
+import SignDocument from "./pages/signing/signDocument/SignDocument";
 import Home from "./pages/home/Home";
+import PrepareEnvelope from "./pages/prepareEnvelope/PrepareEnvelope";
 
 export interface AppProps {
   classes: any;
@@ -37,7 +37,6 @@ const styles = withStyles({
     width: "15%",
     minWidth: "200px",
     paddingRight: "50px",
-    //marginTop: "20px",
   },
   body: {
     display: "flex",
@@ -101,6 +100,9 @@ class App extends Component<AppProps, state> {
             <Route exact path="/">
               <Redirect to="/home" />
             </Route>
+            <Route path="/prepare">
+              <PrepareEnvelope />
+            </Route>
             <Route path="/sign">
               <SignDocument />
             </Route>
@@ -112,22 +114,16 @@ class App extends Component<AppProps, state> {
                     <Route path="/report">
                       <div>
                         <h1>Report</h1>
-                        <CreateSignature />
                       </div>
                     </Route>
                     <Route path="/profile">
-                      <div>
-                        <UserProfile />
-                      </div>
+                      <UserProfile />
                     </Route>
                     <Route path="/manage">
-                      <ReceivedSignature />
+                      <Manage />
                     </Route>
                     <Route path="/home">
                       <Home />
-                    </Route>
-                    <Route path="/user">
-                      <UserProfile />
                     </Route>
                   </div>
                 </div>

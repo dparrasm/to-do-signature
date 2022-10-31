@@ -1,16 +1,15 @@
 import React from "react";
 import { Avatar } from "@material-ui/core";
-import CircularProgress from "@material-ui/core/CircularProgress";
+import SplitButton from "../splitButton/SplitButton";
+import { useDispatch } from "react-redux";
+import Progressbar from "../progressbar/Progressbar";
 import {
   deleteDocument,
   getDocument,
 } from "../../reducers/actions/documentActions";
-import SplitButton from "../splitButton/SplitButton";
-import "./DetailedSign.scss";
-import { useDispatch } from "react-redux";
-import Progressbar from "../progressbar/Progressbar";
+import "./Envelope.scss";
 
-export default function DetailedSign(props) {
+export default function Envelope(props) {
   const dispatch = useDispatch();
   const handleClick = (documentAction: { id: number; action: String }) => {
     switch (documentAction.action) {
@@ -69,11 +68,16 @@ export default function DetailedSign(props) {
               </td>
               <td>
                 <div>
-                  <div>01/01/1999</div>
-                  <div className="document-subtitle">14:06</div>
+                  <div>
+                    {new Date(d.date).getDate()}/{new Date(d.date).getMonth()}/
+                    {new Date(d.date).getFullYear()}
+                  </div>
+                  <div className="document-subtitle">
+                    {new Date(d.date).getHours()}:
+                    {new Date(d.date).getMinutes()}
+                  </div>
                 </div>
               </td>
-              <td>{d.date}</td>
               <td>
                 <SplitButton id={d._id} handleClick={handleClick} />
               </td>

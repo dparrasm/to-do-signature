@@ -6,6 +6,7 @@ import {
   POST_DOCUMENT,
   DELETE_DOCUMENT,
   GET_DOCUMENT,
+  SEARCH_DOCUMENT,
 } from "./types";
 
 export const loadDocuments = () => async (dispatch) => {
@@ -31,12 +32,20 @@ export const loadDocuments = () => async (dispatch) => {
 };
 
 export const postDocuments =
-  ({ author, creationDate, title, fileContent }) =>
+  ({ author, title, fileContent, receivers, signedBy, signed }) =>
   async (dispatch) => {
     const config = {
       headers: { "Content-Type": "application/json" },
     };
-    const body = JSON.stringify({ author, creationDate, title, fileContent });
+    const body = JSON.stringify({
+      author,
+      date: new Date(),
+      title,
+      fileContent,
+      receivers,
+      signedBy,
+      signed,
+    });
     try {
       const doc = await axios.post("api/document", body, config);
       dispatch({
@@ -73,6 +82,17 @@ export const getDocument = (id) => async (dispatch) => {
     dispatch({
       type: DOCUMENT_FAIL,
     });
+  }
+};
+export const searchDocument = (title) => async (dispatch) => {
+  console.log("Title:" + title);
+  try {
+    dispatch({
+      type: SEARCH_DOCUMENT,
+      payload: title,
+    });
+  } catch {
+    console.log("Fallo");
   }
 };
 

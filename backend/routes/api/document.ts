@@ -55,6 +55,9 @@ router.post("/", (req, res, next) => {
     date: req.body.date,
     title: req.body.title,
     fileContent: req.body.fileContent,
+    receivers: req.body.receivers,
+    signedBy: req.body.signedBy,
+    signed: req.body.signed,
   });
   document
     .save()

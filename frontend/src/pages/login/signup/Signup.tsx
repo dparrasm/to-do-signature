@@ -10,11 +10,10 @@ import { register } from "../../../reducers/actions/authActions";
 interface SignupProps {
   shouldOpenModal: boolean;
   handleClose: () => any;
-  register:  any;
+  register: any;
 }
 
 function Signup(props: SignupProps & ConnectedProps<typeof connector>) {
-  
   const [user, setUser] = React.useState({
     name: "",
     surname: "",

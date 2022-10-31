@@ -13,9 +13,6 @@
   padding-top: 40px;
   background-color: #e0e0de;
   justify-content: left;
-  border-right-style: solid;
-    border-color: rgb(134, 134, 134);
-    border-width: 8px;
 }
 .container-documents {
     height: 800px;
@@ -44,25 +41,41 @@
     display: flex;
     flex-direction: row;
 }
-// .tab{
-//   width: 30%;
-//   font-size: 25px;
-//   text-align: initial;
-//   margin: 0px;
-//   display: flex;
-//   align-items: center;
-// }
+.tab{
+  margin: 0px;
+  display: flex;
+  justify-content: space-between;
+}
 .tab h1{
   margin: 0px;
   width: 100%;
 }
 .table-header{
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   border-bottom: 1px solid #e0e0de;
-  padding: 35px 20px 35px 35px;
+  padding: 35px 20px 15px 35px;
   justify-content: space-between;
 }
 .received-signature-searchbar{
   width:50%;
+}
+.button-bar {
+  display: flex;
+  margin: 35px 0px 0px -32px;
+}
+.button-bar input{
+  margin-right: 15px;
+}
+.button-bar button{
+  border: 1px solid black;
+  width: 90px;
+  height: 100%;
+  background: #1877f28f;
+  color: white;
+  cursor: pointer;
+}
+.middle-button {
+  border-left: 0px !important;
+  border-right: 0px !important;
 }

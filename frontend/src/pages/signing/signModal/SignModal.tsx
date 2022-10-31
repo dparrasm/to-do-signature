@@ -9,7 +9,7 @@ import {
 } from "@material-ui/core";
 
 import "./SignModal.scss";
-import IconButton from "../../iconButton/IconButton";
+import IconButton from "../../../components/iconButton/IconButton";
 import { icons } from "../../../utils/icons";
 
 interface SignModalProps {
