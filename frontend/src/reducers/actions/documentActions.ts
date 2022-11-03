@@ -7,6 +7,7 @@ import {
   DELETE_DOCUMENT,
   GET_DOCUMENT,
   SEARCH_DOCUMENT,
+  UPLOAD_DOCUMENT,
 } from "./types";
 
 export const loadDocuments = () => async (dispatch) => {
@@ -30,6 +31,27 @@ export const loadDocuments = () => async (dispatch) => {
     });
   }
 };
+export const uploadDocument =
+  ({ author, title, fileContent, receivers, signedBy, signed }) =>
+  async (dispatch) => {
+    const document = {
+      author: author,
+      title: title,
+      fileContent: fileContent,
+      receivers: receivers,
+      signedBy: signedBy,
+      signed: signed,
+    };
+
+    try {
+      dispatch({
+        type: UPLOAD_DOCUMENT,
+        payload: document,
+      });
+    } catch {
+      console.log("Fallo");
+    }
+  };
 
 export const postDocuments =
   ({ author, title, fileContent, receivers, signedBy, signed }) =>

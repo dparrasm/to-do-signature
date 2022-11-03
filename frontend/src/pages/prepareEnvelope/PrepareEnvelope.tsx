@@ -1,10 +1,74 @@
 import { Link } from "react-router-dom";
-import React from "react";
+import React, { useRef, useState } from "react";
 import "./PrepareEnvelope.scss";
 import { Button } from "@material-ui/core";
-import Filepicker from "../../components/filepicker/Filepicker";
+import Card from "../../components/card/Card";
+import RecipientCard from "../../components/recipientCard/RecipientCard";
+import DragAndDrop from "../../components/dragAndDrop/DragAndDrop";
+import { icons } from "../../utils/icons";
+import { rootState } from "../../reducers";
+import { useSelector } from "react-redux";
 
 export default function PrepareEnvelope(props) {
+  const [receitps, setReceipt] = useState([
+    {
+      id: 0,
+      name: "",
+      email: "",
+      needsTo: "SIGN",
+    },
+  ]);
+  const addReceipt = () => {
+    const id = receitps.length;
+    setReceipt([
+      ...receitps,
+      {
+        id: id,
+        name: "",
+        email: "",
+        needsTo: "SIGN",
+      },
+    ]);
+  };
+  const updateReceipt = (e) => {
+    const id: number = e.target.id.split("#")[1];
+    const keyword: String = e.target.id.split("#")[0];
+    setReceipt((prevState) => {
+      const newState = prevState.map((obj) => {
+        if (obj.id == id) {
+          switch (keyword) {
+            case "name":
+              return { ...obj, name: e.target.value };
+            case "email":
+              return { ...obj, email: e.target.value };
+            default:
+              return { ...obj, needsTo: e.target.value };
+          }
+        } else {
+          return obj;
+        }
+      });
+      return newState;
+    });
+  };
+  const uploadedFiles = useSelector(
+    (state: rootState) => state?.document?.uploadedDocuments
+  );
+  const subjectRef = useRef(null);
+  const messageRef = useRef(null);
+
+  const prepareEnvelope = () => {
+    const envelope = {
+      documents: uploadedFiles,
+      receitps: receitps,
+      email: {
+        subject: subjectRef?.current?.value,
+        message: messageRef?.current?.value,
+      },
+    };
+    console.log(JSON.stringify(envelope));
+  };
+
   return (
     <div>
       <div className="close-bar">
@@ -17,27 +81,80 @@ export default function PrepareEnvelope(props) {
           <div className="prepare-envelope-titles">
             <h1>Add documents</h1>
           </div>
-          <div className="drag-and-drop-container">
-            <div className="prepare-drag-and-drop">
-              <div className="fake">
-                <Filepicker title="Upload" accept=".pdf" multiple={true} />
-              </div>
+          {uploadedFiles?.length === 0 ? (
+            <div className="document-container">
+              <DragAndDrop title="Upload" />
             </div>
-          </div>
+          ) : (
+            <div className="add-documents-content">
+              <div className="document-container">
+                <DragAndDrop title="Upload" />
+              </div>
+              {uploadedFiles.map((doc) => (
+                <Card title={doc?.title} fileContent={doc?.fileContent} />
+              ))}
+            </div>
+          )}
         </div>
         <div className="add-documents-container">
           <div className="prepare-envelope-titles">
             <h1>Add recipients</h1>
           </div>
           <div className="receipts-container">
-            <input type="text"></input>
+            <div className="only-signer">
+              <input type="checkbox" id="vehicle1" name="vehicle1" />
+              <span>I'm the only signer</span>
+            </div>
+            {receitps.map((receipt, index) => (
+              <RecipientCard
+                key={index}
+                index={index}
+                updateReceipt={updateReceipt}
+              />
+            ))}
+            <div className="add-receipts-buttons">
+              <div className="receipt-button" onClick={addReceipt}>
+                <i className={icons.user} />
+                <h1>ADD RECEIPT</h1>
+              </div>
+              <div className="receipt-button">
+                <i className={icons.spreadsheet} />
+                <h1>ADD FROM LIST</h1>
+              </div>
+            </div>
           </div>
         </div>
+        <div className="add-documents-message-container">
+          <div className="prepare-envelope-titles">
+            <h1>Add message</h1>
+          </div>
+          <div className="receipts-container">
+            <div className="email-subject-container">
+              <div className="email-subject">
+                <span>Email Subject</span>
+                <span className="star">*</span>
+              </div>
+              <input type="text" ref={subjectRef} />
+            </div>
+            <div>
+              <div>
+                <span>Email Message</span>
+              </div>
+              <textarea
+                className="prepare-envelope-email-message"
+                ref={messageRef}
+              />
+            </div>
+          </div>
+        </div>
+        <div className="prepare-envelope-options"></div>
       </div>
       <div className="prepare-envelope-button-actions">
-        <Button variant="contained" color="primary">
-          Send
-        </Button>
+        <Link className="cross-button" onClick={prepareEnvelope} to="/sign">
+          <Button className="button-next" variant="contained" color="primary">
+            Next
+          </Button>
+        </Link>
       </div>
     </div>
   );

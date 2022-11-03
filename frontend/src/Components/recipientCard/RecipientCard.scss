@@ -1,0 +1,42 @@
+.recipient-card-container{
+    display: flex;
+    justify-content: space-between;
+    background: white;
+    height: 150px;
+    margin-top: 15px;
+    border-left: 10px solid #36A41E;
+    box-shadow: 5px 5px 5px 1px #ccc;
+}
+.recipient-card-data-name{
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 10px;
+}
+.recipient-card-data{
+    display: flex;
+    flex-direction: column;
+    width: 70%;
+    justify-content: center;
+    margin-left: 20px;
+}
+.recipient-card{
+    margin-right: 15px;
+    margin-top: 15px;
+}
+.recipient-card-select{
+    border: none;
+    font-family: 'Roboto';
+    font-weight: 700;
+}
+.recipient-card-button{
+    margin: 1%;
+}
+.recipient-card-data-name input{
+    height: 20px;
+}
+.recipient-card-data-name span{
+    font-weight: 700;
+}
+.star {
+    color: red;
+}

@@ -5,11 +5,14 @@ import {
   DELETE_DOCUMENT,
   GET_DOCUMENT,
   SEARCH_DOCUMENT,
+  UPLOAD_DOCUMENT,
 } from "./actions/types";
 
 const initialState = {
   documentsLoaded: [] as any,
   readingDocument: {} as any,
+  uploadedDocuments: [] as any,
+  searchedDocuments: [] as any,
 } as any;
 
 export default function (state = initialState, action) {
@@ -20,7 +23,11 @@ export default function (state = initialState, action) {
     }
     case GET_DOCUMENTS:
       return { ...state, documentsLoaded: payload };
-
+    case UPLOAD_DOCUMENT:
+      return {
+        ...state,
+        uploadedDocuments: state.uploadedDocuments.concat(payload),
+      };
     case POST_DOCUMENT:
       return {
         ...state,
@@ -29,7 +36,7 @@ export default function (state = initialState, action) {
     case SEARCH_DOCUMENT: {
       return {
         ...state,
-        documentsLoaded: state.documentsLoaded.filter((document) =>
+        searchedDocuments: state.documentsLoaded.filter((document) =>
           document.title.includes(payload)
         ),
       };

@@ -1,6 +1,7 @@
 import { Avatar } from "@material-ui/core";
 import { useSelector } from "react-redux";
 import { rootState } from "../../reducers";
+import DragAndDrop from "../../components/dragAndDrop/DragAndDrop";
 import React from "react";
 import "./Home.scss";
 
@@ -53,11 +54,9 @@ export default function Home() {
           </div>
         </div>
       </div>
-      <div className="drag-and-drop-container">
-        <div className="drag-and-drop">
-          <div className="fake">
-            <button>Fake drag and drop</button>
-          </div>
+      <div className="home-drag-and-drop-container">
+        <div className="home-drag-and-drop">
+          <DragAndDrop title="START NOW" />
         </div>
       </div>
     </div>

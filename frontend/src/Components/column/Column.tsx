@@ -1,7 +1,6 @@
 import React from "react";
 import "./Column.scss";
 import { icons } from "../../utils/icons";
-import Filepicker from "../filepicker/Filepicker";
 import { Link } from "react-router-dom";
 
 export default function Column() {
@@ -10,8 +9,7 @@ export default function Column() {
       <div className="column-list">
         <div>
           <Link to="/prepare">
-            <button>START</button>
-            {/* <Filepicker title="START" accept=".pdf" multiple={true} /> */}
+            <button className="column-start-to-prepare-envelope-button">START</button>
           </Link>
         </div>
         <div className="envelopes">

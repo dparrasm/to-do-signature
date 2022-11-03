@@ -3,7 +3,7 @@ import { useFilePicker } from "use-file-picker";
 import { icons } from "../../utils/icons";
 import IconButton from "../iconButton/IconButton";
 import "./Filepicker.scss";
-import { postDocuments } from "../../reducers/actions/documentActions";
+import { uploadDocument } from "../../reducers/actions/documentActions";
 import { useDispatch, useSelector } from "react-redux";
 import { updateUser } from "../../reducers/actions/authActions";
 import { rootState } from "../../reducers";
@@ -30,7 +30,7 @@ export default function Filepicker(props) {
       default:
         filesContent.map((file) => {
           dispatch(
-            postDocuments({
+            uploadDocument({
               author: user,
               title: file.name,
               fileContent: file.content,

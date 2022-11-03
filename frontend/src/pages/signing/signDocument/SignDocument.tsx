@@ -2,7 +2,7 @@ import "./SignDocument.scss";
 import React, { useState } from "react";
 import { Document, Page, pdfjs } from "react-pdf";
 import { useSelector } from "react-redux";
-import { rootState } from "../../reducers";
+import { rootState } from "../../../reducers";
 import { StyleSheet } from "@react-pdf/renderer";
 import { Button } from "@material-ui/core";
 import { icons } from "../../../utils/icons";
@@ -68,7 +68,7 @@ function SignDocument(props) {
           </Button>
         </div>
       </div>
-      <div className="document-container">
+      <div className="document-to-sign-container">
         <Document
           file={document}
           onLoadSuccess={onDocumentLoadSuccess}

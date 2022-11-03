@@ -12,4 +12,7 @@ export const icons = {
   pen: "fas fa-pen",
   trashcan: "fas fa-trash-alt",
   camera: "fas fa-camera",
+  user: "fas fa-user-plus",
+  spreadsheet: "fas fa-file-excel",
+  fileUpload: "fas fa-file-upload",
 };
