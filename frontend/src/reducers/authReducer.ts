@@ -5,7 +5,9 @@ import {
   AUTH_ERROR,
   LOGIN_FAIL,
   LOGIN_SUCCESS,
-  LOGOUT
+  LOGOUT,
+  USER_UPDATED,
+  USER_PICTURE_UPDATED,
 } from "./actions/types";
 
 const initialState = {
@@ -16,15 +18,19 @@ const initialState = {
   user: null,
 };
 
-export default function (state = initialState, action) {
+export default function authReducer(state = initialState, action) {
   const { type, payload } = action;
-
   switch (type) {
     case USER_LOADED:
       return {
         ...state,
         isAuthenticated: true,
         loading: false,
+        user: payload,
+      };
+    case USER_UPDATED:
+      return {
+        ...state,
         user: payload,
       };
     case REGISTER_SUCCESS:
@@ -39,7 +45,7 @@ export default function (state = initialState, action) {
     case REGISTER_FAIL:
     case AUTH_ERROR:
     case LOGIN_FAIL:
-    case LOGOUT:  
+    case LOGOUT:
       localStorage.removeItem("token");
       return {
         ...state,

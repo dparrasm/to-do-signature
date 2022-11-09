@@ -1,0 +1,46 @@
+.drag-and-drop{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+}
+.drag-and-drop-container{
+    display:flex;
+    justify-content: center;
+}
+.button-container {
+    width: 90%;
+    height: 90%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;    width: 90%;
+    height: 90%;
+    border: 2px dashed #c4c2c0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+.button-container:hover{
+    border: 2px dashed #36A41E;
+}
+.button-container:hover .drag-and-drop-file-icon-container i{
+    color: #36A41E;
+}
+.button-container button{
+    font-weight: 600;
+    align-items: center;
+    margin: 0px;
+    background-color: #36A41E;
+    color: white;
+    min-height: 40px;
+    min-width: 40px;
+    max-width: 140px;
+    margin-top: 10px;
+}
+.drag-and-drop-file-icon-container i{
+    font-size: 60px;
+    color: #c4c2c0;
+}

@@ -1,6 +1,6 @@
 import { withStyles } from "@material-ui/core";
 import React, { Component } from "react";
-import { Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 // import IconButton from "../conButton/IconButton";
 import { icons } from "../../utils/icons";
 import IconButton from "../iconButton/IconButton";
@@ -18,7 +18,7 @@ const styles = withStyles({
     height: "60px",
     minHeight: "60px",
     backgroundColor: "white",
-    border: "1px solid #e0e0de",
+    borderBottom: "1px solid #e0e0de",
   },
   toolBar: {
     height: "60px",
@@ -27,26 +27,32 @@ const styles = withStyles({
     alignItems: "center",
     display: "flex",
     flexDirection: "row",
-    justifyContent: "center",
+    // justifyContent: "center",
   },
   iconBar: {
     height: "100%",
     padding: "0px",
     display: "inline-flex",
-    alignItems: "baseline",
+    alignItems: "center",
     listStyleType: "none",
-    width: "50%",
+    width: "100%",
     justifyContent: "space-around",
   },
   iconBarElement: {
-    marginTop: "10px",
+    height: "100%",
+    width: "10%",
     fontSize: "18px",
-    paddingBottom: "-10px",
+    display: "flex",
+    alignItems: "center",
+    //borderBottom: "1px solid black",
   },
   link: {
     textDecoration: "none" as "none",
     color: "#717171",
     lineHeight: "25px",
+    "&:hover": {
+      color: "#1877f2",
+    },
   },
   logo: {
     textDecoration: "none" as "none",
@@ -54,8 +60,7 @@ const styles = withStyles({
   },
   iconContainer: {
     width: "15%",
-    minWidth: "160px",
-    paddingRight: "50px",
+    minWidth: "200px",
     display: "flex",
     justifyContent: "center",
   },
@@ -82,10 +87,6 @@ class Header extends Component<
   HeaderProps & ConnectedProps<typeof connector>,
   any
 > {
-  constructor(props: HeaderProps & ConnectedProps<typeof connector>) {
-    super(props);
-  }
-
   logout = () => {
     this.props.onUserLogOut();
     this.props.logout();
@@ -109,43 +110,34 @@ class Header extends Component<
             <ul className={classes.iconBar}>
               <li
                 className={classes.iconBarElement}
-                onClick={() => this.redirect("/documents")}
+                onClick={() => this.redirect("/home")}
               >
-                <Link className={classes.link} to="/documents">
-                  <IconButton icon={icons.documents} text="Documents" />
+                <Link className={classes.link} to="/home">
+                  Home
                 </Link>
               </li>
               <li
                 className={classes.iconBarElement}
-                // onClick={() => this.props.pickForm("/send")
-                onClick={() => this.redirect("/send")}
+                onClick={() => this.redirect("/manage")}
               >
-                <Link className={classes.link} to="/send">
-                  <IconButton icon={icons.send} text="Send" />
+                <Link className={classes.link} to="/manage">
+                  Manage
                 </Link>
               </li>
               <li
                 className={classes.iconBarElement}
-                onClick={() => this.redirect("/received")}
+                onClick={() => this.redirect("/report")}
               >
-                <Link className={classes.link} to="/received">
-                  <IconButton icon={icons.received} text="Inbox" />
+                <Link className={classes.link} to="/report">
+                  Reports
                 </Link>
               </li>
               <li
                 className={classes.iconBarElement}
-                onClick={() => this.redirect("/signed")}
+                onClick={() => this.redirect("/profile")}
               >
-                <Link className={classes.link} to="/signed">
-                  <IconButton icon={icons.signed} text="Signed" />
-                </Link>
-              </li>
-              <li
-                className={classes.iconBarElement}
-                onClick={() => this.redirect("/contacts")}
-              >
-                <Link className={classes.link} to="/contacts">
-                  <IconButton icon={icons.contacts} text="Contacts" />
+                <Link className={classes.link} to="/profile">
+                  Profile
                 </Link>
               </li>
               <li onClick={this.logout}>

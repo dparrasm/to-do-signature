@@ -1,0 +1,123 @@
+.root-sign-document {
+  display: flex;
+  height: 100%;
+  align-items: flex-start;
+  overflow: hidden;
+}
+
+.sign-tools {
+  height: 100%;
+  background-color: white;
+  width: 300px;
+  border-right: 1px solid darkgrey;
+  min-width: 130px;
+
+  .container-tools {
+    margin-left: 15px;
+    margin-right: 15px;
+    display: flex;
+    flex-direction: column;
+  }
+}
+.react-pdf__Document{
+  justify-content: center;
+  align-items: center;
+}
+.document-to-sign-container {
+  height: 100%;
+  width: 100%;
+  overflow: scroll;
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: column;
+}
+
+.react-pdf__Page__canvas {
+  margin: 0 auto;
+  margin-top: 10px !important;
+}
+.box {
+  position: absolute;
+  cursor: move;
+  color: black;
+  max-width: 215px;
+  border-radius: 5px;
+  padding: 1em;
+  margin: auto;
+  user-select: none;
+  z-index: 100;
+  background: white;
+  border: 1px solid black;
+}
+.sign-document-header{
+  display: flex;
+  justify-content: space-between;
+  background-color: #1877f2;
+  color: white;
+  padding: 10px;
+  align-items: center;
+}
+.sign-document-header button{
+  background-color: #1877f2;
+  color: white;
+  border: 1px solid white;
+  cursor: pointer;
+}
+.sign-document-header h6{
+  margin: 0px;
+}
+.signing-container{
+  height: 100%;
+  overflow: hidden;
+}
+.document-info-header{
+  background-color: #504f4f;
+  box-shadow: 0px 3px 1px -2px rgba(0,0,0, 0.2), 0px 2px 2px 0px rgba(0,0,0, 0.14), 0px 1px 5px 0px rgba(0,0,0, 0.12);
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.document-info-header h1{
+  font-size: 15px;
+  font-weight: 200;
+}
+.signing-display-document{
+  overflow: scroll;
+}
+.signing-menu-block{
+  border-bottom: 1px solid #e0e0de;
+}
+.signing-buttons-container{
+  display: flex;
+  flex-direction: column;
+  margin-top: 50px;
+}
+.signing-button-save{
+  cursor: pointer;
+    font-weight: 700;
+    align-items: center;
+    margin: 0px 0px 10px 0px;
+    background-color: #36A41E;
+    color: white;
+    min-height: 40px;
+    min-width: 80%;
+    margin-top: 10px;
+    border: none;
+    border-radius: 4px;
+    box-shadow: 0px 3px 1px -2px rgba(0,0,0, 0.2), 0px 2px 2px 0px rgba(0,0,0, 0.14), 0px 1px 5px 0px rgba(0,0,0, 0.12);
+}
+.signing-button-discard{
+  cursor: pointer;
+    font-weight: 700;
+    align-items: center;
+    margin: 0px 0px 10px 0px;
+    background-color: red;
+    color: white;
+    min-height: 40px;
+    min-width: 80%;
+    margin-top: 10px;
+    border: none;
+    border-radius: 4px;
+    box-shadow: 0px 3px 1px -2px rgba(0,0,0, 0.2), 0px 2px 2px 0px rgba(0,0,0, 0.14), 0px 1px 5px 0px rgba(0,0,0, 0.12);
+}

@@ -5,9 +5,7 @@ import Signup from "./signup/Signup";
 import { connect, ConnectedProps } from "react-redux";
 import { setAlert } from "../../reducers/actions/alertActions";
 import Alert from "../../components/alert/Alert";
-import { UserModel } from "../../components/user/UserModel";
 import { login } from "../../reducers/actions/authActions";
-import MainView from "../mainView/MainView";
 
 interface LoginProps {
   classes?: any;
@@ -18,7 +16,7 @@ interface LoginProps {
 }
 interface LoginState {
   isModalOpen: boolean;
-  user: UserModel;
+  user: any;
 }
 const styles = {
   schema: {
@@ -138,7 +136,6 @@ class Login extends Component<
       },
     };
   }
-  componentDidMount() {}
 
   handleInputChange = (e) => {
     this.setState({
@@ -163,9 +160,9 @@ class Login extends Component<
     const { classes } = this.props;
 
     //Redirect if logged in
+    //Aquí es donde hacemos que no se salga el usuario de la página todo el rato.
     if (this.props.isAuthenticated && !this.props.loading) {
       this.props.onUserLogIn();
-      return <MainView />;
     }
     return (
       <div className={classes.schema}>
@@ -208,6 +205,7 @@ class Login extends Component<
                     Log In
                   </Button>
                   <a
+                    rel="noreferrer"
                     className={classes.passwordLink}
                     target="_blank"
                     href="https://smallbiztrends.com/2015/02/ways-to-remember-passwords.html"

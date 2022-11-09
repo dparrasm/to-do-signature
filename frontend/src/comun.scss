@@ -19,3 +19,39 @@
     margin-right: 10px;
   }
 }
+.root {
+  width: 100%;
+  height: 100%;
+}
+
+.classes {
+  width: 100%;
+  background-color: red;
+}
+
+.user {
+  width: 15%;
+  min-width: 200px;
+  padding-right: 50px;
+}
+.body {
+  display: flex;
+  justify-content: center;
+  font-family: "Roboto";
+  height: 100%;
+}
+.main {
+  width: 100%;
+  flex-direction: row;
+  display: flex;
+}
+.webPage {
+  width: 100%;
+  height: 100%;
+  text-align: center;
+}
+.link {
+  text-decoration: none;
+  color: red;
+  line-height: 25px,
+}
