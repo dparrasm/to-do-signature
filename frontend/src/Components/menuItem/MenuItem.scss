@@ -1,0 +1,14 @@
+.menu-item-container{
+    display: flex;
+    align-items: center;
+    width: 90%;
+    margin: 10px 0px 10px 0px;
+    cursor: pointer;
+}
+.menu-item-container:hover{
+background-color:grey;
+}
+.menu-item-container h1{
+    font-size: 15px;
+    margin-left: 10px;
+}

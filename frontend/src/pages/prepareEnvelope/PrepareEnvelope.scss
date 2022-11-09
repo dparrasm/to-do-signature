@@ -1,3 +1,6 @@
+.scroll{
+    overflow:scroll;
+}
 .close-bar {
     text-align: right;
     margin-right: 2.5%;
@@ -84,6 +87,7 @@
     padding-top: 10px;
     padding-bottom: 10px;
     border-top: 1px solid #e0e0de;
+    padding-right: 10px;
 }
 .only-signer{
     display: flex;

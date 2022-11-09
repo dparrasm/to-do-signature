@@ -15,7 +15,7 @@ const initialState = {
   searchedDocuments: [] as any,
 } as any;
 
-export default function (state = initialState, action) {
+export default function documentReducer(state = initialState, action) {
   const { type, payload } = action;
   switch (type) {
     case GET_DOCUMENT: {

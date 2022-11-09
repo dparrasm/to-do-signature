@@ -60,10 +60,9 @@ const styles = withStyles({
   },
   iconContainer: {
     width: "15%",
-    minWidth: "160px",
-    paddingRight: "50px",
+    minWidth: "200px",
     display: "flex",
-    justifyContent: "end",
+    justifyContent: "center",
   },
   logoutContainer: {
     paddingLeft: "35px",

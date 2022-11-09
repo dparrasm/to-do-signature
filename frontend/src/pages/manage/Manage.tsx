@@ -23,12 +23,6 @@ export default function Manage() {
     return console.log("Handlesign");
   };
 
-  const openPrepareModal = () => {
-    setModalOpen(true);
-  };
-  const closePrepareModal = () => {
-    setModalOpen(false);
-  };
   useEffect(() => {
     dispatch(loadDocuments());
   }, [dispatch]);

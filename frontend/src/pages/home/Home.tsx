@@ -26,7 +26,7 @@ export default function Home() {
           <div className="user-required-data-actions-container">
             <div className="user-required-data">
               <h1>
-                {user.name} {user.surname}
+                {user?.name} {user?.surname}
               </h1>
             </div>
             <div className="user-actions-required-container">

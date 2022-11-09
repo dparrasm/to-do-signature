@@ -1,5 +1,3 @@
-import { red } from "@material-ui/core/colors";
-import withStyles from "@material-ui/core/styles/withStyles";
 import React, { Component } from "react";
 import {
   BrowserRouter as Router,
@@ -24,43 +22,6 @@ export interface AppProps {
   path?: string;
 }
 
-const styles = withStyles({
-  root: {
-    width: "100%",
-    height: "100%",
-  },
-  classes: {
-    width: "100%",
-    backgroundColor: red[100],
-  },
-  user: {
-    width: "15%",
-    minWidth: "200px",
-    paddingRight: "50px",
-  },
-  body: {
-    display: "flex",
-    justifyContent: "center",
-    fontFamily: "Roboto",
-    height: "100%",
-  },
-  main: {
-    width: "100%",
-    flexDirection: "row",
-    display: "flex",
-  },
-  webPage: {
-    width: "100%",
-    height: "100%",
-    textAlign: "center",
-  },
-  link: {
-    textDecoration: "none" as "none",
-    color: "red",
-    lineHeight: "25px",
-  },
-});
-
 export interface state {
   isAuth: boolean;
   path?: string;
@@ -80,7 +41,6 @@ class App extends Component<AppProps, state> {
 
   componentDidMount() {
     store.dispatch(loadUser());
-    this.setState({ path: document.location.pathname });
   }
 
   onUserLogIn() {
@@ -92,9 +52,8 @@ class App extends Component<AppProps, state> {
   }
 
   render() {
-    const { classes } = this.props;
     return (
-      <div className={classes.root}>
+      <div className="root">
         <Router>
           <Switch>
             <Route exact path="/">
@@ -107,10 +66,10 @@ class App extends Component<AppProps, state> {
               <SignDocument />
             </Route>
             {this.state.isAuth ? (
-              <div>
+              <>
                 <Header onUserLogOut={this.onUserLogOut} />
-                <div className={classes.body}>
-                  <div className={classes.webPage}>
+                <div className="body">
+                  <div className="webPage">
                     <Route path="/report">
                       <div>
                         <h1>Report</h1>
@@ -127,7 +86,7 @@ class App extends Component<AppProps, state> {
                     </Route>
                   </div>
                 </div>
-              </div>
+              </>
             ) : (
               <Login onUserLogIn={this.onUserLogIn} />
             )}
@@ -138,4 +97,4 @@ class App extends Component<AppProps, state> {
   }
 }
 
-export default styles(App);
+export default App;

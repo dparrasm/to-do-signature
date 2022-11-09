@@ -15,4 +15,7 @@ export const icons = {
   user: "fas fa-user-plus",
   spreadsheet: "fas fa-file-excel",
   fileUpload: "fas fa-file-upload",
+  name: "fas fa user",
+  calendar: "far fa-calendar",
+  text: "fas fa-text",
 };

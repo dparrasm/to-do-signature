@@ -1,13 +1,21 @@
 import { Button, TextField, Badge, Avatar } from "@material-ui/core";
-import React from "react";
+import React, { useState } from "react";
 import "./UserProfile.scss";
 import Filepicker from "../../components/filepicker/Filepicker";
 import { rootState } from "../../reducers";
 import { useSelector } from "react-redux";
+import SignModal from "../../components/signModal/SignModal";
 
 export default function UserProfile() {
   const user = useSelector((state: rootState) => state.auth?.user);
+  const [isModalOpen, setModalOpen] = useState(false);
 
+  const openSignModal = () => {
+    setModalOpen(true);
+  };
+  const closeSignModal = () => {
+    setModalOpen(false);
+  };
   const updateUser = async (event) => {
     console.log("Updating user..");
     //Aquí iría el dispatch
@@ -34,6 +42,15 @@ export default function UserProfile() {
           />
         </Badge>
       </div>
+      <div className="user-signature-information">
+        <div className="user-signature-complete-name">
+          <Button onClick={openSignModal} variant="contained" color="primary">
+            Add signature
+          </Button>
+        </div>
+        <SignModal shouldOpenModal={isModalOpen} handleClose={closeSignModal} />
+      </div>
+
       <div className="user-security-data-container">
         <div className="title">
           <h1>Credentials</h1>

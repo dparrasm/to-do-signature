@@ -205,6 +205,7 @@ class Login extends Component<
                     Log In
                   </Button>
                   <a
+                    rel="noreferrer"
                     className={classes.passwordLink}
                     target="_blank"
                     href="https://smallbiztrends.com/2015/02/ways-to-remember-passwords.html"

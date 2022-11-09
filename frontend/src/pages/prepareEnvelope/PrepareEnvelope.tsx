@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import React, { useRef, useState } from "react";
+import { useDispatch } from "react-redux";
 import "./PrepareEnvelope.scss";
 import { Button } from "@material-ui/core";
 import Card from "../../components/card/Card";
@@ -8,8 +9,10 @@ import DragAndDrop from "../../components/dragAndDrop/DragAndDrop";
 import { icons } from "../../utils/icons";
 import { rootState } from "../../reducers";
 import { useSelector } from "react-redux";
+import { uploadEnvelope } from "../../reducers/actions/envelopeActions";
 
 export default function PrepareEnvelope(props) {
+  const dispatch = useDispatch();
   const [receitps, setReceipt] = useState([
     {
       id: 0,
@@ -62,15 +65,19 @@ export default function PrepareEnvelope(props) {
       documents: uploadedFiles,
       receitps: receitps,
       email: {
-        subject: subjectRef?.current?.value,
-        message: messageRef?.current?.value,
+        subject: subjectRef?.current
+          ? subjectRef?.current["value"]
+          : "Empty subject",
+        message: messageRef?.current
+          ? messageRef?.current["value"]
+          : "Empty message",
       },
     };
-    console.log(JSON.stringify(envelope));
+    dispatch(uploadEnvelope(envelope));
   };
 
   return (
-    <div>
+    <div className="scroll">
       <div className="close-bar">
         <Link className="cross-button" to="/manage">
           <button>X</button>
