@@ -10,23 +10,24 @@ import Column from "../../components/column/Column";
 export interface document {
   _id: String;
   author: String;
-  date: String;
+  lastChange: String;
   title: String;
 }
-export default function Manage() {
+export default function Manage(props) {
   const dispatch = useDispatch();
-  const documentsToSign: document[] = useSelector(
-    (state: rootState) => state?.document?.documentsLoaded
+  const documents: document[] = useSelector(
+    (state: rootState) => state?.document
   );
+  const user = useSelector((state: rootState) => state?.auth?.user);
 
   const handleSign = () => {
     return console.log("Handlesign");
   };
 
   useEffect(() => {
-    dispatch(loadDocuments());
+    dispatch(loadDocuments(user.email));
   }, [dispatch]);
-
+  const page = props?.match?.params?.page ? props.match.params.page : "Inbox";
   return (
     <div className="container">
       <div className="column">
@@ -36,7 +37,7 @@ export default function Manage() {
         <div className="table-header">
           <div className="tab">
             <div>
-              <h1>Inbox</h1>
+              <h1>{page.charAt(0).toUpperCase() + page.slice(1)}</h1>
             </div>
             <div className="received-signature-searchbar">
               <Searchbar />
@@ -59,7 +60,7 @@ export default function Manage() {
           </div>
         </div>
         <div>
-          <Envelope handleSign={handleSign} documentsToSign={documentsToSign} />
+          <Envelope handleSign={handleSign} documents={documents} page={page} />
         </div>
       </div>
     </div>

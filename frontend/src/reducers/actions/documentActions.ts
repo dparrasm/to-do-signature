@@ -1,4 +1,5 @@
 import axios from "axios";
+import { stringify } from "uuid";
 import { setAlert } from "./alertActions";
 import {
   DOCUMENT_FAIL,
@@ -10,16 +11,48 @@ import {
   UPLOAD_DOCUMENT,
 } from "./types";
 
-export const loadDocuments = () => async (dispatch) => {
-  console.log("Load documents");
+export const loadDocuments = (userId) => async (dispatch) => {
+  console.log("hola");
   const config = {
     headers: { "Content-Type": "application/json" },
   };
   try {
-    const documents = await axios.get("api/document", config);
+    const documents = await axios.get("/api/document/buscar/" + userId, config);
+    const folders = {
+      inbox: [],
+      sent: [],
+      draft: [],
+      deleted: [],
+    };
+
+    documents.data.map((doc) => {
+      if (
+        doc.recipients.filter((r) => r.folder == "INBOX" && r.email === userId)
+          ?.length > 0
+      ) {
+        folders.inbox.push(doc);
+      } else if (
+        doc.recipients.filter((r) => r.folder == "SENT" && r.email === userId)
+          ?.length > 0
+      ) {
+        folders.sent.push(doc);
+      } else if (
+        doc.recipients.filter((r) => r.folder == "DRAFT" && r.email === userId)
+          ?.length > 0
+      ) {
+        folders.draft.push(doc);
+      } else if (
+        doc.recipients.filter(
+          (r) => r.folder == "DELETED" && r.email === userId
+        )?.length > 0
+      ) {
+        folders.deleted.push(doc);
+      }
+    });
+
     dispatch({
       type: GET_DOCUMENTS,
-      payload: documents.data,
+      payload: folders,
     });
   } catch (e: any) {
     const errors = e?.response?.data?.errors;
@@ -54,22 +87,23 @@ export const uploadDocument =
   };
 
 export const postDocuments =
-  ({ author, title, fileContent, receivers, signedBy, signed }) =>
+  ({ title, fileContent, signedBy, signed, viewed, recipients, lastChange }) =>
   async (dispatch) => {
     const config = {
       headers: { "Content-Type": "application/json" },
     };
+    console.log("lastChange: " + lastChange);
     const body = JSON.stringify({
-      author,
-      date: new Date(),
       title,
       fileContent,
-      receivers,
       signedBy,
       signed,
+      viewed,
+      recipients,
+      lastChange,
     });
     try {
-      const doc = await axios.post("api/document", body, config);
+      const doc = await axios.post("/api/document", body, config);
       dispatch({
         type: POST_DOCUMENT,
         payload: doc.data,
@@ -90,7 +124,7 @@ export const getDocument = (id) => async (dispatch) => {
     headers: { "Content-Type": "application/json" },
   };
   try {
-    const document = await axios.get("api/document/" + id, config);
+    const document = await axios.get("/api/document/" + id, config);
     console.log(document);
     dispatch({
       type: GET_DOCUMENT,
@@ -120,7 +154,7 @@ export const searchDocument = (title) => async (dispatch) => {
 
 export const deleteDocument = (id) => async (dispatch) => {
   try {
-    await axios.delete("api/document/" + id);
+    await axios.delete("/api/document/" + id);
     dispatch({
       type: DELETE_DOCUMENT,
       payload: id,

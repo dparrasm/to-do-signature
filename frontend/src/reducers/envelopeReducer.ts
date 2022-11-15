@@ -2,7 +2,7 @@ import { ENVELOPE_UPLOAD } from "./actions/types";
 
 const initialState = {
   documents: [] as any,
-  receipts: [] as any,
+  recipients: [] as any,
   email: {
     subject: String,
     message: String,

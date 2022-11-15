@@ -30,7 +30,7 @@ export default function Envelope(props) {
     }
   };
 
-  const documentsToSign = props.documentsToSign;
+  const documentsToSign = props.documents[props.page];
 
   return (
     <>
@@ -43,7 +43,7 @@ export default function Envelope(props) {
             <th>Last change</th>
           </tr>
           {documentsToSign?.map((d, index) => (
-            <tr>
+            <tr key={index}>
               <td className="td-checkbox">
                 <input
                   type="checkbox"
@@ -69,12 +69,13 @@ export default function Envelope(props) {
               <td>
                 <div>
                   <div>
-                    {new Date(d.date).getDate()}/{new Date(d.date).getMonth()}/
-                    {new Date(d.date).getFullYear()}
+                    {new Date(d.lastChange).getDate()}/
+                    {new Date(d.lastChange).getMonth()}/
+                    {new Date(d.lastChange).getFullYear()}
                   </div>
                   <div className="document-subtitle">
-                    {new Date(d.date).getHours()}:
-                    {new Date(d.date).getMinutes()}
+                    {new Date(d.lastChange).getHours()}:
+                    {new Date(d.lastChange).getMinutes()}
                   </div>
                 </div>
               </td>

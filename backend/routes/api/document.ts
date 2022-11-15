@@ -8,12 +8,14 @@ const Document = require("../../models/Document");
 // @desc    Test route
 // @access  Public
 
-router.get("/", (req, res, next) => {
-  Document.find()
+router.get("/buscar/:email", (req, res, next) => {
+  console.log("Pasaba por aquí");
+  Document.find({ recipients: { $elemMatch: { email: req.params.email } } })
     .select("-fileContent")
     .exec()
     .then((docs) => {
-      console.log(docs);
+      const docsNoFileContent = docs.map(({ fileContent, ...docs }) => docs);
+      console.log(docsNoFileContent);
       res.status(200).json(docs);
     })
     .catch((err) => {
@@ -51,14 +53,15 @@ router.get("/:id", (req, res, next) => {
 router.post("/", (req, res, next) => {
   const document = new Document({
     _id: new mongoose.Types.ObjectId(),
-    author: req.body.author,
-    date: req.body.date,
+    lastChange: req.body.lastChange,
     title: req.body.title,
     fileContent: req.body.fileContent,
-    receivers: req.body.receivers,
+    recipients: req.body.recipients,
     signedBy: req.body.signedBy,
     signed: req.body.signed,
+    viewed: req.body.viewed,
   });
+
   document
     .save()
     .then((result) => {

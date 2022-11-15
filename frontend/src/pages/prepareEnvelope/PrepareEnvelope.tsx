@@ -13,30 +13,32 @@ import { uploadEnvelope } from "../../reducers/actions/envelopeActions";
 
 export default function PrepareEnvelope(props) {
   const dispatch = useDispatch();
-  const [receitps, setReceipt] = useState([
+  const [recipients, setRecipient] = useState([
     {
       id: 0,
       name: "",
       email: "",
       needsTo: "SIGN",
+      folder: "INBOX",
     },
   ]);
-  const addReceipt = () => {
-    const id = receitps.length;
-    setReceipt([
-      ...receitps,
+  const addRecipient = () => {
+    const id = recipients.length;
+    setRecipient([
+      ...recipients,
       {
         id: id,
         name: "",
         email: "",
         needsTo: "SIGN",
+        folder: "INBOX",
       },
     ]);
   };
-  const updateReceipt = (e) => {
+  const updateRecipient = (e) => {
     const id: number = e.target.id.split("#")[1];
     const keyword: String = e.target.id.split("#")[0];
-    setReceipt((prevState) => {
+    setRecipient((prevState) => {
       const newState = prevState.map((obj) => {
         if (obj.id == id) {
           switch (keyword) {
@@ -63,7 +65,7 @@ export default function PrepareEnvelope(props) {
   const prepareEnvelope = () => {
     const envelope = {
       documents: uploadedFiles,
-      receitps: receitps,
+      recipients: recipients,
       email: {
         subject: subjectRef?.current
           ? subjectRef?.current["value"]
@@ -107,24 +109,24 @@ export default function PrepareEnvelope(props) {
           <div className="prepare-envelope-titles">
             <h1>Add recipients</h1>
           </div>
-          <div className="receipts-container">
+          <div className="recipients-container">
             <div className="only-signer">
               <input type="checkbox" id="vehicle1" name="vehicle1" />
               <span>I'm the only signer</span>
             </div>
-            {receitps.map((receipt, index) => (
+            {recipients.map((recipient, index) => (
               <RecipientCard
                 key={index}
                 index={index}
-                updateReceipt={updateReceipt}
+                updateRecipient={updateRecipient}
               />
             ))}
-            <div className="add-receipts-buttons">
-              <div className="receipt-button" onClick={addReceipt}>
+            <div className="add-recipients-buttons">
+              <div className="recipient-button" onClick={addRecipient}>
                 <i className={icons.user} />
-                <h1>ADD RECEIPT</h1>
+                <h1>ADD RECIPIENT</h1>
               </div>
-              <div className="receipt-button">
+              <div className="recipient-button">
                 <i className={icons.spreadsheet} />
                 <h1>ADD FROM LIST</h1>
               </div>
@@ -135,7 +137,7 @@ export default function PrepareEnvelope(props) {
           <div className="prepare-envelope-titles">
             <h1>Add message</h1>
           </div>
-          <div className="receipts-container">
+          <div className="recipients-container">
             <div className="email-subject-container">
               <div className="email-subject">
                 <span>Email Subject</span>

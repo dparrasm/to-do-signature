@@ -9,6 +9,10 @@ import {
 } from "./actions/types";
 
 const initialState = {
+  inbox: [] as any,
+  sent: [] as any,
+  draft: [] as any,
+  deleted: [] as any,
   documentsLoaded: [] as any,
   readingDocument: {} as any,
   uploadedDocuments: [] as any,
@@ -21,8 +25,16 @@ export default function documentReducer(state = initialState, action) {
     case GET_DOCUMENT: {
       return { ...state, readingDocument: payload };
     }
-    case GET_DOCUMENTS:
-      return { ...state, documentsLoaded: payload };
+    case GET_DOCUMENTS: {
+      console.log(payload.sent);
+      return {
+        ...state,
+        inbox: payload.inbox,
+        sent: payload.sent,
+        draft: payload.draft,
+        deleted: payload.deleted,
+      };
+    }
     case UPLOAD_DOCUMENT:
       return {
         ...state,
@@ -32,6 +44,7 @@ export default function documentReducer(state = initialState, action) {
       return {
         ...state,
         documentsLoaded: state.documentsLoaded.concat(payload.createdDocument),
+        inbox: state.inbox.concat(payload.createdDocument),
       };
     case SEARCH_DOCUMENT: {
       return {

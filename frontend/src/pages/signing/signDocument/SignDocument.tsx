@@ -1,34 +1,63 @@
 import "./SignDocument.scss";
 import React, { useRef, useState } from "react";
 import { Document, Page, pdfjs } from "react-pdf";
-import { useDispatch } from "react-redux";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { rootState } from "../../../reducers";
 import { icons } from "../../../utils/icons";
 import { PDFDocument, rgb, StandardFonts } from "pdf-lib";
 import { uploadEnvelope } from "../../../reducers/actions/envelopeActions";
-import Draggable from "react-draggable";
 import MenuItem from "../../../components/menuItem/MenuItem";
 import { Link } from "react-router-dom";
+import Bag from "../../../components/bag/Bag";
+import { postDocuments } from "../../../reducers/actions/documentActions";
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
 function SignDocument(props) {
   const [numPages, setNumPages] = useState(null);
   const [coords, setCoords] = useState({ x: 0, y: 0 });
-  const document: any = useSelector(
-    (state: rootState) => state?.envelope?.documents[0]?.fileContent
-  );
+  const user: any = useSelector((state: rootState) => state?.auth?.user);
+  const envelope: any = useSelector((state: rootState) => state?.envelope);
+  const [document, nextDocument] = useState(envelope?.documents[0].fileContent);
   const dispatch = useDispatch();
   const signTools = useRef<HTMLDivElement>(null);
   const documentInfoHeader = useRef<HTMLDivElement>(null);
   const signDocumentHeader = useRef<HTMLDivElement>(null);
+  const [bag, setBag] = useState(false);
+  const activateBag = () => setBag(bag ? false : true);
+  const pdf = useRef<HTMLDivElement>(null);
   // Hook from pdf library to control pageNumber maybe use later
   // const [pageNumber, setPageNumber] = useState(null);
+  const sendEnvelope = () => {
+    const recipient = {
+      name: user?.name + " " + user?.surname,
+      email: user.email,
+      isAuthor: true,
+      folder: "SENT",
+    };
+    console.log("Antes: " + JSON.stringify(envelope.recipients));
+    const recipientsNoId = envelope?.recipients?.map(
+      ({ id, ...recipients }) => recipients
+    );
+    console.log(JSON.stringify(recipientsNoId));
+    envelope?.documents.map((d) => {
+      dispatch(
+        postDocuments({
+          title: d.title,
+          fileContent: d.fileContent,
+          lastChange: new Date(),
+          recipients:
+            recipientsNoId?.length > 0
+              ? recipientsNoId.concat(recipient)
+              : [recipient],
+          signedBy: [""],
+          signed: false,
+          viewed: false,
+        })
+      );
+    });
+  };
   async function handleMouseUp(event) {
-    const pdfDoc = await PDFDocument.load(document);
-    const pages = pdfDoc.getPages();
-    const firstPage = pages[0];
-    const { height } = firstPage.getSize();
+    const height = pdf?.current?.offsetHeight ? pdf?.current?.offsetHeight : 0;
     const signToolsWidth = signTools?.current?.offsetWidth
       ? signTools?.current?.offsetWidth
       : 0;
@@ -48,6 +77,7 @@ function SignDocument(props) {
       x,
       y,
     });
+    return <Bag top={y} left={x} />;
   }
   async function modifyPdf() {
     const pdfDoc = await PDFDocument.load(document);
@@ -64,7 +94,7 @@ function SignDocument(props) {
     const pdfDataUri = await pdfDoc.saveAsBase64({ dataUri: true });
     const envelope = {
       documents: [{ fileContent: pdfDataUri }],
-      receitps: [""],
+      recipients: [""],
       email: {
         subject: "test",
         message: "test",
@@ -97,7 +127,7 @@ function SignDocument(props) {
               <h3>Fields</h3>
             </div>
             <div className="signing-menu-block">
-              <div onClick={modifyPdf}>
+              <div onClick={activateBag}>
                 <MenuItem icon={icons.signed} text="Signature" />
               </div>
               <h6>Initial</h6>
@@ -113,7 +143,9 @@ function SignDocument(props) {
               <MenuItem icon={icons.text} text="Text" />
             </div>
             <div className="signing-buttons-container">
-              <button className="signing-button-save">Send</button>
+              <button className="signing-button-save" onClick={sendEnvelope}>
+                Send
+              </button>
               <button className="signing-button-discard">Discard</button>
             </div>
           </div>
@@ -123,15 +155,6 @@ function SignDocument(props) {
             <h1>document title</h1>
           </div>
           <div className="signing-display-document">
-            <Draggable onDrag={(e, data) => trackPos(data)}>
-              <div className="box">
-                <div>Here's my position...</div>
-                <div>
-                  {/* x: {position.x.toFixed(0)}, y: {position.y.toFixed(0)} */}
-                  x: {coords.x}, y: {coords.y}
-                </div>
-              </div>
-            </Draggable>
             <div>
               <Document
                 file={document}
@@ -139,11 +162,13 @@ function SignDocument(props) {
                 onLoadError={loadError}
               >
                 {Array.from(new Array(numPages), (el, index) => (
-                  <Page
-                    key={`page_${index + 1}`}
-                    scale={1}
-                    pageNumber={index + 1}
-                  ></Page>
+                  <div ref={pdf}>
+                    <Page
+                      key={`page_${index + 1}`}
+                      scale={1}
+                      pageNumber={index + 1}
+                    ></Page>
+                  </div>
                 ))}
               </Document>
             </div>

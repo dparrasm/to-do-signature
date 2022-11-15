@@ -78,8 +78,9 @@ class App extends Component<AppProps, state> {
                     <Route path="/profile">
                       <UserProfile />
                     </Route>
-                    <Route path="/manage">
-                      <Manage />
+                    <Route path="/manage/:page" component={Manage}></Route>
+                    <Route exact path="/manage">
+                      <Redirect to="/manage/inbox" />
                     </Route>
                     <Route path="/home">
                       <Home />

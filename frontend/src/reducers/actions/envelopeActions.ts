@@ -1,11 +1,11 @@
 import { ENVELOPE_UPLOAD } from "./types";
 
 export const uploadEnvelope =
-  ({ documents, receitps, email }) =>
+  ({ documents, recipients, email }) =>
   async (dispatch) => {
     const envelope = {
       documents,
-      receitps,
+      recipients,
       email,
     };
     try {

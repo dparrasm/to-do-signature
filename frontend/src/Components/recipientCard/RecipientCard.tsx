@@ -13,7 +13,7 @@ export default function RecipientCard(props) {
           <input
             id={"name#" + props.index}
             type="text"
-            onChange={(e) => props.updateReceipt(e)}
+            onChange={(e) => props.updateRecipient(e)}
           />
         </div>
         <div className="recipient-card-data-name">
@@ -24,7 +24,7 @@ export default function RecipientCard(props) {
           <input
             id={"email#" + props.index}
             type="text"
-            onChange={(e) => props.updateReceipt(e)}
+            onChange={(e) => props.updateRecipient(e)}
           />
         </div>
       </div>
@@ -35,7 +35,7 @@ export default function RecipientCard(props) {
               className="recipient-card-select"
               name="list"
               id={"needsTo#" + props.index}
-              onChange={(e) => props.updateReceipt(e)}
+              onChange={(e) => props.updateRecipient(e)}
             >
               <option>NEEDS TO SIGN</option>
               <option>NEEDS TO VIEW</option>

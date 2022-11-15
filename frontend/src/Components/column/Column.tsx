@@ -9,27 +9,29 @@ export default function Column() {
       <div className="column-list">
         <div>
           <Link to="/prepare">
-            <button className="column-start-to-prepare-envelope-button">START</button>
+            <button className="column-start-to-prepare-envelope-button">
+              START
+            </button>
           </Link>
         </div>
         <div className="envelopes">
           <h4>Envelopes</h4>
-          <div className="column-menu-option">
+          <Link className="column-menu-option" to="/manage/inbox">
             <div className={icons.received}></div>
             <div>Inbox</div>
-          </div>
-          <div className="column-menu-option">
+          </Link>
+          <Link className="column-menu-option" to="/manage/sent">
             <div className={icons.send}></div>
             <div>Sent</div>
-          </div>
-          <div className="column-menu-option">
+          </Link>
+          <Link className="column-menu-option" to="/manage/draft">
             <div className={icons.documents}></div>
             <div>Draft</div>
-          </div>
-          <div className="column-menu-option">
+          </Link>
+          <Link className="column-menu-option" to="manage/deleted">
             <div className={icons.trashcan}></div>
             <div>Deleted</div>
-          </div>
+          </Link>
         </div>
       </div>
     </div>
