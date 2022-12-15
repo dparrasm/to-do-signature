@@ -6,6 +6,7 @@ import {
   GET_DOCUMENT,
   SEARCH_DOCUMENT,
   UPLOAD_DOCUMENT,
+  UNLOAD_DOCUMENT,
 } from "./actions/types";
 
 const initialState = {
@@ -40,6 +41,14 @@ export default function documentReducer(state = initialState, action) {
         ...state,
         uploadedDocuments: state.uploadedDocuments.concat(payload),
       };
+    case UNLOAD_DOCUMENT: {
+      let array = [...state.uploadedDocuments];
+      array.splice(payload, 1);
+      return {
+        ...state,
+        uploadedDocuments: array,
+      };
+    }
     case POST_DOCUMENT:
       return {
         ...state,

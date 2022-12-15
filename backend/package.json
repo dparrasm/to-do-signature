@@ -28,12 +28,14 @@
     "config": "^3.3.6",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
+    "dotenv": "^16.0.3",
     "express": "^4.17.1",
     "express-validator": "^6.10.0",
     "gravatar": "^1.8.1",
     "helmet": "^6.0.0",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.12.3",
+    "nodemailer": "^6.8.0",
     "request": "^2.88.2"
   }
 }

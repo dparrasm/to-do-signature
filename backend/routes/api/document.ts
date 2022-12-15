@@ -1,7 +1,8 @@
 import express from "express";
 import mongoose from "mongoose";
-const router = express.Router();
 
+const router = express.Router();
+const { sendEmail } = require("../../middleware/email");
 const Document = require("../../models/Document");
 
 // @route   GET api/document
@@ -65,7 +66,8 @@ router.post("/", (req, res, next) => {
   document
     .save()
     .then((result) => {
-      console.log(result);
+      console.log("Document: " + result.title + "loaded");
+      sendEmail("dparrasmartinez@gmail.com");
     })
     .catch((err) => {
       console.log(err);

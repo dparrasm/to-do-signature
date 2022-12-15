@@ -27,6 +27,33 @@ function SignDocument(props) {
   const pdf = useRef<HTMLDivElement>(null);
   // Hook from pdf library to control pageNumber maybe use later
   // const [pageNumber, setPageNumber] = useState(null);
+  const autofirma = () => {
+    AutoScript.cargarAppAfirma();
+    try {
+      AutoScript.sign(
+        document,
+        "SHA512withRSA",
+        "PAdES",
+        null,
+        firmaCorrectaCallback,
+        firmaErrorCallback
+      );
+    } catch (e) {
+      firmaErrorCallback(
+        AutoScript.getErrorType(),
+        AutoScript.getErrorMessage()
+      );
+    }
+    function firmaErrorCallback(type, message) {
+      console.log("erro type: " + type);
+      console.log("message: " + message);
+    }
+
+    function firmaCorrectaCallback() {
+      console.log();
+    }
+  };
+
   const sendEnvelope = () => {
     const recipient = {
       name: user?.name + " " + user?.surname,
@@ -125,6 +152,11 @@ function SignDocument(props) {
           <div className="container-tools">
             <div className="signing-menu-block">
               <h3>Fields</h3>
+            </div>
+            <div className="signing-menu-block">
+              <div onClick={autofirma}>
+                <MenuItem icon={icons.signed} text="Autofirma" />
+              </div>
             </div>
             <div className="signing-menu-block">
               <div onClick={activateBag}>

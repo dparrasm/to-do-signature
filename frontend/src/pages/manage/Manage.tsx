@@ -29,7 +29,7 @@ export default function Manage(props) {
   }, [dispatch]);
   const page = props?.match?.params?.page ? props.match.params.page : "Inbox";
   return (
-    <div className="container">
+    <div className="container-manager">
       <div className="column">
         <Column />
       </div>

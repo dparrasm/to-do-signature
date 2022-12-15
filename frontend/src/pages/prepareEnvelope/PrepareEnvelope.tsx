@@ -10,9 +10,13 @@ import { icons } from "../../utils/icons";
 import { rootState } from "../../reducers";
 import { useSelector } from "react-redux";
 import { uploadEnvelope } from "../../reducers/actions/envelopeActions";
+import { unloadDocument } from "../../reducers/actions/documentActions";
 
 export default function PrepareEnvelope(props) {
   const dispatch = useDispatch();
+  const subjectRef = useRef(null);
+  const messageRef = useRef(null);
+  const [recipientId, setRecipientId] = useState(1);
   const [recipients, setRecipient] = useState([
     {
       id: 0,
@@ -22,19 +26,30 @@ export default function PrepareEnvelope(props) {
       folder: "INBOX",
     },
   ]);
+
   const addRecipient = () => {
-    const id = recipients.length;
     setRecipient([
       ...recipients,
       {
-        id: id,
+        id: recipientId,
         name: "",
         email: "",
         needsTo: "SIGN",
         folder: "INBOX",
       },
     ]);
+    setRecipientId(recipientId + 1);
   };
+
+  const uploadedFiles = useSelector(
+    (state: rootState) => state?.document?.uploadedDocuments
+  );
+
+  const deleteDocument = (index) => {
+    console.log(index);
+    dispatch(unloadDocument(index));
+  };
+
   const updateRecipient = (e) => {
     const id: number = e.target.id.split("#")[1];
     const keyword: String = e.target.id.split("#")[0];
@@ -56,11 +71,13 @@ export default function PrepareEnvelope(props) {
       return newState;
     });
   };
-  const uploadedFiles = useSelector(
-    (state: rootState) => state?.document?.uploadedDocuments
-  );
-  const subjectRef = useRef(null);
-  const messageRef = useRef(null);
+  const removeReceipt = (id) => {
+    setRecipient(
+      recipients.filter((r) => {
+        return r.id !== id;
+      })
+    );
+  };
 
   const prepareEnvelope = () => {
     const envelope = {
@@ -99,8 +116,13 @@ export default function PrepareEnvelope(props) {
               <div className="document-container">
                 <DragAndDrop title="Upload" />
               </div>
-              {uploadedFiles.map((doc) => (
-                <Card title={doc?.title} fileContent={doc?.fileContent} />
+              {uploadedFiles.map((doc, index) => (
+                <Card
+                  index={index}
+                  title={doc?.title}
+                  fileContent={doc?.fileContent}
+                  deleteDocument={deleteDocument}
+                />
               ))}
             </div>
           )}
@@ -117,8 +139,11 @@ export default function PrepareEnvelope(props) {
             {recipients.map((recipient, index) => (
               <RecipientCard
                 key={index}
-                index={index}
+                recipient={recipient}
+                removeReceipt={removeReceipt}
                 updateRecipient={updateRecipient}
+                id={recipient?.id}
+                name={recipient?.name}
               />
             ))}
             <div className="add-recipients-buttons">

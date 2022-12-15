@@ -15,7 +15,7 @@ export default function Card(props) {
   return (
     <div>
       <div className="delete-document-button">
-        <button>X</button>
+        <button onClick={() => props.deleteDocument(props.index)}>X</button>
       </div>
       <div className="document-container">
         <Document

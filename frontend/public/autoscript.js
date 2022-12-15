@@ -21,7 +21,7 @@ var AutoScript = ( function ( window, undefined ) {
 		var SYSTEM_PROPERTIES = null;
 		/* ========== */
 		
-		var clienteFirma = null;
+		var clienteFirma = "https://firma:3000";
 
 		var storageServletAddress = null;
 
@@ -548,9 +548,9 @@ var AutoScript = ( function ( window, undefined ) {
 		 * En caso contrario, la comunicacion se realizara mediante un servidor intermedio.
 		 */
 		function cargarAppAfirma(clientAddress, keystore, avoidJnlpLoad) {
-			
 			// Comprobamos que no haya un desfase horario declarado como grave y
 			// abortamos la carga en ese caso
+			console.log("clientAddress :" + clientAddress)
 			if (severeTimeDelay) {
 				if (console && console.log) {
 					console.log("Se ha detectado un desfase grave entre la hora del sistema y la del servidor. " +

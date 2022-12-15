@@ -1,5 +1,4 @@
 import axios from "axios";
-import { stringify } from "uuid";
 import { setAlert } from "./alertActions";
 import {
   DOCUMENT_FAIL,
@@ -9,6 +8,7 @@ import {
   GET_DOCUMENT,
   SEARCH_DOCUMENT,
   UPLOAD_DOCUMENT,
+  UNLOAD_DOCUMENT,
 } from "./types";
 
 export const loadDocuments = (userId) => async (dispatch) => {
@@ -85,6 +85,17 @@ export const uploadDocument =
       console.log("Fallo");
     }
   };
+
+export const unloadDocument = (index) => async (dispatch) => {
+  try {
+    dispatch({
+      type: UNLOAD_DOCUMENT,
+      payload: index,
+    });
+  } catch {
+    console.log("Fallo");
+  }
+};
 
 export const postDocuments =
   ({ title, fileContent, signedBy, signed, viewed, recipients, lastChange }) =>
