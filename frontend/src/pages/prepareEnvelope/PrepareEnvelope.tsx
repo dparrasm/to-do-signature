@@ -11,6 +11,7 @@ import { rootState } from "../../reducers";
 import { useSelector } from "react-redux";
 import { uploadEnvelope } from "../../reducers/actions/envelopeActions";
 import { unloadDocument } from "../../reducers/actions/documentActions";
+import Filepicker from "../../components/filepicker/Filepicker";
 
 export default function PrepareEnvelope(props) {
   const dispatch = useDispatch();
@@ -40,7 +41,29 @@ export default function PrepareEnvelope(props) {
     ]);
     setRecipientId(recipientId + 1);
   };
-
+  const addRecipientsFromList = (recipientsList) => {
+    console.log(recipientsList);
+    const array: {
+      id: number;
+      name: string;
+      email: string;
+      needsTo: string;
+      folder: string;
+    }[] = [];
+    let id = recipientId;
+    recipientsList.map((r) => {
+      array.push({
+        id: recipientId + array.length,
+        name: r.name,
+        email: r.email,
+        needsTo: r.needsTo,
+        folder: "INBOX",
+      });
+    });
+    console.log(JSON.stringify(array));
+    setRecipientId(recipientId + array.length);
+    setRecipient(recipients.concat(array));
+  };
   const uploadedFiles = useSelector(
     (state: rootState) => state?.document?.uploadedDocuments
   );
@@ -151,10 +174,12 @@ export default function PrepareEnvelope(props) {
                 <i className={icons.user} />
                 <h1>ADD RECIPIENT</h1>
               </div>
-              <div className="recipient-button">
-                <i className={icons.spreadsheet} />
-                <h1>ADD FROM LIST</h1>
-              </div>
+              <Filepicker
+                title="ADD FROM LIST"
+                accept=".xlsx"
+                multiple={false}
+                addRecipientsFromList={addRecipientsFromList}
+              />
             </div>
           </div>
         </div>

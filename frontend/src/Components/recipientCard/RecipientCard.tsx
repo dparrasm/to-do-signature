@@ -1,4 +1,3 @@
-import { popGraphicsState } from "pdf-lib";
 import React from "react";
 import "./RecipientCard.scss";
 

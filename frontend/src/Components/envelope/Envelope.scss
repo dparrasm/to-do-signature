@@ -98,4 +98,23 @@
 }
 .progressbar{
     width: 90px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.envelope-table-row{
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid #e0e0de;
+}
+.envelope-table-row-cell{
+    display: flex;
+}
+.envelope-table-row-cell-date{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.envelope-table-row-cell-iconbutton {
+    cursor:pointer;
 }

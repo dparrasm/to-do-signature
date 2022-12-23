@@ -42,14 +42,14 @@ export default function UserProfile() {
           />
         </Badge>
       </div>
-      <div className="user-signature-information">
+      {/* <div className="user-signature-information">
         <div className="user-signature-complete-name">
           <Button onClick={openSignModal} variant="contained" color="primary">
             Add signature
           </Button>
         </div>
         <SignModal shouldOpenModal={isModalOpen} handleClose={closeSignModal} />
-      </div>
+      </div> */}
 
       <div className="user-security-data-container">
         <div className="title">

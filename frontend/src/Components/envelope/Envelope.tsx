@@ -1,91 +1,83 @@
-import React from "react";
+import React, { useState } from "react";
 import { Avatar } from "@material-ui/core";
-import SplitButton from "../splitButton/SplitButton";
-import { useDispatch } from "react-redux";
 import Progressbar from "../progressbar/Progressbar";
-import {
-  deleteDocument,
-  getDocument,
-} from "../../reducers/actions/documentActions";
 import "./Envelope.scss";
+import IconButton from "../iconButton/IconButton";
+import { icons } from "../../utils/icons";
 
 export default function Envelope(props) {
-  const dispatch = useDispatch();
-  const handleClick = (documentAction: { id: number; action: String }) => {
-    switch (documentAction.action) {
-      case "DELETE":
-        console.log("Borrando documento " + documentAction.id);
-        dispatch(deleteDocument(documentAction.id));
-        break;
-      case "DOWNLOAD":
-        console.log("Downloading document " + documentAction.id);
-        break;
-      case "SIGN":
-        console.log("Firmando documento " + documentAction.id);
-        dispatch(getDocument(documentAction.id));
-        props.handleSign();
-        break;
-      default:
-        console.log("Unknown action");
+  const [isChecked, setIsChecked] = useState(false);
+  const handleOnChange = (e) => {
+    if (!isChecked) {
+      props.addChecked(e);
+    } else {
+      props.removeChecked(e);
     }
+    setIsChecked(!isChecked);
   };
-
-  const documentsToSign = props.documents[props.page];
 
   return (
     <>
-      <table className="table">
-        <tbody>
-          <tr>
-            <th></th>
-            <th>Subject</th>
-            <th>Status</th>
-            <th>Last change</th>
-          </tr>
-          {documentsToSign?.map((d, index) => (
-            <tr key={index}>
-              <td className="td-checkbox">
-                <input
-                  type="checkbox"
-                  id="vehicle1"
-                  name="vehicle1"
-                  value="Bike"
-                />
-              </td>
-              <td>
-                <div className="document-info">
-                  <div className="document-title">{d.title}</div>
-                  <div className="document-subtitle">
-                    Para: David Parras Martínez
-                  </div>
-                  <Avatar className="avatar">D</Avatar>
+      <div className="table">
+        <div>
+          {/* {documentsToSign?.map((d, index) => ( */}
+          <div className="envelope-table-row">
+            <div className="envelope-table-row-cell">
+              <input
+                type="checkbox"
+                id="vehicle1"
+                name="vehicle1"
+                value={props.index}
+                checked={isChecked}
+                onChange={handleOnChange}
+              />
+            </div>
+            <div className="envelope-table-row-cell">
+              <div className="document-info">
+                <div className="document-title">{props.title}</div>
+                <div className="document-subtitle">
+                  Para: David Parras Martínez
                 </div>
-              </td>
-              <td>
-                <div className="progressbar">
-                  <Progressbar />
-                </div>
-              </td>
-              <td>
-                <div>
-                  <div>
-                    {new Date(d.lastChange).getDate()}/
-                    {new Date(d.lastChange).getMonth()}/
-                    {new Date(d.lastChange).getFullYear()}
-                  </div>
-                  <div className="document-subtitle">
-                    {new Date(d.lastChange).getHours()}:
-                    {new Date(d.lastChange).getMinutes()}
-                  </div>
-                </div>
-              </td>
-              <td>
-                <SplitButton id={d._id} handleClick={handleClick} />
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+                <Avatar className="avatar">D</Avatar>
+              </div>
+            </div>
+            <div className="envelope-table-row-cell">
+              <div className="progressbar">
+                <Progressbar />
+              </div>
+            </div>
+            <div className="envelope-table-row-cell-date">
+              <div>
+                {new Date(props.lastChange).getDate()}/
+                {new Date(props.lastChange).getMonth()}/
+                {new Date(props.lastChange).getFullYear()}
+              </div>
+              <div className="document-subtitle">
+                {new Date(props.lastChange).getHours()}:
+                {new Date(props.lastChange).getMinutes()}
+              </div>
+            </div>
+            <div className="envelope-table-row-cell">
+              <div
+                className="envelope-table-row-cell-iconbutton"
+                onClick={() =>
+                  props.handleClick({ id: props.id, action: "SIGN" })
+                }
+              >
+                <IconButton icon={icons.pen} />
+              </div>
+              <div
+                className="envelope-table-row-cell-iconbutton"
+                onClick={() =>
+                  props.handleClick({ id: props.id, action: "DELETE" })
+                }
+              >
+                <IconButton icon={icons.trashcan} />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </>
   );
 }

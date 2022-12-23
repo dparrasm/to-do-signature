@@ -24,14 +24,6 @@ export default function Column() {
             <div className={icons.send}></div>
             <div>Sent</div>
           </Link>
-          <Link className="column-menu-option" to="/manage/draft">
-            <div className={icons.documents}></div>
-            <div>Draft</div>
-          </Link>
-          <Link className="column-menu-option" to="manage/deleted">
-            <div className={icons.trashcan}></div>
-            <div>Deleted</div>
-          </Link>
         </div>
       </div>
     </div>

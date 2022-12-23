@@ -12,8 +12,6 @@ import {
 const initialState = {
   inbox: [] as any,
   sent: [] as any,
-  draft: [] as any,
-  deleted: [] as any,
   documentsLoaded: [] as any,
   readingDocument: {} as any,
   uploadedDocuments: [] as any,
@@ -27,13 +25,10 @@ export default function documentReducer(state = initialState, action) {
       return { ...state, readingDocument: payload };
     }
     case GET_DOCUMENTS: {
-      console.log(payload.sent);
       return {
         ...state,
         inbox: payload.inbox,
         sent: payload.sent,
-        draft: payload.draft,
-        deleted: payload.deleted,
       };
     }
     case UPLOAD_DOCUMENT:
@@ -63,13 +58,22 @@ export default function documentReducer(state = initialState, action) {
         ),
       };
     }
-    case DELETE_DOCUMENT:
-      return {
-        ...state,
-        documentsLoaded: state.documentsLoaded.filter(
-          (document) => document._id !== payload
-        ),
-      };
+    case DELETE_DOCUMENT: {
+      let array = state[payload.folder];
+      array = array.filter((document) => document._id !== payload.id);
+      switch (payload.folder) {
+        case "inbox":
+          return {
+            ...state,
+            inbox: array,
+          };
+        default:
+          return {
+            ...state,
+            sent: array,
+          };
+      }
+    }
     case DOCUMENT_FAIL:
       return state;
     default:

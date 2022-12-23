@@ -70,11 +70,6 @@ class App extends Component<AppProps, state> {
                 <Header onUserLogOut={this.onUserLogOut} />
                 <div className="body">
                   <div className="webPage">
-                    <Route path="/report">
-                      <div>
-                        <h1>Report</h1>
-                      </div>
-                    </Route>
                     <Route path="/profile">
                       <UserProfile />
                     </Route>

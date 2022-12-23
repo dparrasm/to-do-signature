@@ -12,7 +12,6 @@ import {
 } from "./types";
 
 export const loadDocuments = (userId) => async (dispatch) => {
-  console.log("hola");
   const config = {
     headers: { "Content-Type": "application/json" },
   };
@@ -21,8 +20,6 @@ export const loadDocuments = (userId) => async (dispatch) => {
     const folders = {
       inbox: [],
       sent: [],
-      draft: [],
-      deleted: [],
     };
 
     documents.data.map((doc) => {
@@ -36,17 +33,6 @@ export const loadDocuments = (userId) => async (dispatch) => {
           ?.length > 0
       ) {
         folders.sent.push(doc);
-      } else if (
-        doc.recipients.filter((r) => r.folder == "DRAFT" && r.email === userId)
-          ?.length > 0
-      ) {
-        folders.draft.push(doc);
-      } else if (
-        doc.recipients.filter(
-          (r) => r.folder == "DELETED" && r.email === userId
-        )?.length > 0
-      ) {
-        folders.deleted.push(doc);
       }
     });
 
@@ -163,12 +149,12 @@ export const searchDocument = (title) => async (dispatch) => {
   }
 };
 
-export const deleteDocument = (id) => async (dispatch) => {
+export const deleteDocument = (id, folder) => async (dispatch) => {
   try {
-    await axios.delete("/api/document/" + id);
+    //await axios.delete("/api/document/" + id);
     dispatch({
       type: DELETE_DOCUMENT,
-      payload: id,
+      payload: { id: id, folder: folder },
     });
   } catch (err: any) {
     const errors = err?.response?.data?.errors;

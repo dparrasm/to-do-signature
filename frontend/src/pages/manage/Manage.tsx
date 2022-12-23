@@ -1,8 +1,12 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Envelope from "../../components/envelope/Envelope";
 import { rootState } from "../../reducers";
-import { loadDocuments } from "../../reducers/actions/documentActions";
+import {
+  deleteDocument,
+  getDocument,
+  loadDocuments,
+} from "../../reducers/actions/documentActions";
 import Searchbar from "../../components/searchbar/Searchbar";
 import "./Manage.scss";
 import Column from "../../components/column/Column";
@@ -14,7 +18,45 @@ export interface document {
   title: String;
 }
 export default function Manage(props) {
+  const [isChecked, setIsChecked] = useState(false);
+  const handleOnChange = () => {
+    setIsChecked(!isChecked);
+  };
+  const [selectedDocuments, setSelectedDocuments] = useState([]);
+  const addChecked = (e) => {
+    const currentPage = documents[page];
+    setSelectedDocuments([...selectedDocuments, currentPage[e.target.value]]);
+    // console.log("ADD: " + e.target.value);
+    // console.log(JSON.stringify(selectedDocuments.length));
+  };
+  const removeChecked = (e) => {
+    const currentPage = documents[page];
+    const array = selectedDocuments;
+    setSelectedDocuments(
+      array.filter((a) => a._id !== currentPage[e.target.value]._id)
+    );
+  };
   const dispatch = useDispatch();
+
+  const handleClick = (documentAction: { id: number; action: String }) => {
+    console.log(JSON.stringify(documentAction));
+    switch (documentAction.action) {
+      case "DELETE":
+        console.log("Borrando documento " + documentAction.id);
+        dispatch(deleteDocument(documentAction.id, page));
+        break;
+      case "DOWNLOAD":
+        console.log("Downloading document " + documentAction.id);
+        break;
+      case "SIGN":
+        console.log("Firmando documento " + documentAction.id);
+        dispatch(getDocument(documentAction.id));
+        props.handleSign();
+        break;
+      default:
+        console.log("Unknown action");
+    }
+  };
   const documents: document[] = useSelector(
     (state: rootState) => state?.document
   );
@@ -26,8 +68,11 @@ export default function Manage(props) {
 
   useEffect(() => {
     dispatch(loadDocuments(user.email));
-  }, [dispatch]);
+    console.log("TEST" + JSON.stringify(selectedDocuments));
+  }, [dispatch, selectedDocuments]);
+
   const page = props?.match?.params?.page ? props.match.params.page : "Inbox";
+
   return (
     <div className="container-manager">
       <div className="column">
@@ -50,6 +95,8 @@ export default function Manage(props) {
                 id="vehicle1"
                 name="vehicle1"
                 value="Bike"
+                checked={isChecked}
+                onChange={handleOnChange}
               />
               <div>
                 <button>Sign</button>
@@ -59,8 +106,19 @@ export default function Manage(props) {
             </div>
           </div>
         </div>
-        <div>
-          <Envelope handleSign={handleSign} documents={documents} page={page} />
+        <div className="table-body">
+          {documents[page]?.map((doc, index) => (
+            <Envelope
+              key={index}
+              index={index}
+              id={doc._id}
+              title={doc.title}
+              lastChange={doc.lastChange}
+              addChecked={addChecked}
+              removeChecked={removeChecked}
+              handleClick={handleClick}
+            />
+          ))}
         </div>
       </div>
     </div>
