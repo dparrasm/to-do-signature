@@ -24,6 +24,8 @@ export default function PrepareEnvelope(props) {
       name: "",
       email: "",
       needsTo: "SIGN",
+      signed: false,
+      viewed: false,
       folder: "INBOX",
     },
   ]);
@@ -36,18 +38,21 @@ export default function PrepareEnvelope(props) {
         name: "",
         email: "",
         needsTo: "SIGN",
+        signed: false,
+        viewed: false,
         folder: "INBOX",
       },
     ]);
     setRecipientId(recipientId + 1);
   };
   const addRecipientsFromList = (recipientsList) => {
-    console.log(recipientsList);
     const array: {
       id: number;
       name: string;
       email: string;
       needsTo: string;
+      signed: boolean;
+      viewed: boolean;
       folder: string;
     }[] = [];
     let id = recipientId;
@@ -57,10 +62,11 @@ export default function PrepareEnvelope(props) {
         name: r.name,
         email: r.email,
         needsTo: r.needsTo,
+        signed: false,
+        viewed: false,
         folder: "INBOX",
       });
     });
-    console.log(JSON.stringify(array));
     setRecipientId(recipientId + array.length);
     setRecipient(recipients.concat(array));
   };
@@ -69,7 +75,6 @@ export default function PrepareEnvelope(props) {
   );
 
   const deleteDocument = (index) => {
-    console.log(index);
     dispatch(unloadDocument(index));
   };
 
@@ -141,6 +146,7 @@ export default function PrepareEnvelope(props) {
               </div>
               {uploadedFiles.map((doc, index) => (
                 <Card
+                  key={index}
                   index={index}
                   title={doc?.title}
                   fileContent={doc?.fileContent}
@@ -167,6 +173,8 @@ export default function PrepareEnvelope(props) {
                 updateRecipient={updateRecipient}
                 id={recipient?.id}
                 name={recipient?.name}
+                email={recipient?.email}
+                needsTo={recipient?.needsTo}
               />
             ))}
             <div className="add-recipients-buttons">

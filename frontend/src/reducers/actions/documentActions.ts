@@ -84,21 +84,21 @@ export const unloadDocument = (index) => async (dispatch) => {
 };
 
 export const postDocuments =
-  ({ title, fileContent, signedBy, signed, viewed, recipients, lastChange }) =>
+  ({ documents, signedBy, signed, viewed, recipients, lastChange, email }) =>
   async (dispatch) => {
     const config = {
       headers: { "Content-Type": "application/json" },
     };
-    console.log("lastChange: " + lastChange);
     const body = JSON.stringify({
-      title,
-      fileContent,
+      documents,
       signedBy,
       signed,
       viewed,
       recipients,
       lastChange,
+      email,
     });
+
     try {
       const doc = await axios.post("/api/document", body, config);
       dispatch({
@@ -151,7 +151,7 @@ export const searchDocument = (title) => async (dispatch) => {
 
 export const deleteDocument = (id, folder) => async (dispatch) => {
   try {
-    //await axios.delete("/api/document/" + id);
+    await axios.delete("/api/document/" + id);
     dispatch({
       type: DELETE_DOCUMENT,
       payload: { id: id, folder: folder },

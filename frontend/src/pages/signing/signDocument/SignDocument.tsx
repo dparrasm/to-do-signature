@@ -36,7 +36,7 @@ function SignDocument(props) {
       );
     }
     function firmaErrorCallback(type, message) {
-      console.log("erro type: " + type);
+      console.log("error type: " + type);
       console.log("message: " + message);
     }
 
@@ -51,28 +51,26 @@ function SignDocument(props) {
       email: user.email,
       isAuthor: true,
       folder: "SENT",
+      signed: false,
+      viewed: true,
     };
-    console.log("Antes: " + JSON.stringify(envelope.recipients));
     const recipientsNoId = envelope?.recipients?.map(
       ({ id, ...recipients }) => recipients
     );
-    console.log(JSON.stringify(recipientsNoId));
-    envelope?.documents.map((d) => {
-      dispatch(
-        postDocuments({
-          title: d.title,
-          fileContent: d.fileContent,
-          lastChange: new Date(),
-          recipients:
-            recipientsNoId?.length > 0
-              ? recipientsNoId.concat(recipient)
-              : [recipient],
-          signedBy: [""],
-          signed: false,
-          viewed: false,
-        })
-      );
-    });
+    dispatch(
+      postDocuments({
+        documents: envelope?.documents,
+        lastChange: new Date(),
+        recipients:
+          recipientsNoId?.length > 0
+            ? recipientsNoId.concat(recipient)
+            : [recipient],
+        signedBy: [""],
+        signed: false,
+        viewed: false,
+        email: envelope?.email,
+      })
+    );
   };
 
   function onDocumentLoadSuccess({ numPages }) {
@@ -103,26 +101,12 @@ function SignDocument(props) {
                 <MenuItem icon={icons.signed} text="Autofirma" />
               </div>
             </div>
-            <div className="signing-menu-block">
-              <div>
-                <MenuItem icon={icons.signed} text="Signature" />
-              </div>
-              <h6>Initial</h6>
-              <MenuItem icon={icons.calendar} text="Date signed" />
-            </div>
-            <div className="signing-menu-block">
-              <h6>Complete Name</h6>
-              <h6>First Name</h6>
-              <h6>Last Name</h6>
-              <h6>Email Adress</h6>
-            </div>
-            <div className="signing-menu-block">
-              <MenuItem icon={icons.text} text="Text" />
-            </div>
             <div className="signing-buttons-container">
-              <button className="signing-button-save" onClick={sendEnvelope}>
-                Send
-              </button>
+              <Link to="/manage/inbox">
+                <button className="signing-button-save" onClick={sendEnvelope}>
+                  Send
+                </button>
+              </Link>
               <button className="signing-button-discard">Discard</button>
             </div>
           </div>

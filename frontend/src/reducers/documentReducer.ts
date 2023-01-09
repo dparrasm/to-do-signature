@@ -44,12 +44,18 @@ export default function documentReducer(state = initialState, action) {
         uploadedDocuments: array,
       };
     }
-    case POST_DOCUMENT:
+    case POST_DOCUMENT: {
+      const currentDocuments = [
+        state.documentsLoaded,
+        ...payload.addedDocuments,
+      ];
+      const currentInboxDocuments = [state.inbox, ...payload.addedDocuments];
       return {
         ...state,
-        documentsLoaded: state.documentsLoaded.concat(payload.createdDocument),
-        inbox: state.inbox.concat(payload.createdDocument),
+        documentsLoaded: currentDocuments,
+        inbox: currentInboxDocuments,
       };
+    }
     case SEARCH_DOCUMENT: {
       return {
         ...state,

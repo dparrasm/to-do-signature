@@ -61,15 +61,10 @@ export default function Manage(props) {
     (state: rootState) => state?.document
   );
   const user = useSelector((state: rootState) => state?.auth?.user);
-
-  const handleSign = () => {
-    return console.log("Handlesign");
-  };
-
+  
   useEffect(() => {
     dispatch(loadDocuments(user.email));
-    console.log("TEST" + JSON.stringify(selectedDocuments));
-  }, [dispatch, selectedDocuments]);
+  }, [dispatch]);
 
   const page = props?.match?.params?.page ? props.match.params.page : "Inbox";
 

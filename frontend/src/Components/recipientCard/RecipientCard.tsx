@@ -37,6 +37,7 @@ export default function RecipientCard(props) {
               id={"email#" + props?.id}
               type="text"
               onChange={(e) => props?.updateRecipient(e)}
+              value={props.email}
             />
           </div>
         </div>
@@ -48,9 +49,10 @@ export default function RecipientCard(props) {
                 name="list"
                 id={"needsTo#" + props?.id}
                 onChange={(e) => props?.updateRecipient(e)}
+                value={props.needsTo}
               >
-                <option>NEEDS TO SIGN</option>
-                <option>NEEDS TO VIEW</option>
+                <option value="SIGN">NEEDS TO SIGN</option>
+                <option value="VIEW">NEEDS TO VIEW</option>
               </select>
             </div>
           </form>

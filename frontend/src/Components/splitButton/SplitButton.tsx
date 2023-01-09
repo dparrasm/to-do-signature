@@ -21,15 +21,12 @@ export default function SplitButton(props) {
   const handleMenuItemClick = (index: number) => {
     switch (options[index]) {
       case "DOWNLOAD":
-        console.log("You clicked DOWNLOAD");
         props.handleClick({ id: props.id, action: "DOWNLOAD" });
         break;
       case "DELETE":
-        console.log("You clicked DELETE");
         props.handleClick({ id: props.id, action: "DELETE" });
         break;
       default:
-        console.log("You clicked SIGN");
         props.handleClick({ id: props.id, action: "SIGN" });
     }
     setSelectedIndex(index);
