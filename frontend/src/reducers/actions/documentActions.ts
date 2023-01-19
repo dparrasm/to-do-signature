@@ -119,7 +119,20 @@ export const postDocuments =
       });
     }
   };
-
+export const downloadDocument = (id) => async () => {
+  const config = {
+    headers: { "Content-Type": "application/json" },
+  };
+  try {
+    const documentToDownload = await axios.get("/api/document/" + id, config);
+    const a = document.createElement("a");
+    a.href = documentToDownload.data.fileContent;
+    a.download = documentToDownload.data.title;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+  } catch (err: any) {}
+};
 export const getDocument = (id) => async (dispatch) => {
   const config = {
     headers: { "Content-Type": "application/json" },

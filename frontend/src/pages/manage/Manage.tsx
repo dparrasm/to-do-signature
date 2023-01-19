@@ -4,23 +4,24 @@ import Envelope from "../../components/envelope/Envelope";
 import { rootState } from "../../reducers";
 import {
   deleteDocument,
+  downloadDocument,
   getDocument,
   loadDocuments,
   selectAllDocuments,
-  unselectDocuments,
 } from "../../reducers/actions/documentActions";
 import Searchbar from "../../components/searchbar/Searchbar";
 import "./Manage.scss";
 import Column from "../../components/column/Column";
 
 export interface document {
+  readingDocument: any;
   _id: String;
   author: String;
   lastChange: String;
   title: String;
 }
 export default function Manage(props) {
-  const documents: document[] = useSelector(
+  const documentState: document = useSelector(
     (state: rootState) => state?.document
   );
   const user = useSelector((state: rootState) => state?.auth?.user);
@@ -41,14 +42,13 @@ export default function Manage(props) {
   }, [page]);
 
   const handleClick = (documentAction: { id: number; action: String }) => {
-    console.log(JSON.stringify(documentAction));
     switch (documentAction.action) {
       case "DELETE":
         console.log("Borrando documento " + documentAction.id);
         dispatch(deleteDocument(documentAction.id, page));
         break;
       case "DOWNLOAD":
-        console.log("Downloading document " + documentAction.id);
+        dispatch(downloadDocument(documentAction.id));
         break;
       case "SIGN":
         console.log("Firmando documento " + documentAction.id);
@@ -109,7 +109,7 @@ export default function Manage(props) {
           </div>
         </div>
         <div className="table-body">
-          {documents[page]?.map((doc, index) => (
+          {documentState[page]?.map((doc, index) => (
             <Envelope
               key={index}
               index={index}
