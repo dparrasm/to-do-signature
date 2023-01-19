@@ -1,4 +1,7 @@
-import { ENVELOPE_UPLOAD } from "./actions/types";
+import {
+  ENVELOPE_UPLOAD,
+  UPLOAD_ENVELOPE_BY_DOCUMENT_ID,
+} from "./actions/types";
 
 const initialState = {
   documents: [] as any,
@@ -15,6 +18,8 @@ export default function envelopeReducer(state = initialState, action) {
     case ENVELOPE_UPLOAD: {
       return payload;
     }
+    case UPLOAD_ENVELOPE_BY_DOCUMENT_ID:
+      return payload;
     default:
       return state;
   }

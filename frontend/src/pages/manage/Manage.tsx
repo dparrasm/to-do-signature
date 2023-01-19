@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import Envelope from "../../components/envelope/Envelope";
 import { rootState } from "../../reducers";
@@ -8,10 +9,12 @@ import {
   getDocument,
   loadDocuments,
   selectAllDocuments,
+  signDocument,
 } from "../../reducers/actions/documentActions";
 import Searchbar from "../../components/searchbar/Searchbar";
 import "./Manage.scss";
 import Column from "../../components/column/Column";
+import { uploadEnvelopeByDocumentId } from "../../reducers/actions/envelopeActions";
 
 export interface document {
   readingDocument: any;
@@ -25,12 +28,10 @@ export default function Manage(props) {
     (state: rootState) => state?.document
   );
   const user = useSelector((state: rootState) => state?.auth?.user);
-
   const page = props?.match?.params?.page ? props.match.params.page : "Inbox";
-
   const dispatch = useDispatch();
-
   const [checkAll, setCheckAll] = useState(false);
+  const history = useHistory();
 
   const handleOnChange = () => {
     setCheckAll(!checkAll);
@@ -43,6 +44,11 @@ export default function Manage(props) {
 
   const handleClick = (documentAction: { id: number; action: String }) => {
     switch (documentAction.action) {
+      case "VIEW":
+        console.log("Visualizando documento " + documentAction.id);
+        dispatch(uploadEnvelopeByDocumentId(documentAction.id));
+        history.push("/sign");
+        break;
       case "DELETE":
         console.log("Borrando documento " + documentAction.id);
         dispatch(deleteDocument(documentAction.id, page));
@@ -52,8 +58,7 @@ export default function Manage(props) {
         break;
       case "SIGN":
         console.log("Firmando documento " + documentAction.id);
-        dispatch(getDocument(documentAction.id));
-        props.handleSign();
+        dispatch(signDocument(documentAction.id));
         break;
       default:
         console.log("Unknown action");

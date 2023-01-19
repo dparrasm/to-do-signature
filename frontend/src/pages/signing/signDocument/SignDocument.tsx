@@ -1,5 +1,5 @@
 import "./SignDocument.scss";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Document, Page, pdfjs } from "react-pdf";
 import { useDispatch, useSelector } from "react-redux";
 import { rootState } from "../../../reducers";
@@ -7,6 +7,7 @@ import { icons } from "../../../utils/icons";
 import MenuItem from "../../../components/menuItem/MenuItem";
 import { Link } from "react-router-dom";
 import { postDocuments } from "../../../reducers/actions/documentActions";
+import { autofirma } from "../../../utils/signSetup";
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
 function SignDocument(props) {
@@ -17,33 +18,6 @@ function SignDocument(props) {
     envelope?.documents[0]?.fileContent
   );
   const dispatch = useDispatch();
-
-  const autofirma = () => {
-    AutoScript.cargarAppAfirma();
-    try {
-      AutoScript.sign(
-        document,
-        "SHA512withRSA",
-        "PAdES",
-        null,
-        firmaCorrectaCallback,
-        firmaErrorCallback
-      );
-    } catch (e) {
-      firmaErrorCallback(
-        AutoScript.getErrorType(),
-        AutoScript.getErrorMessage()
-      );
-    }
-    function firmaErrorCallback(type, message) {
-      console.log("error type: " + type);
-      console.log("message: " + message);
-    }
-
-    function firmaCorrectaCallback() {
-      console.log();
-    }
-  };
 
   const sendEnvelope = () => {
     const recipient = {
@@ -72,7 +46,9 @@ function SignDocument(props) {
       })
     );
   };
-
+  useEffect(() => {
+    nextDocument(document);
+  }, [envelope]);
   function onDocumentLoadSuccess({ numPages }) {
     setNumPages(numPages);
   }
@@ -97,7 +73,7 @@ function SignDocument(props) {
               <h3>Fields</h3>
             </div>
             <div className="signing-menu-block">
-              <div onClick={autofirma}>
+              <div onClick={() => autofirma(document)}>
                 <MenuItem icon={icons.signed} text="Autofirma" />
               </div>
             </div>

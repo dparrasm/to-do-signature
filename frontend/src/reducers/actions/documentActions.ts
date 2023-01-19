@@ -1,5 +1,6 @@
 import axios from "axios";
 import { setAlert } from "./alertActions";
+import { autofirma } from "../../utils/signSetup";
 import {
   DOCUMENT_FAIL,
   GET_DOCUMENTS,
@@ -119,6 +120,15 @@ export const postDocuments =
       });
     }
   };
+export const signDocument = (id) => async () => {
+  const config = {
+    headers: { "Content-Type": "application/json" },
+  };
+  try {
+    const documentToDownload = await axios.get("/api/document/" + id, config);
+    autofirma(documentToDownload.data.fileContent);
+  } catch (err: any) {}
+};
 export const downloadDocument = (id) => async () => {
   const config = {
     headers: { "Content-Type": "application/json" },
