@@ -38,7 +38,6 @@ export default function Manage(props) {
 
   useEffect(() => {
     setCheckAll(false);
-    unselectDocuments(page);
   }, [page]);
 
   const handleClick = (documentAction: { id: number; action: String }) => {

@@ -107,9 +107,9 @@ export default function documentReducer(state = initialState, action) {
       foldersToUpdate.map((f) => {
         auxObject[f] = unselectPreviousFolderDocuments(state[f]);
       });
-      console.log("Objeto creado" + auxObject);
       return {
         ...state,
+        selectedDocuments: [],
       };
     }
     case SELECT_DOCUMENT: {

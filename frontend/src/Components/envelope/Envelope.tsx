@@ -13,7 +13,9 @@ export default function Envelope(props) {
   const handleOnChange = () => {
     dispatch(selectDocument(props.id, props.folder));
   };
-  //const envelope = useSelector((root: rootState) => state?.document)
+  const handleInputChange = () => {
+    console.log("isChecked");
+  };
 
   return (
     <div
@@ -29,6 +31,7 @@ export default function Envelope(props) {
             name="vehicle1"
             value={props.index}
             checked={props.isChecked}
+            onChange={handleInputChange}
           />
         </div>
         <div className="envelope-table-row-cell">

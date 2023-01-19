@@ -50,13 +50,6 @@ export default function Home() {
         d.recipients.filter((r) => r?.email === user?.email && r.signed)
           .length > 0
       ) {
-        console.log(
-          JSON.stringify(
-            d.recipients.filter(
-              (r) => r?.email === user?.email && r.signed === true
-            )
-          )
-        );
         signedByCont++;
       }
     });
@@ -67,7 +60,6 @@ export default function Home() {
   };
 
   useEffect(() => {
-    console.log(documentsJsonString);
     dispatch(loadDocuments(user?.email));
     updateUserInformation(documents["sent"]);
   }, [documentsJsonString]);
