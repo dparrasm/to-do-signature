@@ -6,6 +6,8 @@ import {
   deleteDocument,
   getDocument,
   loadDocuments,
+  selectAllDocuments,
+  unselectDocuments,
 } from "../../reducers/actions/documentActions";
 import Searchbar from "../../components/searchbar/Searchbar";
 import "./Manage.scss";
@@ -18,25 +20,26 @@ export interface document {
   title: String;
 }
 export default function Manage(props) {
-  const [isChecked, setIsChecked] = useState(false);
-  const handleOnChange = () => {
-    setIsChecked(!isChecked);
-  };
-  const [selectedDocuments, setSelectedDocuments] = useState([]);
-  const addChecked = (e) => {
-    const currentPage = documents[page];
-    setSelectedDocuments([...selectedDocuments, currentPage[e.target.value]]);
-    // console.log("ADD: " + e.target.value);
-    // console.log(JSON.stringify(selectedDocuments.length));
-  };
-  const removeChecked = (e) => {
-    const currentPage = documents[page];
-    const array = selectedDocuments;
-    setSelectedDocuments(
-      array.filter((a) => a._id !== currentPage[e.target.value]._id)
-    );
-  };
+  const documents: document[] = useSelector(
+    (state: rootState) => state?.document
+  );
+  const user = useSelector((state: rootState) => state?.auth?.user);
+
+  const page = props?.match?.params?.page ? props.match.params.page : "Inbox";
+
   const dispatch = useDispatch();
+
+  const [checkAll, setCheckAll] = useState(false);
+
+  const handleOnChange = () => {
+    setCheckAll(!checkAll);
+    dispatch(selectAllDocuments(page, checkAll));
+  };
+
+  useEffect(() => {
+    setCheckAll(false);
+    unselectDocuments(page);
+  }, [page]);
 
   const handleClick = (documentAction: { id: number; action: String }) => {
     console.log(JSON.stringify(documentAction));
@@ -57,16 +60,10 @@ export default function Manage(props) {
         console.log("Unknown action");
     }
   };
-  const documents: document[] = useSelector(
-    (state: rootState) => state?.document
-  );
-  const user = useSelector((state: rootState) => state?.auth?.user);
-  
+
   useEffect(() => {
     dispatch(loadDocuments(user.email));
   }, [dispatch]);
-
-  const page = props?.match?.params?.page ? props.match.params.page : "Inbox";
 
   return (
     <div className="container-manager">
@@ -87,10 +84,10 @@ export default function Manage(props) {
             <div className="button-bar">
               <input
                 type="checkbox"
-                id="vehicle1"
-                name="vehicle1"
-                value="Bike"
-                checked={isChecked}
+                id="checkAll"
+                name="checkAll"
+                value="checkAll"
+                checked={checkAll}
                 onChange={handleOnChange}
               />
               <div>
@@ -98,6 +95,17 @@ export default function Manage(props) {
                 <button className="middle-button ">Send again</button>
                 <button>Delete</button>
               </div>
+            </div>
+          </div>
+          <div className="table-columns">
+            <div className="table-column">
+              <h1>Title</h1>
+            </div>
+            <div className="table-column">
+              <h1>Status</h1>
+            </div>
+            <div className="table-column">
+              <h1>Last change</h1>
             </div>
           </div>
         </div>
@@ -108,10 +116,11 @@ export default function Manage(props) {
               index={index}
               id={doc._id}
               title={doc.title}
+              folder={page}
               lastChange={doc.lastChange}
-              addChecked={addChecked}
-              removeChecked={removeChecked}
+              handleOnChange={handleOnChange}
               handleClick={handleClick}
+              isChecked={doc.isChecked}
             />
           ))}
         </div>

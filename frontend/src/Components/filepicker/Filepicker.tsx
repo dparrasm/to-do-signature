@@ -18,7 +18,6 @@ export default function Filepicker(props) {
   });
   const dispatch = useDispatch();
   const user = useSelector((state: rootState) => state.auth?.user?.email);
-
   useEffect(() => {
     switch (props.accept) {
       case "image/*":
@@ -62,7 +61,7 @@ export default function Filepicker(props) {
   return (
     <>
       {props.title !== undefined ? (
-        props.title === "Upload" ? (
+        props.title === ("Upload" || "START NOW") ? (
           <button
             className="filepicker-button"
             onClick={() => openFileSelector()}

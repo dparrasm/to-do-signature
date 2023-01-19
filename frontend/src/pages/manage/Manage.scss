@@ -59,6 +59,7 @@
 }
 .table-body{
   overflow: scroll;
+  border-collapse: collapse;
 }
 .received-signature-searchbar{
   width:50%;
@@ -81,4 +82,14 @@
 .middle-button {
   border-left: 0px !important;
   border-right: 0px !important;
+}
+.table-columns{
+  display: table;
+  text-align: left;
+  margin-top: 20px;
+}
+.table-column{
+  display: table-cell;
+  line-height: 0;
+  font-size: 8px;
 }

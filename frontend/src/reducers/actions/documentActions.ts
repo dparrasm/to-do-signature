@@ -9,6 +9,9 @@ import {
   SEARCH_DOCUMENT,
   UPLOAD_DOCUMENT,
   UNLOAD_DOCUMENT,
+  SELECT_DOCUMENT,
+  SELECT_ALL_DOCUMENTS,
+  UNSELECT_DOCUMENTS,
 } from "./types";
 
 export const loadDocuments = (userId) => async (dispatch) => {
@@ -23,6 +26,7 @@ export const loadDocuments = (userId) => async (dispatch) => {
     };
 
     documents.data.map((doc) => {
+      doc.isChecked = false;
       if (
         doc.recipients.filter((r) => r.folder == "INBOX" && r.email === userId)
           ?.length > 0
@@ -149,6 +153,48 @@ export const searchDocument = (title) => async (dispatch) => {
   }
 };
 
+export const selectAllDocuments = (folder, checkAll) => async (dispatch) => {
+  console.log("folder: " + folder + " checkAll : " + checkAll);
+  try {
+    dispatch({
+      type: SELECT_ALL_DOCUMENTS,
+      payload: { folder: folder, checkAll: checkAll },
+    });
+  } catch (err: any) {
+    const errors = err?.response?.data?.errors;
+    if (errors) {
+      console.log("Documents could not be selected");
+    }
+  }
+};
+
+export const selectDocument = (id, folder) => async (dispatch) => {
+  try {
+    dispatch({
+      type: SELECT_DOCUMENT,
+      payload: { id: id, folder: folder },
+    });
+  } catch (err: any) {
+    const errors = err?.response?.data?.errors;
+    if (errors) {
+      console.log("Document could not be selected");
+    }
+  }
+};
+
+export const unselectDocuments = (folder) => async (dispatch) => {
+  try {
+    dispatch({
+      type: UNSELECT_DOCUMENTS,
+      payload: { folder: folder },
+    });
+  } catch (err: any) {
+    const errors = err?.response?.data?.errors;
+    if (errors) {
+      console.log("Document could not be unselected");
+    }
+  }
+};
 export const deleteDocument = (id, folder) => async (dispatch) => {
   try {
     await axios.delete("/api/document/" + id);

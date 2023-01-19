@@ -7,17 +7,32 @@ import {
   SEARCH_DOCUMENT,
   UPLOAD_DOCUMENT,
   UNLOAD_DOCUMENT,
+  SELECT_DOCUMENT,
+  SELECT_ALL_DOCUMENTS,
+  UNSELECT_DOCUMENTS,
 } from "./actions/types";
 
 const initialState = {
   inbox: [] as any,
   sent: [] as any,
+  selectedDocuments: [] as any,
   documentsLoaded: [] as any,
   readingDocument: {} as any,
   uploadedDocuments: [] as any,
   searchedDocuments: [] as any,
 } as any;
-
+const folders: string[] = ["inbox", "sent"];
+const unselectPreviousFolderDocuments = (folder) => {
+  let array = folder;
+  const checkedElements = folder.filter((s) => s.isChecked === true);
+  if (checkedElements.length > 0) {
+    checkedElements.map((doc) => {
+      let index = array.indexOf(doc);
+      array[index].isChecked = false;
+    });
+  }
+  return array;
+};
 export default function documentReducer(state = initialState, action) {
   const { type, payload } = action;
   switch (type) {
@@ -57,12 +72,73 @@ export default function documentReducer(state = initialState, action) {
       };
     }
     case SEARCH_DOCUMENT: {
+      let array = state.documentsLoaded.filter((document) =>
+        document.title.includes(payload)
+      );
       return {
         ...state,
-        searchedDocuments: state.documentsLoaded.filter((document) =>
-          document.title.includes(payload)
-        ),
+        searchedDocuments: array,
       };
+    }
+    case SELECT_ALL_DOCUMENTS: {
+      let array = state[payload.folder];
+      array = array.map((doc) =>
+        doc.isChecked === payload.checkAll
+          ? { ...doc, isChecked: !payload.checkAll }
+          : doc
+      );
+      switch (payload.folder) {
+        case "inbox":
+          return {
+            ...state,
+            inbox: array,
+          };
+        default:
+          return {
+            ...state,
+            sent: array,
+          };
+      }
+    }
+    case UNSELECT_DOCUMENTS: {
+      console.log("qué pasó");
+      let foldersToUpdate = folders.filter((f) => f === payload.folder);
+      let auxObject = {};
+      foldersToUpdate.map((f) => {
+        auxObject[f] = unselectPreviousFolderDocuments(state[f]);
+      });
+      console.log("Objeto creado" + auxObject);
+      return {
+        ...state,
+      };
+    }
+    case SELECT_DOCUMENT: {
+      let array = state[payload.folder];
+      let documentToUpdate = array.find(
+        (document) => document._id === payload.id
+      );
+      let index = array.indexOf(documentToUpdate);
+
+      documentToUpdate = {
+        ...documentToUpdate,
+        isChecked: !documentToUpdate.isChecked,
+      };
+      array[index] = documentToUpdate;
+
+      switch (payload.folder) {
+        case "inbox":
+          return {
+            ...state,
+            inbox: array,
+            selectedDocuments: array.filter((doc) => doc.isChecked === true),
+          };
+        default:
+          return {
+            ...state,
+            sent: array,
+            selectedDocuments: array.filter((doc) => doc.isChecked === true),
+          };
+      }
     }
     case DELETE_DOCUMENT: {
       let array = state[payload.folder];
