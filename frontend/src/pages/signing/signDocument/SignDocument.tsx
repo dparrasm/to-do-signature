@@ -7,7 +7,7 @@ import { icons } from "../../../utils/icons";
 import MenuItem from "../../../components/menuItem/MenuItem";
 import { Link } from "react-router-dom";
 import { postDocuments } from "../../../reducers/actions/documentActions";
-import { autofirma } from "../../../utils/signSetup";
+import { autofirma } from "./signSetup";
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
 function SignDocument(props) {
@@ -72,7 +72,7 @@ function SignDocument(props) {
             <div className="signing-menu-block">
               <h3>Fields</h3>
             </div>
-            <div className="signing-menu-block">
+            <div className="signing-menu-block-items">
               <div onClick={() => autofirma(document)}>
                 <MenuItem icon={icons.signed} text="Autofirma" />
               </div>

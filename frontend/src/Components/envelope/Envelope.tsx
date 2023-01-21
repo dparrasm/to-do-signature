@@ -44,13 +44,12 @@ export default function Envelope(props) {
               </h1>
             </div>
             <div className="document-subtitle">Para: David Parras Martínez</div>
-            <Avatar className="avatar">D</Avatar>
           </div>
         </div>
         <div className="envelope-table-row-cell">
           <div className="test-progressbar">
             <div className="progressbar">
-              <Progressbar />
+              <i className={icons.exclamationCircle}></i>
             </div>
           </div>
         </div>

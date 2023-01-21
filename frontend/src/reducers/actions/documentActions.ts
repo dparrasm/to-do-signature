@@ -1,6 +1,6 @@
 import axios from "axios";
 import { setAlert } from "./alertActions";
-import { autofirma } from "../../utils/signSetup";
+import { autofirma } from "../../pages/signing/signDocument/signSetup";
 import {
   DOCUMENT_FAIL,
   GET_DOCUMENTS,
@@ -13,6 +13,7 @@ import {
   SELECT_DOCUMENT,
   SELECT_ALL_DOCUMENTS,
   UNSELECT_DOCUMENTS,
+  SIGN_DOCUMENT,
 } from "./types";
 
 export const loadDocuments = (userId) => async (dispatch) => {
@@ -120,14 +121,45 @@ export const postDocuments =
       });
     }
   };
-export const signDocument = (id) => async () => {
+export const signDocument = (id, email) => async (dispatch) => {
   const config = {
     headers: { "Content-Type": "application/json" },
   };
   try {
     const documentToDownload = await axios.get("/api/document/" + id, config);
-    autofirma(documentToDownload.data.fileContent);
-  } catch (err: any) {}
+    //HAY QUE ACTUALIZAR EL FILE CONTENT
+    //autofirma(documentToDownload.data.fileContent);
+    let uploadedDocument = documentToDownload.data;
+    const recipients = uploadedDocument.recipients;
+    const user = recipients.filter((r) => r.email === email);
+    console.log(JSON.stringify(user));
+    user.map((u) => {
+      let index = recipients.indexOf(u);
+      recipients[index].signed = true;
+      recipients[index].viewed = true;
+    });
+    const signed =
+      recipients.filter((r) => r.signed === true).length === recipients.length
+        ? true
+        : false;
+    const viewed =
+      recipients.filter((r) => r.viewed === true).length === recipients.length
+        ? true
+        : false;
+    uploadedDocument = {
+      ...uploadedDocument,
+      recipients: recipients,
+      signed: signed,
+      viewed: viewed,
+    };
+    dispatch({
+      type: SIGN_DOCUMENT,
+      payload: uploadedDocument,
+    });
+    //await axios.put("/api/document/" + id, config);
+  } catch (err: any) {
+    console.log("Casi pero no");
+  }
 };
 export const downloadDocument = (id) => async () => {
   const config = {

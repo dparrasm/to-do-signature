@@ -20,4 +20,6 @@ export const icons = {
   text: "fas fa-text",
   download: "fas fa-download",
   eye: "fas fa-eye",
+  exclamationCircle: "fas fa-exclamation-circle",
+  checkCircle: "fas fa-check-circle",
 };

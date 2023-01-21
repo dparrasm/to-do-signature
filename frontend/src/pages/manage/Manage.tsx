@@ -6,7 +6,6 @@ import { rootState } from "../../reducers";
 import {
   deleteDocument,
   downloadDocument,
-  getDocument,
   loadDocuments,
   selectAllDocuments,
   signDocument,
@@ -22,6 +21,8 @@ export interface document {
   author: String;
   lastChange: String;
   title: String;
+  signed: String;
+  viewed: String;
 }
 export default function Manage(props) {
   const documentState: document = useSelector(
@@ -58,7 +59,7 @@ export default function Manage(props) {
         break;
       case "SIGN":
         console.log("Firmando documento " + documentAction.id);
-        dispatch(signDocument(documentAction.id));
+        dispatch(signDocument(documentAction.id, user.email));
         break;
       default:
         console.log("Unknown action");
@@ -66,7 +67,7 @@ export default function Manage(props) {
   };
 
   useEffect(() => {
-    dispatch(loadDocuments(user.email));
+    dispatch(loadDocuments(user?.email));
   }, [dispatch]);
 
   return (

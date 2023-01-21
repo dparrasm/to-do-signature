@@ -23,12 +23,13 @@ export default function Home() {
   const [completed, setCompleted] = useState(0);
   const documentsJsonString = JSON.stringify(documents);
 
-  const updateUserInformation = (documents) => {
+  const updateUserInformation = () => {
+    let allDocuments = [...documents["sent"], ...documents["inbox"]];
     let actionRequiredCont = 0;
     let waitingForOthersCont = 0;
     let signedByCont = 0;
     let completedCont = 0;
-    documents.map((d) => {
+    allDocuments.map((d) => {
       if (
         d.recipients.filter(
           (r) => r?.email === user?.email && (!r?.signed || !r?.viewed)
@@ -39,7 +40,7 @@ export default function Home() {
       if (
         d.recipients.filter(
           (r) => r?.email !== user?.email && (!r?.signed || !r?.viewed)
-        )
+        ).length > 0
       ) {
         waitingForOthersCont++;
       }
@@ -60,8 +61,9 @@ export default function Home() {
   };
 
   useEffect(() => {
-    dispatch(loadDocuments(user?.email));
-    updateUserInformation(documents["sent"]);
+    console.log("pasaba por aquí");
+    //dispatch(loadDocuments(user?.email));
+    updateUserInformation();
   }, [documentsJsonString]);
   return (
     <div className="home-container">

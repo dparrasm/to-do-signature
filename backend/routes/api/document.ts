@@ -77,6 +77,29 @@ router.post("/", (req, res, next) => {
   });
 });
 
+// @route   PUT api/document
+// @desc    Test route
+// @access  Public
+
+router.put("/sign/:id", (req, res, next) => {
+  console.log("actualizando tu documento");
+
+  Document.findByIdAndUpdate(req.params.id, req.body.document)
+    .exec()
+    .then((docs) => {
+      res.status(200).json(docs);
+    })
+    .catch((err) => {
+      res.status(500).json({
+        error: err,
+      });
+    });
+
+  res.status(201).json({
+    message: "Handling PUT request to /documents",
+  });
+});
+
 // @route   DELETE api/document
 // @desc    Test route
 // @access  Public

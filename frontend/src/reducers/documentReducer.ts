@@ -10,6 +10,7 @@ import {
   SELECT_DOCUMENT,
   SELECT_ALL_DOCUMENTS,
   UNSELECT_DOCUMENTS,
+  SIGN_DOCUMENT,
 } from "./actions/types";
 
 const initialState = {
@@ -69,6 +70,24 @@ export default function documentReducer(state = initialState, action) {
         ...state,
         documentsLoaded: currentDocuments,
         inbox: currentInboxDocuments,
+      };
+    }
+    case SIGN_DOCUMENT: {
+      const inbox = state.inbox;
+      const filteredInbox = inbox.filter((doc) => doc._id === payload._id);
+      const sent = state.sent;
+      const filteredSent = sent.filter((doc) => doc._id === payload._id);
+      if (filteredInbox?.length > 0) {
+        inbox[inbox.indexOf(filteredInbox[0])] = payload;
+      }
+      if (filteredSent?.length > 0) {
+        sent[sent.indexOf(filteredSent[0])] = payload;
+      }
+      console.log(JSON.stringify(payload));
+      return {
+        ...state,
+        inbox: inbox,
+        sent: sent,
       };
     }
     case SEARCH_DOCUMENT: {
