@@ -10,33 +10,78 @@ import { icons } from "../../utils/icons";
 import { rootState } from "../../reducers";
 import { useSelector } from "react-redux";
 import { uploadEnvelope } from "../../reducers/actions/envelopeActions";
+import { unloadDocument } from "../../reducers/actions/documentActions";
+import Filepicker from "../../components/filepicker/Filepicker";
 
 export default function PrepareEnvelope(props) {
   const dispatch = useDispatch();
-  const [receitps, setReceipt] = useState([
+  const subjectRef = useRef(null);
+  const messageRef = useRef(null);
+  const [recipientId, setRecipientId] = useState(1);
+  const [recipients, setRecipient] = useState([
     {
       id: 0,
       name: "",
       email: "",
       needsTo: "SIGN",
+      signed: false,
+      viewed: false,
+      folder: "INBOX",
     },
   ]);
-  const addReceipt = () => {
-    const id = receitps.length;
-    setReceipt([
-      ...receitps,
+
+  const addRecipient = () => {
+    setRecipient([
+      ...recipients,
       {
-        id: id,
+        id: recipientId,
         name: "",
         email: "",
         needsTo: "SIGN",
+        signed: false,
+        viewed: false,
+        folder: "INBOX",
       },
     ]);
+    setRecipientId(recipientId + 1);
   };
-  const updateReceipt = (e) => {
+  const addRecipientsFromList = (recipientsList) => {
+    const array: {
+      id: number;
+      name: string;
+      email: string;
+      needsTo: string;
+      signed: boolean;
+      viewed: boolean;
+      folder: string;
+    }[] = [];
+    let id = recipientId;
+    recipientsList.map((r) => {
+      array.push({
+        id: recipientId + array.length,
+        name: r.name,
+        email: r.email,
+        needsTo: r.needsTo,
+        signed: false,
+        viewed: false,
+        folder: "INBOX",
+      });
+    });
+    setRecipientId(recipientId + array.length);
+    setRecipient(recipients.concat(array));
+  };
+  const uploadedFiles = useSelector(
+    (state: rootState) => state?.document?.uploadedDocuments
+  );
+
+  const deleteDocument = (index) => {
+    dispatch(unloadDocument(index));
+  };
+
+  const updateRecipient = (e) => {
     const id: number = e.target.id.split("#")[1];
     const keyword: String = e.target.id.split("#")[0];
-    setReceipt((prevState) => {
+    setRecipient((prevState) => {
       const newState = prevState.map((obj) => {
         if (obj.id == id) {
           switch (keyword) {
@@ -54,16 +99,18 @@ export default function PrepareEnvelope(props) {
       return newState;
     });
   };
-  const uploadedFiles = useSelector(
-    (state: rootState) => state?.document?.uploadedDocuments
-  );
-  const subjectRef = useRef(null);
-  const messageRef = useRef(null);
+  const removeReceipt = (id) => {
+    setRecipient(
+      recipients.filter((r) => {
+        return r.id !== id;
+      })
+    );
+  };
 
   const prepareEnvelope = () => {
     const envelope = {
       documents: uploadedFiles,
-      receitps: receitps,
+      recipients: recipients,
       email: {
         subject: subjectRef?.current
           ? subjectRef?.current["value"]
@@ -97,8 +144,14 @@ export default function PrepareEnvelope(props) {
               <div className="document-container">
                 <DragAndDrop title="Upload" />
               </div>
-              {uploadedFiles.map((doc) => (
-                <Card title={doc?.title} fileContent={doc?.fileContent} />
+              {uploadedFiles.map((doc, index) => (
+                <Card
+                  key={index}
+                  index={index}
+                  title={doc?.title}
+                  fileContent={doc?.fileContent}
+                  deleteDocument={deleteDocument}
+                />
               ))}
             </div>
           )}
@@ -107,27 +160,34 @@ export default function PrepareEnvelope(props) {
           <div className="prepare-envelope-titles">
             <h1>Add recipients</h1>
           </div>
-          <div className="receipts-container">
+          <div className="recipients-container">
             <div className="only-signer">
               <input type="checkbox" id="vehicle1" name="vehicle1" />
               <span>I'm the only signer</span>
             </div>
-            {receitps.map((receipt, index) => (
+            {recipients.map((recipient, index) => (
               <RecipientCard
                 key={index}
-                index={index}
-                updateReceipt={updateReceipt}
+                recipient={recipient}
+                removeReceipt={removeReceipt}
+                updateRecipient={updateRecipient}
+                id={recipient?.id}
+                name={recipient?.name}
+                email={recipient?.email}
+                needsTo={recipient?.needsTo}
               />
             ))}
-            <div className="add-receipts-buttons">
-              <div className="receipt-button" onClick={addReceipt}>
+            <div className="add-recipients-buttons">
+              <div className="recipient-button" onClick={addRecipient}>
                 <i className={icons.user} />
-                <h1>ADD RECEIPT</h1>
+                <h1>ADD RECIPIENT</h1>
               </div>
-              <div className="receipt-button">
-                <i className={icons.spreadsheet} />
-                <h1>ADD FROM LIST</h1>
-              </div>
+              <Filepicker
+                title="ADD FROM LIST"
+                accept=".xlsx"
+                multiple={false}
+                addRecipientsFromList={addRecipientsFromList}
+              />
             </div>
           </div>
         </div>
@@ -135,7 +195,7 @@ export default function PrepareEnvelope(props) {
           <div className="prepare-envelope-titles">
             <h1>Add message</h1>
           </div>
-          <div className="receipts-container">
+          <div className="recipients-container">
             <div className="email-subject-container">
               <div className="email-subject">
                 <span>Email Subject</span>

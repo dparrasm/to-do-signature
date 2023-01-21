@@ -51,14 +51,14 @@
     width: 100%;
 }
 
-.receipts-container {
+.recipients-container {
     display: flex;
     flex-direction: column;
     justify-content: center;
     width: 95%;
     padding-bottom: 30px;
 }
-.receipt-button{
+.recipient-button{
     width: 120px;
     display: flex;
     justify-content: space-evenly;
@@ -70,14 +70,14 @@
     cursor: pointer;
     margin-right: 10px;
 }
-.receipt-button h1{
+.recipient-button h1{
     font-size: 11px;
     font-weight: 700;
 }
-.receipt-button i{
+.recipient-button i{
     font-size: 12px;
 }
-.receipts-container input{
+.recipients-container input{
     cursor: pointer;
 }
 .prepare-envelope-button-actions {
@@ -98,7 +98,7 @@
     background-color: #1877f2 !important;
     margin-right: 2.5% !important;
 }
-.add-receipts-buttons{
+.add-recipients-buttons{
     display: flex;
 }
 .prepare-envelope-options{

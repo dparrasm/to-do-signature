@@ -118,6 +118,7 @@ export const login = (email, password) => async (dispatch) => {
 
     dispatch({
       type: LOGIN_FAIL,
+      payload: errors,
     });
   }
 };

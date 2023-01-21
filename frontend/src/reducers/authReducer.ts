@@ -16,6 +16,7 @@ const initialState = {
   //We already made our request to the backend and got the response.
   loading: true,
   user: null,
+  error: null,
 };
 
 export default function authReducer(state = initialState, action) {
@@ -45,6 +46,13 @@ export default function authReducer(state = initialState, action) {
     case REGISTER_FAIL:
     case AUTH_ERROR:
     case LOGIN_FAIL:
+      return {
+        ...state,
+        token: null,
+        isAuthenticated: false,
+        loading: false,
+        error: payload,
+      };
     case LOGOUT:
       localStorage.removeItem("token");
       return {

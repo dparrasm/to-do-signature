@@ -126,14 +126,6 @@ class Header extends Component<
               </li>
               <li
                 className={classes.iconBarElement}
-                onClick={() => this.redirect("/report")}
-              >
-                <Link className={classes.link} to="/report">
-                  Reports
-                </Link>
-              </li>
-              <li
-                className={classes.iconBarElement}
                 onClick={() => this.redirect("/profile")}
               >
                 <Link className={classes.link} to="/profile">

@@ -18,4 +18,8 @@ export const icons = {
   name: "fas fa user",
   calendar: "far fa-calendar",
   text: "fas fa-text",
+  download: "fas fa-download",
+  eye: "fas fa-eye",
+  exclamationCircle: "fas fa-exclamation-circle",
+  checkCircle: "fas fa-check-circle",
 };

@@ -7,6 +7,7 @@ import { uploadDocument } from "../../reducers/actions/documentActions";
 import { useDispatch, useSelector } from "react-redux";
 import { updateUser } from "../../reducers/actions/authActions";
 import { rootState } from "../../reducers";
+import * as xlsx from "xlsx";
 
 export default function Filepicker(props) {
   const [openFileSelector, { filesContent }] = useFilePicker({
@@ -17,7 +18,6 @@ export default function Filepicker(props) {
   });
   const dispatch = useDispatch();
   const user = useSelector((state: rootState) => state.auth?.user?.email);
-
   useEffect(() => {
     switch (props.accept) {
       case "image/*":
@@ -25,6 +25,20 @@ export default function Filepicker(props) {
           let user = props.user;
           user = { ...user, avatar: filesContent[0]?.content };
           dispatch(updateUser(user));
+        }
+        break;
+      case ".xlsx":
+        let data = filesContent[0]?.content;
+        if (data) {
+          data = data.replace(
+            "data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64,",
+            ""
+          );
+          const workbook = xlsx.read(data, { type: "base64" });
+          const sheetName = workbook.SheetNames[0];
+          const worksheet = workbook.Sheets[sheetName];
+          const json = xlsx.utils.sheet_to_json(worksheet);
+          props.addRecipientsFromList(json);
         }
         break;
       default:
@@ -47,12 +61,19 @@ export default function Filepicker(props) {
   return (
     <>
       {props.title !== undefined ? (
-        <button
-          className="filepicker-button"
-          onClick={() => openFileSelector()}
-        >
-          {props.title}
-        </button>
+        props.title === ("Upload" || "START NOW") ? (
+          <button
+            className="filepicker-button"
+            onClick={() => openFileSelector()}
+          >
+            {props.title}
+          </button>
+        ) : (
+          <div className="recipient-button" onClick={() => openFileSelector()}>
+            <i className={icons.spreadsheet} />
+            <h1>ADD FROM LIST</h1>
+          </div>
+        )
       ) : (
         <div className="icon-button" onClick={() => openFileSelector()}>
           <IconButton icon={icons.camera} />

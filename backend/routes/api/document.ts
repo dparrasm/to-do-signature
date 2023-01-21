@@ -1,23 +1,23 @@
 import express from "express";
 import mongoose from "mongoose";
-const router = express.Router();
 
+const router = express.Router();
+const { sendEmail } = require("../../middleware/email");
 const Document = require("../../models/Document");
 
 // @route   GET api/document
 // @desc    Test route
 // @access  Public
 
-router.get("/", (req, res, next) => {
-  Document.find()
+router.get("/buscar/:email", (req, res, next) => {
+  Document.find({ recipients: { $elemMatch: { email: req.params.email } } })
     .select("-fileContent")
     .exec()
     .then((docs) => {
-      console.log(docs);
+      const docsNoFileContent = docs.map(({ fileContent, ...docs }) => docs);
       res.status(200).json(docs);
     })
     .catch((err) => {
-      console.log(err);
       res.status(500).json({
         error: err,
       });
@@ -32,12 +32,9 @@ router.get("/:id", (req, res, next) => {
   Document.findById(req.params.id)
     .exec()
     .then((docs) => {
-      console.log("hola");
-      console.log(docs);
       res.status(200).json(docs);
     })
     .catch((err) => {
-      console.log(err);
       res.status(500).json({
         error: err,
       });
@@ -49,27 +46,57 @@ router.get("/:id", (req, res, next) => {
 // @access  Public
 
 router.post("/", (req, res, next) => {
-  const document = new Document({
-    _id: new mongoose.Types.ObjectId(),
-    author: req.body.author,
-    date: req.body.date,
-    title: req.body.title,
-    fileContent: req.body.fileContent,
-    receivers: req.body.receivers,
-    signedBy: req.body.signedBy,
-    signed: req.body.signed,
-  });
-  document
-    .save()
-    .then((result) => {
-      console.log(result);
-    })
-    .catch((err) => {
-      console.log(err);
+  const documentsArray = req?.body?.documents;
+  let cont = 1;
+  documentsArray.map((d) => {
+    let document = new Document({
+      _id: new mongoose.Types.ObjectId(),
+      lastChange: req.body.lastChange,
+      title: d.title,
+      fileContent: d.fileContent,
+      recipients: req.body.recipients,
+      signedBy: req.body.signedBy,
+      signed: req.body.signed,
+      viewed: req.body.viewed,
     });
+    document.save().catch((err) => {
+      res.status(500).json({
+        error: err,
+      });
+    });
+  });
+
+  const recipients = req.body.recipients;
+  recipients?.map((r) => {
+    sendEmail(r.email, req?.body?.email, documentsArray);
+  });
+
   res.status(201).json({
     message: "Handling POST request to /documents",
-    createdDocument: document,
+    addedDocuments: documentsArray,
+  });
+});
+
+// @route   PUT api/document
+// @desc    Test route
+// @access  Public
+
+router.put("/sign/:id", (req, res, next) => {
+  console.log("actualizando tu documento");
+
+  Document.findByIdAndUpdate(req.params.id, req.body.document)
+    .exec()
+    .then((docs) => {
+      res.status(200).json(docs);
+    })
+    .catch((err) => {
+      res.status(500).json({
+        error: err,
+      });
+    });
+
+  res.status(201).json({
+    message: "Handling PUT request to /documents",
   });
 });
 
@@ -81,11 +108,9 @@ router.delete("/:id", (req, res, next) => {
   Document.findByIdAndRemove(req.params.id)
     .exec()
     .then((docs) => {
-      console.log(docs);
       res.status(200).json(docs);
     })
     .catch((err) => {
-      console.log(err);
       res.status(500).json({
         error: err,
       });
