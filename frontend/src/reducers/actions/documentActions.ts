@@ -14,6 +14,7 @@ import {
   SELECT_ALL_DOCUMENTS,
   UNSELECT_DOCUMENTS,
   SIGN_DOCUMENT,
+  UNSEARCH_DOCUMENT,
 } from "./types";
 
 export const loadDocuments = (userId) => async (dispatch) => {
@@ -196,15 +197,25 @@ export const getDocument = (id) => async (dispatch) => {
     });
   }
 };
-export const searchDocument = (title) => async (dispatch) => {
-  console.log("Title:" + title);
+export const searchDocument = (title, page) => async (dispatch) => {
+  console.log("Title: " + title);
+  console.log("Page: " + page);
   try {
     dispatch({
       type: SEARCH_DOCUMENT,
-      payload: title,
+      payload: { title: title, page: page },
     });
   } catch {
     console.log("Fallo");
+  }
+};
+export const unsearchDocuments = () => async (dispatch) => {
+  try {
+    dispatch({
+      type: UNSEARCH_DOCUMENT,
+    });
+  } catch {
+    console.log("Fallo unsearchDocuments");
   }
 };
 

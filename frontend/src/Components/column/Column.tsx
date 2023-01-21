@@ -1,19 +1,26 @@
 import React, { useEffect } from "react";
 import "./Column.scss";
 import { icons } from "../../utils/icons";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useHistory, useLocation } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { unselectDocuments } from "../../reducers/actions/documentActions";
+import {
+  unsearchDocuments,
+  unselectDocuments,
+} from "../../reducers/actions/documentActions";
 
 export default function Column() {
   const location = useLocation();
   const dispatch = useDispatch();
+  const history = useHistory();
 
   useEffect(() => {
     const folder = location.pathname.replace("/manage/", "");
     dispatch(unselectDocuments(folder));
   }, [location]);
-
+  const handleClick = (page) => {
+    history.push("/manage/" + page);
+    dispatch(unsearchDocuments());
+  };
   return (
     <div className="container">
       <div className="column-list">
@@ -26,14 +33,20 @@ export default function Column() {
         </div>
         <div className="envelopes">
           <h4>Envelopes</h4>
-          <Link className="column-menu-option" to="/manage/inbox">
+          <div
+            className="column-menu-option"
+            onClick={() => handleClick("inbox")}
+          >
             <div className={icons.received}></div>
             <div>Inbox</div>
-          </Link>
-          <Link className="column-menu-option" to="/manage/sent">
+          </div>
+          <div
+            className="column-menu-option"
+            onClick={() => handleClick("sent")}
+          >
             <div className={icons.send}></div>
             <div>Sent</div>
-          </Link>
+          </div>
         </div>
       </div>
     </div>

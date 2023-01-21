@@ -11,6 +11,7 @@ import {
   SELECT_ALL_DOCUMENTS,
   UNSELECT_DOCUMENTS,
   SIGN_DOCUMENT,
+  UNSEARCH_DOCUMENT,
 } from "./actions/types";
 
 const initialState = {
@@ -90,9 +91,16 @@ export default function documentReducer(state = initialState, action) {
         sent: sent,
       };
     }
+    case UNSEARCH_DOCUMENT: {
+      return {
+        ...state,
+        searchedDocuments: [],
+      };
+    }
     case SEARCH_DOCUMENT: {
-      let array = state.documentsLoaded.filter((document) =>
-        document.title.includes(payload)
+      console.log(payload);
+      let array = state[payload.page].filter((doc) =>
+        doc.title.includes(payload.title)
       );
       return {
         ...state,

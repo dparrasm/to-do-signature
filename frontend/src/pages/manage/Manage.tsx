@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useHistory } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import Envelope from "../../components/envelope/Envelope";
 import { rootState } from "../../reducers";
@@ -23,16 +23,18 @@ export interface document {
   title: String;
   signed: String;
   viewed: String;
+  searchedDocuments: any;
 }
 export default function Manage(props) {
   const documentState: document = useSelector(
     (state: rootState) => state?.document
   );
   const user = useSelector((state: rootState) => state?.auth?.user);
-  const page = props?.match?.params?.page ? props.match.params.page : "Inbox";
   const dispatch = useDispatch();
   const [checkAll, setCheckAll] = useState(false);
   const history = useHistory();
+  const location = useLocation();
+  const page = location.pathname.replace("/manage/", ""); //props?.match?.params?.page ? props.match.params.page : "Inbox";
 
   const handleOnChange = () => {
     setCheckAll(!checkAll);
@@ -82,7 +84,7 @@ export default function Manage(props) {
               <h1>{page.charAt(0).toUpperCase() + page.slice(1)}</h1>
             </div>
             <div className="received-signature-searchbar">
-              <Searchbar />
+              <Searchbar page={page} />
             </div>
           </div>
           <div>
@@ -115,19 +117,33 @@ export default function Manage(props) {
           </div>
         </div>
         <div className="table-body">
-          {documentState[page]?.map((doc, index) => (
-            <Envelope
-              key={index}
-              index={index}
-              id={doc._id}
-              title={doc.title}
-              folder={page}
-              lastChange={doc.lastChange}
-              handleOnChange={handleOnChange}
-              handleClick={handleClick}
-              isChecked={doc.isChecked}
-            />
-          ))}
+          {documentState.searchedDocuments.length > 0
+            ? documentState.searchedDocuments.map((doc, index) => (
+                <Envelope
+                  key={index}
+                  index={index}
+                  id={doc._id}
+                  title={doc.title}
+                  folder={page}
+                  lastChange={doc.lastChange}
+                  handleOnChange={handleOnChange}
+                  handleClick={handleClick}
+                  isChecked={doc.isChecked}
+                />
+              ))
+            : documentState[page]?.map((doc, index) => (
+                <Envelope
+                  key={index}
+                  index={index}
+                  id={doc._id}
+                  title={doc.title}
+                  folder={page}
+                  lastChange={doc.lastChange}
+                  handleOnChange={handleOnChange}
+                  handleClick={handleClick}
+                  isChecked={doc.isChecked}
+                />
+              ))}
         </div>
       </div>
     </div>
