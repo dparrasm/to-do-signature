@@ -9,7 +9,6 @@ import {
   LOGIN_FAIL,
   LOGOUT,
   USER_UPDATED,
-  USER_PICTURE_UPDATED,
 } from "./types";
 import setAuthToken from "../../utils/setAuthToken";
 
@@ -30,29 +29,21 @@ export const loadUser = () => async (dispatch) => {
     });
   }
 };
-export const updatePicture = (fileContent) => async (dispatch) => {
-  dispatch({
-    type: USER_PICTURE_UPDATED,
-    payload: fileContent,
-  });
-};
-//Update user
 export const updateUser = (user) => async (dispatch) => {
   const config = {
     headers: {
       "Content-Type": "application/json",
     },
   };
-
   const body = JSON.stringify(user);
-  console.log(body);
+  // console.log(body);
   try {
     const res = await axios.put("/api/users", body, config);
     dispatch({
       type: USER_UPDATED,
       payload: user,
     });
-    console.log(res.data);
+    // console.log(res.data);
   } catch (err: any) {
     const errors = err.response.data.errors;
 

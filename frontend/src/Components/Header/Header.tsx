@@ -1,12 +1,10 @@
 import { withStyles } from "@material-ui/core";
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-// import IconButton from "../conButton/IconButton";
 import { icons } from "../../utils/icons";
 import IconButton from "../iconButton/IconButton";
 import { connect, ConnectedProps } from "react-redux";
 import { logout } from "../../reducers/actions/authActions";
-import { setPath } from "../../reducers/actions/routerActions";
 import "../../comun.scss";
 
 const styles = withStyles({
@@ -27,7 +25,6 @@ const styles = withStyles({
     alignItems: "center",
     display: "flex",
     flexDirection: "row",
-    // justifyContent: "center",
   },
   iconBar: {
     height: "100%",
@@ -44,7 +41,6 @@ const styles = withStyles({
     fontSize: "18px",
     display: "flex",
     alignItems: "center",
-    //borderBottom: "1px solid black",
   },
   link: {
     textDecoration: "none" as "none",
@@ -91,11 +87,6 @@ class Header extends Component<
     this.props.onUserLogOut();
     this.props.logout();
   };
-
-  redirect = (path: string) => {
-    this.props.setPath(path);
-  };
-
   render() {
     const { classes } = this.props;
     return (
@@ -103,42 +94,29 @@ class Header extends Component<
         <div className={classes.appBar}>
           <div className={classes.toolBar}>
             <div className={classes.iconContainer}>
-              <div onClick={() => this.redirect("/")}>
+              <div>
                 <h1 className="firma-title header">firm@</h1>
               </div>
             </div>
             <ul className={classes.iconBar}>
-              <li
-                className={classes.iconBarElement}
-                onClick={() => this.redirect("/home")}
-              >
+              <li className={classes.iconBarElement}>
                 <Link className={classes.link} to="/home">
                   Home
                 </Link>
               </li>
-              <li
-                className={classes.iconBarElement}
-                onClick={() => this.redirect("/manage")}
-              >
+              <li className={classes.iconBarElement}>
                 <Link className={classes.link} to="/manage">
                   Manage
                 </Link>
               </li>
-              <li
-                className={classes.iconBarElement}
-                onClick={() => this.redirect("/profile")}
-              >
+              <li className={classes.iconBarElement}>
                 <Link className={classes.link} to="/profile">
                   Profile
                 </Link>
               </li>
               <li onClick={this.logout}>
                 <div className={classes.logoutContainer}>
-                  <Link
-                    to="/"
-                    onClick={() => this.redirect("/")}
-                    className={classes.link}
-                  >
+                  <Link to="/" className={classes.link}>
                     <IconButton icon={icons.logout} text="Logout" />
                   </Link>
                 </div>
@@ -152,7 +130,6 @@ class Header extends Component<
 }
 const mapStateToProps = (state) => ({
   auth: state.auth,
-  path: state.path,
 });
-const connector = connect(mapStateToProps, { logout, setPath });
+const connector = connect(mapStateToProps, { logout });
 export default connector(styles(Header));

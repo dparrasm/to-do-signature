@@ -7,7 +7,6 @@ import {
   LOGIN_SUCCESS,
   LOGOUT,
   USER_UPDATED,
-  USER_PICTURE_UPDATED,
 } from "./actions/types";
 
 const initialState = {

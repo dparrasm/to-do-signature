@@ -8,7 +8,13 @@
 .field {
     margin-top: 5px !important;
     margin-bottom: 5px !important;
-    width: 100%;
+    width: 98%;
+    height: 30px;
+    font-size: 15px;
+    font-family: 'Roboto';
+    border: 1px solid #c0bcbc;
+    border-radius: 3px;
+    padding-left: 10px;
 }
 .username {
     display: inline-flex;
@@ -108,9 +114,21 @@
 .smallField {
     margin-right: 10px !important;
     width: 30%;
+    height: 30px;
+    font-size: 15px;
+    font-family: 'Roboto';
+    border: 1px solid #c0bcbc;
+    border-radius: 3px;
+    padding-left: 10px;
 }
 .small-field-no-margin {
-width:90%;
+    width: 95%;
+    height: 30px;
+    font-size: 15px;
+    font-family: 'Roboto';
+    border: 1px solid #c0bcbc;
+    border-radius: 3px;
+    padding-left: 10px;
 }
 .user-security-data-big-fields{
     width: 95%;

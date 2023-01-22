@@ -1,6 +1,5 @@
 import axios from "axios";
 import { setAlert } from "./alertActions";
-import { autofirma } from "../../pages/signing/signDocument/signSetup";
 import {
   DOCUMENT_FAIL,
   GET_DOCUMENTS,
@@ -198,8 +197,6 @@ export const getDocument = (id) => async (dispatch) => {
   }
 };
 export const searchDocument = (title, page) => async (dispatch) => {
-  console.log("Title: " + title);
-  console.log("Page: " + page);
   try {
     dispatch({
       type: SEARCH_DOCUMENT,
