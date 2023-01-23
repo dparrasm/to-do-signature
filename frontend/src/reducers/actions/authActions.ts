@@ -36,14 +36,12 @@ export const updateUser = (user) => async (dispatch) => {
     },
   };
   const body = JSON.stringify(user);
-  // console.log(body);
   try {
     const res = await axios.put("/api/users", body, config);
     dispatch({
       type: USER_UPDATED,
       payload: user,
     });
-    // console.log(res.data);
   } catch (err: any) {
     const errors = err.response.data.errors;
 

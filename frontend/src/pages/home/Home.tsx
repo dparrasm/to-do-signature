@@ -23,7 +23,9 @@ export default function Home() {
   const documentsJsonString = JSON.stringify(documents);
 
   const updateUserInformation = () => {
-    let allDocuments = [...documents["sent"], ...documents["inbox"]];
+    let allDocuments = [
+      ...new Set([...documents["sent"], ...documents["inbox"]]),
+    ];
     let actionRequiredCont = 0;
     let waitingForOthersCont = 0;
     let signedByCont = 0;

@@ -70,7 +70,6 @@ export default function documentReducer(state = initialState, action) {
         (doc) => doc.folder === "SENT"
       );
       sent = [state.sent, ...sent];
-      console.log(JSON.stringify(sent));
       return {
         ...state,
         inbox: inbox[0],
@@ -102,7 +101,6 @@ export default function documentReducer(state = initialState, action) {
       };
     }
     case SEARCH_DOCUMENT: {
-      console.log(payload);
       let array = state[payload.page].filter((doc) =>
         doc.title.includes(payload.title)
       );
@@ -132,7 +130,6 @@ export default function documentReducer(state = initialState, action) {
       }
     }
     case UNSELECT_DOCUMENTS: {
-      console.log("qué pasó");
       let foldersToUpdate = folders.filter((f) => f === payload.folder);
       let auxObject = {};
       foldersToUpdate.map((f) => {

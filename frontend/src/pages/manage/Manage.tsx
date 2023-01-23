@@ -34,7 +34,7 @@ export default function Manage(props) {
   const [checkAll, setCheckAll] = useState(false);
   const history = useHistory();
   const location = useLocation();
-  const page = location.pathname.replace("/manage/", ""); //props?.match?.params?.page ? props.match.params.page : "Inbox";
+  const page = location.pathname.replace("/manage/", "");
   const documentsJsonString = JSON.stringify(documentState);
 
   const handleOnChange = () => {
@@ -42,15 +42,20 @@ export default function Manage(props) {
     dispatch(selectAllDocuments(page, checkAll));
   };
 
-  const handleClick = (documentAction: { id: number; action: String }) => {
+  const handleClick = (
+    event,
+    documentAction: { id: number; action: String }
+  ) => {
+    event.stopPropagation();
     switch (documentAction.action) {
       case "VIEW":
-        console.log("Visualizando documento " + documentAction.id);
         dispatch(uploadEnvelopeByDocumentId(documentAction.id));
-        history.push("/sign");
+        setTimeout(() => {
+          history.push("/sign");
+        }, 1000);
+
         break;
       case "DELETE":
-        console.log("Borrando documento " + documentAction.id);
         dispatch(deleteDocument(documentAction.id, page));
         break;
       case "DOWNLOAD":

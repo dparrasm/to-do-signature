@@ -1,4 +1,7 @@
-export const autofirma = (dataB64) => {
+import React from "react";
+
+export const autofirma = async (dataB64, setSignedDocument) => {
+  let signedDocument = { signatureB64: "", certificateB64: "" };
   AutoScript.checkTime(AutoScript.CHECKTIME_RECOMMENDED, 300000);
   AutoScript.cargarAppAfirma();
   AutoScript.setServlets(
@@ -27,7 +30,9 @@ export const autofirma = (dataB64) => {
   // campos de un formulario y lo enviará a servidor
   function sendSignatureCallback(signatureB64, certificateB64, extraData) {
     // Obtenemos el nombre del fichero cargado para
-
-    return { signatureB64, certificateB64 };
+    console.log("sopresa, sorpresa");
+    signedDocument.signatureB64 = signatureB64;
+    signedDocument.certificateB64 = certificateB64;
+    setSignedDocument(signedDocument).then(() => console.log("Mierda"));
   }
 };

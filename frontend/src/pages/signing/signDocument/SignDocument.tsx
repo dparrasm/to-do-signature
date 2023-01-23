@@ -8,6 +8,7 @@ import MenuItem from "../../../components/menuItem/MenuItem";
 import { Link } from "react-router-dom";
 import { postDocuments } from "../../../reducers/actions/documentActions";
 import { autofirma } from "./signSetup";
+import { setPath } from "../../../reducers/actions/routerActions";
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
 function SignDocument(props) {
@@ -17,8 +18,19 @@ function SignDocument(props) {
   const [document, nextDocument] = useState(
     envelope?.documents[0]?.fileContent
   );
-  const dispatch = useDispatch();
+  const setSignedDocument = async (signedDocument) => {
+    console.log("Esta vez si" + JSON.stringify(signedDocument));
+    dispatch(setPath(signedDocument.signatureB64));
+  };
 
+  const dispatch = useDispatch();
+  const sign = () => {
+    autofirma(document, setSignedDocument)
+      .then(() => {
+        console.log("Ya hemos firmado");
+      })
+      .catch(() => console.log("lo intentaste"));
+  };
   const sendEnvelope = () => {
     const recipient = {
       name: user?.name + " " + user?.surname,
@@ -75,7 +87,7 @@ function SignDocument(props) {
               <h3>Fields</h3>
             </div>
             <div className="signing-menu-block-items">
-              <div onClick={() => autofirma(document)}>
+              <div onClick={sign}>
                 <MenuItem icon={icons.signed} text="Autofirma" />
               </div>
             </div>
