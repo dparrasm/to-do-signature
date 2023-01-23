@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useHistory } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import Envelope from "../../components/envelope/Envelope";
 import { rootState } from "../../reducers";
@@ -23,35 +23,39 @@ export interface document {
   title: String;
   signed: String;
   viewed: String;
+  searchedDocuments: any;
 }
 export default function Manage(props) {
   const documentState: document = useSelector(
     (state: rootState) => state?.document
   );
   const user = useSelector((state: rootState) => state?.auth?.user);
-  const page = props?.match?.params?.page ? props.match.params.page : "Inbox";
   const dispatch = useDispatch();
   const [checkAll, setCheckAll] = useState(false);
   const history = useHistory();
+  const location = useLocation();
+  const page = location.pathname.replace("/manage/", "");
+  const documentsJsonString = JSON.stringify(documentState);
 
   const handleOnChange = () => {
     setCheckAll(!checkAll);
     dispatch(selectAllDocuments(page, checkAll));
   };
 
-  useEffect(() => {
-    setCheckAll(false);
-  }, [page]);
-
-  const handleClick = (documentAction: { id: number; action: String }) => {
+  const handleClick = (
+    event,
+    documentAction: { id: number; action: String }
+  ) => {
+    event.stopPropagation();
     switch (documentAction.action) {
       case "VIEW":
-        console.log("Visualizando documento " + documentAction.id);
         dispatch(uploadEnvelopeByDocumentId(documentAction.id));
-        history.push("/sign");
+        setTimeout(() => {
+          history.push("/sign");
+        }, 1000);
+
         break;
       case "DELETE":
-        console.log("Borrando documento " + documentAction.id);
         dispatch(deleteDocument(documentAction.id, page));
         break;
       case "DOWNLOAD":
@@ -68,7 +72,7 @@ export default function Manage(props) {
 
   useEffect(() => {
     dispatch(loadDocuments(user?.email));
-  }, [dispatch]);
+  }, [documentsJsonString]);
 
   return (
     <div className="container-manager">
@@ -82,7 +86,7 @@ export default function Manage(props) {
               <h1>{page.charAt(0).toUpperCase() + page.slice(1)}</h1>
             </div>
             <div className="received-signature-searchbar">
-              <Searchbar />
+              <Searchbar page={page} />
             </div>
           </div>
           <div>
@@ -115,19 +119,33 @@ export default function Manage(props) {
           </div>
         </div>
         <div className="table-body">
-          {documentState[page]?.map((doc, index) => (
-            <Envelope
-              key={index}
-              index={index}
-              id={doc._id}
-              title={doc.title}
-              folder={page}
-              lastChange={doc.lastChange}
-              handleOnChange={handleOnChange}
-              handleClick={handleClick}
-              isChecked={doc.isChecked}
-            />
-          ))}
+          {documentState.searchedDocuments.length > 0
+            ? documentState.searchedDocuments.map((doc, index) => (
+                <Envelope
+                  key={index}
+                  index={index}
+                  id={doc._id}
+                  title={doc.title}
+                  folder={page}
+                  lastChange={doc.lastChange}
+                  handleOnChange={handleOnChange}
+                  handleClick={handleClick}
+                  isChecked={doc.isChecked}
+                />
+              ))
+            : documentState[page]?.map((doc, index) => (
+                <Envelope
+                  key={index}
+                  index={index}
+                  id={doc._id}
+                  title={doc.title}
+                  folder={page}
+                  lastChange={doc.lastChange}
+                  handleOnChange={handleOnChange}
+                  handleClick={handleClick}
+                  isChecked={doc.isChecked}
+                />
+              ))}
         </div>
       </div>
     </div>

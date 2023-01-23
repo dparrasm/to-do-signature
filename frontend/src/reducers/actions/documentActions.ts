@@ -1,6 +1,5 @@
 import axios from "axios";
 import { setAlert } from "./alertActions";
-import { autofirma } from "../../pages/signing/signDocument/signSetup";
 import {
   DOCUMENT_FAIL,
   GET_DOCUMENTS,
@@ -14,6 +13,7 @@ import {
   SELECT_ALL_DOCUMENTS,
   UNSELECT_DOCUMENTS,
   SIGN_DOCUMENT,
+  UNSEARCH_DOCUMENT,
 } from "./types";
 
 export const loadDocuments = (userId) => async (dispatch) => {
@@ -26,22 +26,24 @@ export const loadDocuments = (userId) => async (dispatch) => {
       inbox: [],
       sent: [],
     };
-
+    console.log("documents.data" + JSON.stringify(documents.data));
     documents.data.map((doc) => {
       doc.isChecked = false;
       if (
         doc.recipients.filter((r) => r.folder == "INBOX" && r.email === userId)
           ?.length > 0
       ) {
+        console.log("inbox: " + doc);
         folders.inbox.push(doc);
-      } else if (
+      }
+      if (
         doc.recipients.filter((r) => r.folder == "SENT" && r.email === userId)
           ?.length > 0
       ) {
         folders.sent.push(doc);
       }
     });
-
+    console.log(folders);
     dispatch({
       type: GET_DOCUMENTS,
       payload: folders,
@@ -196,15 +198,23 @@ export const getDocument = (id) => async (dispatch) => {
     });
   }
 };
-export const searchDocument = (title) => async (dispatch) => {
-  console.log("Title:" + title);
+export const searchDocument = (title, page) => async (dispatch) => {
   try {
     dispatch({
       type: SEARCH_DOCUMENT,
-      payload: title,
+      payload: { title: title, page: page },
     });
   } catch {
     console.log("Fallo");
+  }
+};
+export const unsearchDocuments = () => async (dispatch) => {
+  try {
+    dispatch({
+      type: UNSEARCH_DOCUMENT,
+    });
+  } catch {
+    console.log("Fallo unsearchDocuments");
   }
 };
 

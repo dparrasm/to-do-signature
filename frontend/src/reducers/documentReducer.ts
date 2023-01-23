@@ -11,6 +11,7 @@ import {
   SELECT_ALL_DOCUMENTS,
   UNSELECT_DOCUMENTS,
   SIGN_DOCUMENT,
+  UNSEARCH_DOCUMENT,
 } from "./actions/types";
 
 const initialState = {
@@ -61,15 +62,18 @@ export default function documentReducer(state = initialState, action) {
       };
     }
     case POST_DOCUMENT: {
-      const currentDocuments = [
-        state.documentsLoaded,
-        ...payload.addedDocuments,
-      ];
-      const currentInboxDocuments = [state.inbox, ...payload.addedDocuments];
+      let inbox = [...payload.addedDocuments].filter(
+        (doc) => doc.folder === "INBOX"
+      );
+      inbox = [state.inbox, ...inbox];
+      let sent = [...payload.addedDocuments].filter(
+        (doc) => doc.folder === "SENT"
+      );
+      sent = [state.sent, ...sent];
       return {
         ...state,
-        documentsLoaded: currentDocuments,
-        inbox: currentInboxDocuments,
+        inbox: inbox[0],
+        sent: sent[0],
       };
     }
     case SIGN_DOCUMENT: {
@@ -90,9 +94,15 @@ export default function documentReducer(state = initialState, action) {
         sent: sent,
       };
     }
+    case UNSEARCH_DOCUMENT: {
+      return {
+        ...state,
+        searchedDocuments: [],
+      };
+    }
     case SEARCH_DOCUMENT: {
-      let array = state.documentsLoaded.filter((document) =>
-        document.title.includes(payload)
+      let array = state[payload.page].filter((doc) =>
+        doc.title.includes(payload.title)
       );
       return {
         ...state,
@@ -120,7 +130,6 @@ export default function documentReducer(state = initialState, action) {
       }
     }
     case UNSELECT_DOCUMENTS: {
-      console.log("qué pasó");
       let foldersToUpdate = folders.filter((f) => f === payload.folder);
       let auxObject = {};
       foldersToUpdate.map((f) => {
@@ -160,20 +169,15 @@ export default function documentReducer(state = initialState, action) {
       }
     }
     case DELETE_DOCUMENT: {
-      let array = state[payload.folder];
-      array = array.filter((document) => document._id !== payload.id);
-      switch (payload.folder) {
-        case "inbox":
-          return {
-            ...state,
-            inbox: array,
-          };
-        default:
-          return {
-            ...state,
-            sent: array,
-          };
-      }
+      let array = [...state.inbox];
+      const inbox = array.filter((doc) => doc._id !== payload.id);
+      array = [...state.sent];
+      const sent = array.filter((document) => document._id !== payload.id);
+      return {
+        ...state,
+        inbox: inbox,
+        sent: sent,
+      };
     }
     case DOCUMENT_FAIL:
       return state;

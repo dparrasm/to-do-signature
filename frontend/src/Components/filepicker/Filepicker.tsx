@@ -5,7 +5,6 @@ import IconButton from "../iconButton/IconButton";
 import "./Filepicker.scss";
 import { uploadDocument } from "../../reducers/actions/documentActions";
 import { useDispatch, useSelector } from "react-redux";
-import { updateUser } from "../../reducers/actions/authActions";
 import { rootState } from "../../reducers";
 import * as xlsx from "xlsx";
 
@@ -22,9 +21,7 @@ export default function Filepicker(props) {
     switch (props.accept) {
       case "image/*":
         if (filesContent[0]?.content) {
-          let user = props.user;
-          user = { ...user, avatar: filesContent[0]?.content };
-          dispatch(updateUser(user));
+          props.updateProfilePicture(filesContent[0]?.content);
         }
         break;
       case ".xlsx":
@@ -56,7 +53,6 @@ export default function Filepicker(props) {
         });
         break;
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filesContent]);
   return (
     <>

@@ -16,7 +16,6 @@ export interface User {
 export default function Home() {
   const user: any = useSelector((state: rootState) => state?.auth?.user);
   const documents: any = useSelector((state: rootState) => state?.document);
-  const dispatch = useDispatch();
   const [actionRequired, setActionRequired] = useState(0);
   const [waitingForOthers, setWaitingForOthers] = useState(0);
   const [signedBy, setSignedBy] = useState(0);
@@ -24,7 +23,9 @@ export default function Home() {
   const documentsJsonString = JSON.stringify(documents);
 
   const updateUserInformation = () => {
-    let allDocuments = [...documents["sent"], ...documents["inbox"]];
+    let allDocuments = [
+      ...new Set([...documents["sent"], ...documents["inbox"]]),
+    ];
     let actionRequiredCont = 0;
     let waitingForOthersCont = 0;
     let signedByCont = 0;
@@ -61,7 +62,6 @@ export default function Home() {
   };
 
   useEffect(() => {
-    console.log("pasaba por aquí");
     //dispatch(loadDocuments(user?.email));
     updateUserInformation();
   }, [documentsJsonString]);

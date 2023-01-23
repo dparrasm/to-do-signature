@@ -1,17 +1,25 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import SearchIcon from "@material-ui/icons/Search";
 import InputBase from "@material-ui/core/InputBase";
 import { useDispatch } from "react-redux";
 import { searchDocument } from "../../reducers/actions/documentActions";
-
 import "./Searchbar.scss";
+import { useLocation } from "react-router-dom";
 
-export default function Searchbar() {
+export default function Searchbar(props) {
   const dispatch = useDispatch();
+  const location = useLocation();
+  const [searchText, setSearchText] = useState("");
+
   const onChange = (event) => {
-    dispatch(searchDocument(event.target.value));
-    console.log(event.target.value);
+    setSearchText(event.target.value);
+    dispatch(searchDocument(event.target.value, props?.page));
   };
+
+  useEffect(() => {
+    setSearchText("");
+  }, [location]);
+
   return (
     <div className="container">
       <form className="form">
@@ -25,6 +33,7 @@ export default function Searchbar() {
               root: "inputRoot",
               input: "inputInput",
             }}
+            value={searchText}
             onChange={onChange}
           />
         </div>

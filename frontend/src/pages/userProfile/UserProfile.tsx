@@ -1,24 +1,39 @@
-import { Button, TextField, Badge, Avatar } from "@material-ui/core";
-import React, { useState } from "react";
+import { Button, Badge, Avatar } from "@material-ui/core";
+import React, { useEffect, useRef, useState } from "react";
 import "./UserProfile.scss";
 import Filepicker from "../../components/filepicker/Filepicker";
 import { rootState } from "../../reducers";
-import { useSelector } from "react-redux";
-import SignModal from "../../components/signModal/SignModal";
+import { useDispatch, useSelector } from "react-redux";
+import { updateUser } from "../../reducers/actions/authActions";
 
 export default function UserProfile() {
   const user = useSelector((state: rootState) => state.auth?.user);
-  const [isModalOpen, setModalOpen] = useState(false);
+  const [avatar, setAvatar] = useState(user?.avatar);
+  const dispatch = useDispatch();
 
-  const openSignModal = () => {
-    setModalOpen(true);
+  const name = useRef<HTMLInputElement>(null);
+  const surname = useRef<HTMLInputElement>(null);
+  const email = useRef<HTMLInputElement>(null);
+  const password = useRef<HTMLInputElement>(null);
+
+  const handleOnClick = () => {
+    const newUser = {
+      name: name?.current?.value ? name.current.value : user.name,
+      surname: surname?.current?.value ? surname.current.value : user.surname,
+      email: user.email,
+      avatar: avatar,
+      password:
+        password?.current?.value !== "password"
+          ? password?.current?.value
+          : user.password,
+    };
+    if (JSON.stringify(user) !== JSON.stringify(newUser)) {
+      dispatch(updateUser(newUser));
+    }
   };
-  const closeSignModal = () => {
-    setModalOpen(false);
-  };
-  const updateUser = async (event) => {
-    console.log("Updating user..");
-    //Aquí iría el dispatch
+
+  const updateProfilePicture = (profilePicture) => {
+    setAvatar(profilePicture);
   };
 
   return (
@@ -31,25 +46,22 @@ export default function UserProfile() {
           overlap="circular"
           anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
           badgeContent={
-            <Filepicker user={user} accept="image/*" multiple={false} />
+            <Filepicker
+              user={user}
+              accept="image/*"
+              multiple={false}
+              updateProfilePicture={updateProfilePicture}
+            />
           }
         >
           <Avatar
             className="user-profile-avatar"
             style={{ height: "200px", width: "200px" }}
             alt="David Parras"
-            src={user ? user.avatar : ""}
+            src={avatar}
           />
         </Badge>
       </div>
-      {/* <div className="user-signature-information">
-        <div className="user-signature-complete-name">
-          <Button onClick={openSignModal} variant="contained" color="primary">
-            Add signature
-          </Button>
-        </div>
-        <SignModal shouldOpenModal={isModalOpen} handleClose={closeSignModal} />
-      </div> */}
 
       <div className="user-security-data-container">
         <div className="title">
@@ -57,43 +69,39 @@ export default function UserProfile() {
         </div>
         <div className="user-security-data">
           <div className="username">
-            <TextField
+            <input
               name="name"
+              ref={name}
               className="smallField"
               type="text"
               placeholder="Name"
-              variant="outlined"
-              size="small"
-              value={user.name}
+              defaultValue={user?.name}
             />
-            <TextField
+            <input
               name="surname"
+              ref={surname}
               className="small-field-no-margin"
               type="text"
               placeholder="Surname"
-              variant="outlined"
-              size="small"
-              value={user.surname}
+              defaultValue={user?.surname}
             />
           </div>
           <div className="user-security-data-big-fields">
-            <TextField
+            <input
               name="email"
+              ref={email}
               className="field"
               type="text"
               placeholder="Email"
-              variant="outlined"
-              size="small"
-              value={user.email}
+              value={user?.email}
             />
-            <TextField
+            <input
               name="password"
+              ref={password}
               className="field"
               type="password"
-              placeholder="password"
-              variant="outlined"
-              size="small"
-              value="1234"
+              placeholder="Password"
+              defaultValue="password"
             />
           </div>
         </div>
@@ -103,7 +111,7 @@ export default function UserProfile() {
           className="button"
           variant="contained"
           color="primary"
-          onClick={updateUser}
+          onClick={handleOnClick}
         >
           Update
         </Button>
@@ -111,7 +119,7 @@ export default function UserProfile() {
           className="red-button"
           variant="contained"
           color="primary"
-          onClick={updateUser}
+          onClick={handleOnClick}
         >
           Delete
         </Button>

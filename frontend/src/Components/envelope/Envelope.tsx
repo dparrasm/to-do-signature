@@ -38,9 +38,9 @@ export default function Envelope(props) {
           <div className="document-info">
             <div className="document-title">
               <h1>
-                {props.title.length > 30
-                  ? shortenTitle(15, 13, props.title.length, props.title)
-                  : props.title}
+                {props?.title?.length > 30
+                  ? shortenTitle(15, 13, props?.title?.length, props?.title)
+                  : props?.title}
               </h1>
             </div>
             <div className="document-subtitle">Para: David Parras Martínez</div>
@@ -72,32 +72,32 @@ export default function Envelope(props) {
           <div className="envelope-table-row-cell-iconbutton-container">
             <div
               className="envelope-table-row-cell-iconbutton"
-              onClick={() =>
-                props.handleClick({ id: props.id, action: "SIGN" })
+              onClick={(e) =>
+                props.handleClick(e, { id: props.id, action: "SIGN" })
               }
             >
               <IconButton icon={icons.pen} />
             </div>
             <div
               className="envelope-table-row-cell-iconbutton"
-              onClick={() =>
-                props.handleClick({ id: props.id, action: "VIEW" })
+              onClick={(e) =>
+                props.handleClick(e, { id: props.id, action: "VIEW" })
               }
             >
               <IconButton icon={icons.eye} />
             </div>
             <div
               className="envelope-table-row-cell-iconbutton"
-              onClick={() =>
-                props.handleClick({ id: props.id, action: "DELETE" })
+              onClick={(e) =>
+                props.handleClick(e, { id: props.id, action: "DELETE" })
               }
             >
               <IconButton icon={icons.trashcan} />
             </div>
             <div
               className="envelope-table-row-cell-iconbutton"
-              onClick={() =>
-                props.handleClick({ id: props.id, action: "DOWNLOAD" })
+              onClick={(e) =>
+                props.handleClick(e, { id: props.id, action: "DOWNLOAD" })
               }
             >
               <IconButton icon={icons.download} />
