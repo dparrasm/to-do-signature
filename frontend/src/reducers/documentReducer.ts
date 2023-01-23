@@ -62,15 +62,19 @@ export default function documentReducer(state = initialState, action) {
       };
     }
     case POST_DOCUMENT: {
-      const currentDocuments = [
-        state.documentsLoaded,
-        ...payload.addedDocuments,
-      ];
-      const currentInboxDocuments = [state.inbox, ...payload.addedDocuments];
+      let inbox = [...payload.addedDocuments].filter(
+        (doc) => doc.folder === "INBOX"
+      );
+      inbox = [state.inbox, ...inbox];
+      let sent = [...payload.addedDocuments].filter(
+        (doc) => doc.folder === "SENT"
+      );
+      sent = [state.sent, ...sent];
+      console.log(JSON.stringify(sent));
       return {
         ...state,
-        documentsLoaded: currentDocuments,
-        inbox: currentInboxDocuments,
+        inbox: inbox[0],
+        sent: sent[0],
       };
     }
     case SIGN_DOCUMENT: {

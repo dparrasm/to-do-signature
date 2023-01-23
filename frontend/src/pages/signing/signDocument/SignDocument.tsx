@@ -25,6 +25,8 @@ function SignDocument(props) {
       email: user.email,
       isAuthor: true,
       folder: "SENT",
+      needsToSign: true,
+      needsToView: false,
       signed: false,
       viewed: true,
     };

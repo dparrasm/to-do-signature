@@ -23,6 +23,8 @@ export default function PrepareEnvelope(props) {
       id: 0,
       name: "",
       email: "",
+      needsToSign: true,
+      needsToView: true,
       needsTo: "SIGN",
       signed: false,
       viewed: false,
@@ -37,6 +39,8 @@ export default function PrepareEnvelope(props) {
         id: recipientId,
         name: "",
         email: "",
+        needsToSign: true,
+        needsToView: true,
         needsTo: "SIGN",
         signed: false,
         viewed: false,
@@ -50,19 +54,23 @@ export default function PrepareEnvelope(props) {
       id: number;
       name: string;
       email: string;
+      needsToSign: boolean;
+      needsToView: boolean;
       needsTo: string;
       signed: boolean;
       viewed: boolean;
       folder: string;
     }[] = [];
-    let id = recipientId;
+
     recipientsList.map((r) => {
       array.push({
         id: recipientId + array.length,
         name: r.name,
         email: r.email,
+        needsToView: true,
+        needsToSign: true,
         needsTo: r.needsTo,
-        signed: false,
+        signed: true,
         viewed: false,
         folder: "INBOX",
       });
@@ -108,9 +116,28 @@ export default function PrepareEnvelope(props) {
   };
 
   const prepareEnvelope = () => {
+    let updatedRecipients = recipients.map((r) => {
+      if (r.needsTo === "SIGN") {
+        return {
+          ...r,
+          needsToSign: true,
+          needsToView: true,
+          viewed: false,
+          signed: false,
+        };
+      } else {
+        return {
+          ...r,
+          needsToSign: false,
+          needsToView: true,
+          viewed: false,
+          signed: true,
+        };
+      }
+    });
     const envelope = {
       documents: uploadedFiles,
-      recipients: recipients,
+      recipients: updatedRecipients,
       email: {
         subject: subjectRef?.current
           ? subjectRef?.current["value"]

@@ -38,9 +38,9 @@ export default function Envelope(props) {
           <div className="document-info">
             <div className="document-title">
               <h1>
-                {props.title.length > 30
-                  ? shortenTitle(15, 13, props.title.length, props.title)
-                  : props.title}
+                {props?.title?.length > 30
+                  ? shortenTitle(15, 13, props?.title?.length, props?.title)
+                  : props?.title}
               </h1>
             </div>
             <div className="document-subtitle">Para: David Parras Martínez</div>

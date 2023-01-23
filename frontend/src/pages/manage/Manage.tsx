@@ -35,15 +35,12 @@ export default function Manage(props) {
   const history = useHistory();
   const location = useLocation();
   const page = location.pathname.replace("/manage/", ""); //props?.match?.params?.page ? props.match.params.page : "Inbox";
+  const documentsJsonString = JSON.stringify(documentState);
 
   const handleOnChange = () => {
     setCheckAll(!checkAll);
     dispatch(selectAllDocuments(page, checkAll));
   };
-
-  useEffect(() => {
-    setCheckAll(false);
-  }, [page]);
 
   const handleClick = (documentAction: { id: number; action: String }) => {
     switch (documentAction.action) {
@@ -70,7 +67,7 @@ export default function Manage(props) {
 
   useEffect(() => {
     dispatch(loadDocuments(user?.email));
-  }, [dispatch]);
+  }, [documentsJsonString]);
 
   return (
     <div className="container-manager">

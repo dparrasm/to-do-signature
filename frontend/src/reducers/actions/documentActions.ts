@@ -26,22 +26,24 @@ export const loadDocuments = (userId) => async (dispatch) => {
       inbox: [],
       sent: [],
     };
-
+    console.log("documents.data" + JSON.stringify(documents.data));
     documents.data.map((doc) => {
       doc.isChecked = false;
       if (
         doc.recipients.filter((r) => r.folder == "INBOX" && r.email === userId)
           ?.length > 0
       ) {
+        console.log("inbox: " + doc);
         folders.inbox.push(doc);
-      } else if (
+      }
+      if (
         doc.recipients.filter((r) => r.folder == "SENT" && r.email === userId)
           ?.length > 0
       ) {
         folders.sent.push(doc);
       }
     });
-
+    console.log(folders);
     dispatch({
       type: GET_DOCUMENTS,
       payload: folders,
