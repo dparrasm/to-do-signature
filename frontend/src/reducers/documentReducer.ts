@@ -172,20 +172,15 @@ export default function documentReducer(state = initialState, action) {
       }
     }
     case DELETE_DOCUMENT: {
-      let array = state[payload.folder];
-      array = array.filter((document) => document._id !== payload.id);
-      switch (payload.folder) {
-        case "inbox":
-          return {
-            ...state,
-            inbox: array,
-          };
-        default:
-          return {
-            ...state,
-            sent: array,
-          };
-      }
+      let array = [...state.inbox];
+      const inbox = array.filter((doc) => doc._id !== payload.id);
+      array = [...state.sent];
+      const sent = array.filter((document) => document._id !== payload.id);
+      return {
+        ...state,
+        inbox: inbox,
+        sent: sent,
+      };
     }
     case DOCUMENT_FAIL:
       return state;
