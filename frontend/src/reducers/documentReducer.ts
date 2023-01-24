@@ -110,7 +110,7 @@ export default function documentReducer(state = initialState, action) {
       };
     }
     case SELECT_ALL_DOCUMENTS: {
-      let array = state[payload.folder];
+      let array = [...state[payload.folder]];
       array = array.map((doc) =>
         doc.isChecked === payload.checkAll
           ? { ...doc, isChecked: !payload.checkAll }
@@ -121,11 +121,13 @@ export default function documentReducer(state = initialState, action) {
           return {
             ...state,
             inbox: array,
+            selectedDocuments: array,
           };
         default:
           return {
             ...state,
             sent: array,
+            selectedDocuments: array,
           };
       }
     }

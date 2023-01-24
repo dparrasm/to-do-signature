@@ -19,10 +19,8 @@ function SignDocument(props) {
     envelope?.documents[0]?.fileContent
   );
   const setSignedDocument = async (signedDocument) => {
-    console.log("Esta vez si" + JSON.stringify(signedDocument));
     dispatch(setPath(signedDocument.signatureB64));
   };
-
   const dispatch = useDispatch();
   const sign = () => {
     autofirma(document, setSignedDocument)

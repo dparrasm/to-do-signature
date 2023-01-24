@@ -9,11 +9,13 @@ import {
   loadDocuments,
   selectAllDocuments,
   signDocument,
+  unselectDocuments,
 } from "../../reducers/actions/documentActions";
 import Searchbar from "../../components/searchbar/Searchbar";
 import "./Manage.scss";
 import Column from "../../components/column/Column";
 import { uploadEnvelopeByDocumentId } from "../../reducers/actions/envelopeActions";
+import { setPath } from "../../reducers/actions/routerActions";
 
 export interface document {
   readingDocument: any;
@@ -41,7 +43,10 @@ export default function Manage(props) {
     setCheckAll(!checkAll);
     dispatch(selectAllDocuments(page, checkAll));
   };
-
+  const setSignedDocument = async (signedDocument) => {
+    console.log("Callback signedDocument" + JSON.stringify(signedDocument));
+    dispatch(setPath(signedDocument.signatureB64));
+  };
   const handleClick = (
     event,
     documentAction: { id: number; action: String }
@@ -72,7 +77,9 @@ export default function Manage(props) {
 
   useEffect(() => {
     dispatch(loadDocuments(user?.email));
-  }, [documentsJsonString]);
+    dispatch(unselectDocuments(page));
+    setCheckAll(false);
+  }, [location, page]);
 
   return (
     <div className="container-manager">

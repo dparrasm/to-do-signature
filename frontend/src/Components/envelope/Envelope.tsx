@@ -1,6 +1,4 @@
-import React, { useState } from "react";
-import { Avatar } from "@material-ui/core";
-import Progressbar from "../progressbar/Progressbar";
+import React, { useEffect, useState } from "react";
 import "./Envelope.scss";
 import IconButton from "../iconButton/IconButton";
 import { icons } from "../../utils/icons";
@@ -13,6 +11,7 @@ export default function Envelope(props) {
   const handleOnChange = () => {
     dispatch(selectDocument(props.id, props.folder));
   };
+
   const handleInputChange = () => {
     console.log("isChecked");
   };
@@ -57,14 +56,27 @@ export default function Envelope(props) {
           <div className="envelope-table-row-cell-date-date-info">
             <div>
               <h1>
-                {new Date(props.lastChange).getDate()}/
-                {new Date(props.lastChange).getMonth()}/
-                {new Date(props.lastChange).getFullYear()}
+                {new Date(props.lastChange)
+                  .getDate()
+                  .toString()
+                  .padStart(2, "0")}
+                /
+                {(new Date(props.lastChange).getMonth() + 1)
+                  .toString()
+                  .padStart(2, "0")}
+                /{new Date(props.lastChange).getFullYear()}
               </h1>
             </div>
             <div className="document-subtitle">
-              {new Date(props.lastChange).getHours()}:
-              {new Date(props.lastChange).getMinutes()}
+              {new Date(props.lastChange)
+                .getHours()
+                .toString()
+                .padStart(2, "0")}
+              :
+              {new Date(props.lastChange)
+                .getMinutes()
+                .toString()
+                .padStart(2, "0")}
             </div>
           </div>
         </div>
