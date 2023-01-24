@@ -166,6 +166,7 @@ export const signDocument = (id, email) => async (dispatch) => {
       recipients: recipients,
       signed: signed,
       viewed: viewed,
+      isChecked: false,
     };
     dispatch({
       type: SIGN_DOCUMENT,
