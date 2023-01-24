@@ -6,28 +6,21 @@ import { rootState } from "../../../reducers";
 import { icons } from "../../../utils/icons";
 import MenuItem from "../../../components/menuItem/MenuItem";
 import { Link } from "react-router-dom";
-import { postDocuments } from "../../../reducers/actions/documentActions";
-import { autofirma } from "./signSetup";
-import { setPath } from "../../../reducers/actions/routerActions";
+import {
+  postDocuments,
+  signDocument,
+} from "../../../reducers/actions/documentActions";
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
 function SignDocument(props) {
   const [numPages, setNumPages] = useState(null);
   const user: any = useSelector((state: rootState) => state?.auth?.user);
   const envelope: any = useSelector((state: rootState) => state?.envelope);
-  const [document, nextDocument] = useState(
-    envelope?.documents[0]?.fileContent
-  );
-  const setSignedDocument = async (signedDocument) => {
-    dispatch(setPath(signedDocument.signatureB64));
-  };
+  const [document, nextDocument] = useState(envelope?.documents);
+
   const dispatch = useDispatch();
   const sign = () => {
-    autofirma(document, setSignedDocument)
-      .then(() => {
-        console.log("Ya hemos firmado");
-      })
-      .catch(() => console.log("lo intentaste"));
+    document.map((doc) => dispatch(signDocument(doc._id, user.email)));
   };
   const sendEnvelope = () => {
     const recipient = {

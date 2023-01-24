@@ -16,55 +16,64 @@ export interface User {
 export default function Home() {
   const user: any = useSelector((state: rootState) => state?.auth?.user);
   const documents: any = useSelector((state: rootState) => state?.document);
-  const [actionRequired, setActionRequired] = useState(0);
-  const [waitingForOthers, setWaitingForOthers] = useState(0);
-  const [signedBy, setSignedBy] = useState(0);
-  const [completed, setCompleted] = useState(0);
+  const [notification, setNotifications] = useState({
+    actionRequired: 0,
+    waitingForOthers: 0,
+    signedBy: 0,
+    completed: 0,
+  });
   const documentsJsonString = JSON.stringify(documents);
-
+  const dispatch = useDispatch();
   const updateUserInformation = () => {
     let allDocuments = [
       ...new Set([...documents["sent"], ...documents["inbox"]]),
     ];
-    let actionRequiredCont = 0;
-    let waitingForOthersCont = 0;
-    let signedByCont = 0;
-    let completedCont = 0;
+    let counters = {
+      actionRequiredCont: 0,
+      waitingForOthersCont: 0,
+      signedByCont: 0,
+      completedCont: 0,
+    };
     allDocuments.map((d) => {
       if (
         d.recipients.filter(
           (r) => r?.email === user?.email && (!r?.signed || !r?.viewed)
         ).length > 0
       ) {
-        actionRequiredCont++;
+        counters.actionRequiredCont++;
       }
       if (
         d.recipients.filter(
           (r) => r?.email !== user?.email && (!r?.signed || !r?.viewed)
         ).length > 0
       ) {
-        waitingForOthersCont++;
+        counters.waitingForOthersCont++;
       }
-      if (d.recipients.filter((r) => !r?.signed && !r?.viewed).length === 0) {
-        completedCont++;
+      if (d.recipients.every((r) => r?.signed && r?.viewed).length === 0) {
+        counters.completedCont++;
       }
       if (
         d.recipients.filter((r) => r?.email === user?.email && r.signed)
           .length > 0
       ) {
-        signedByCont++;
+        counters.signedByCont++;
       }
     });
-    setActionRequired(actionRequiredCont);
-    setWaitingForOthers(waitingForOthersCont);
-    setCompleted(completedCont);
-    setSignedBy(signedByCont);
+    setNotifications({
+      actionRequired: counters.actionRequiredCont,
+      waitingForOthers: counters.waitingForOthersCont,
+      signedBy: counters.signedByCont,
+      completed: counters.completedCont,
+    });
   };
 
   useEffect(() => {
-    //dispatch(loadDocuments(user?.email));
-    updateUserInformation();
-  }, [documentsJsonString]);
+    dispatch(
+      loadDocuments(user?.email)
+        .then(() => updateUserInformation())
+        .catch(() => console.log("Imposible to load documents"))
+    );
+  }, []);
   return (
     <div className="home-container">
       <div className="home-user">
@@ -83,12 +92,14 @@ export default function Home() {
             </div>
             <div className="user-actions-required-container">
               <div className="user-actions-required">
-                <div className="user-actions-required-number">{signedBy}</div>
+                <div className="user-actions-required-number">
+                  {notification.signedBy}
+                </div>
                 <div className="user-actions-required-name">Signed by</div>
               </div>
               <div className="user-actions-required">
                 <div className="user-actions-required-number">
-                  {actionRequired}
+                  {notification.actionRequired}
                 </div>
                 <div className="user-actions-required-name">
                   Action required
@@ -96,14 +107,16 @@ export default function Home() {
               </div>
               <div className="user-actions-required">
                 <div className="user-actions-required-number">
-                  {waitingForOthers}
+                  {notification.waitingForOthers}
                 </div>
                 <div className="user-actions-required-name">
                   Waiting for others
                 </div>
               </div>
               <div className="user-actions-required">
-                <div className="user-actions-required-number">{completed}</div>
+                <div className="user-actions-required-number">
+                  {notification.completed}
+                </div>
                 <div className="user-actions-required-name">Completed</div>
               </div>
             </div>

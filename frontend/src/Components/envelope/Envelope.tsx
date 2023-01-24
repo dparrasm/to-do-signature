@@ -47,9 +47,15 @@ export default function Envelope(props) {
         </div>
         <div className="envelope-table-row-cell">
           <div className="test-progressbar">
-            <div className="progressbar">
-              <i className={icons.exclamationCircle}></i>
-            </div>
+            {props.completed ? (
+              <div className="completed-icon">
+                <i className={icons.checkCircle}></i>
+              </div>
+            ) : (
+              <div className="incompleted-icon">
+                <i className={icons.exclamationCircle}></i>
+              </div>
+            )}
           </div>
         </div>
         <div className="envelope-table-row-cell-date">

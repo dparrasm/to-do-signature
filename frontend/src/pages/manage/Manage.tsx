@@ -37,16 +37,12 @@ export default function Manage(props) {
   const history = useHistory();
   const location = useLocation();
   const page = location.pathname.replace("/manage/", "");
-  const documentsJsonString = JSON.stringify(documentState);
 
   const handleOnChange = () => {
     setCheckAll(!checkAll);
     dispatch(selectAllDocuments(page, checkAll));
   };
-  const setSignedDocument = async (signedDocument) => {
-    console.log("Callback signedDocument" + JSON.stringify(signedDocument));
-    dispatch(setPath(signedDocument.signatureB64));
-  };
+
   const handleClick = (
     event,
     documentAction: { id: number; action: String }
@@ -151,6 +147,7 @@ export default function Manage(props) {
                   handleOnChange={handleOnChange}
                   handleClick={handleClick}
                   isChecked={doc.isChecked}
+                  completed={doc.signed && doc.viewed ? true : false}
                 />
               ))}
         </div>

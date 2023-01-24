@@ -131,7 +131,6 @@ export const signDocument = (id, email) => async (dispatch) => {
   try {
     let signatureB64: string = "";
     const setSignedDocument = async (signedDocument) => {
-      console.log("Callback signedDocument" + JSON.stringify(signedDocument));
       dispatch(setPath(signedDocument.signatureB64));
       signatureB64 = signedDocument?.signatureB64;
       console.log("añade el application:data/pdf " + signatureB64);
@@ -144,21 +143,23 @@ export const signDocument = (id, email) => async (dispatch) => {
       })
       .catch(() => console.log("lo intentaste"));
     const recipients = uploadedDocument.recipients;
-    const user = recipients.filter((r) => r.email === email);
+    const user = recipients.find((r) => r.email === email);
 
-    user.map((u) => {
-      let index = recipients.indexOf(u);
-      recipients[index].signed = true;
-      recipients[index].viewed = true;
-    });
-    const signed =
-      recipients.filter((r) => r.signed === true).length === recipients.length
-        ? true
-        : false;
-    const viewed =
-      recipients.filter((r) => r.viewed === true).length === recipients.length
-        ? true
-        : false;
+    let index = recipients.indexOf(user);
+    recipients[index] = {
+      ...recipients[index],
+      signed: true,
+      viewed: true,
+      needsToSign: false,
+      needsToView: false,
+    };
+
+    const signed = recipients.every(
+      (r) => r.signed === true && r.viewed === true
+    );
+    const viewed = !recipients.some(
+      (r) => r.signed === false || r.viewed === false
+    );
     uploadedDocument = {
       ...uploadedDocument,
       fileContent: uploadedDocument,
