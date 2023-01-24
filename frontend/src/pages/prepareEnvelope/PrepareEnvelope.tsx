@@ -68,7 +68,7 @@ export default function PrepareEnvelope(props) {
         name: r.name,
         email: r.email,
         needsToView: true,
-        needsToSign: true,
+        needsToSign: false,
         needsTo: r.needsTo,
         signed: true,
         viewed: false,

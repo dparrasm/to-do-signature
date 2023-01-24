@@ -9,11 +9,13 @@ import {
   loadDocuments,
   selectAllDocuments,
   signDocument,
+  unselectDocuments,
 } from "../../reducers/actions/documentActions";
 import Searchbar from "../../components/searchbar/Searchbar";
 import "./Manage.scss";
 import Column from "../../components/column/Column";
 import { uploadEnvelopeByDocumentId } from "../../reducers/actions/envelopeActions";
+import { setPath } from "../../reducers/actions/routerActions";
 
 export interface document {
   readingDocument: any;
@@ -35,7 +37,6 @@ export default function Manage(props) {
   const history = useHistory();
   const location = useLocation();
   const page = location.pathname.replace("/manage/", "");
-  const documentsJsonString = JSON.stringify(documentState);
 
   const handleOnChange = () => {
     setCheckAll(!checkAll);
@@ -72,7 +73,9 @@ export default function Manage(props) {
 
   useEffect(() => {
     dispatch(loadDocuments(user?.email));
-  }, [documentsJsonString]);
+    dispatch(unselectDocuments(page));
+    setCheckAll(false);
+  }, [location, page]);
 
   return (
     <div className="container-manager">
@@ -144,6 +147,7 @@ export default function Manage(props) {
                   handleOnChange={handleOnChange}
                   handleClick={handleClick}
                   isChecked={doc.isChecked}
+                  completed={doc.signed && doc.viewed ? true : false}
                 />
               ))}
         </div>

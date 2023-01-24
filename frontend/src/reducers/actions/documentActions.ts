@@ -1,5 +1,7 @@
 import axios from "axios";
+import { autofirma } from "../../pages/signing/signDocument/signSetup";
 import { setAlert } from "./alertActions";
+import { setPath } from "./routerActions";
 import {
   DOCUMENT_FAIL,
   GET_DOCUMENTS,
@@ -26,14 +28,13 @@ export const loadDocuments = (userId) => async (dispatch) => {
       inbox: [],
       sent: [],
     };
-    console.log("documents.data" + JSON.stringify(documents.data));
+
     documents.data.map((doc) => {
       doc.isChecked = false;
       if (
         doc.recipients.filter((r) => r.folder == "INBOX" && r.email === userId)
           ?.length > 0
       ) {
-        console.log("inbox: " + doc);
         folders.inbox.push(doc);
       }
       if (
@@ -43,7 +44,7 @@ export const loadDocuments = (userId) => async (dispatch) => {
         folders.sent.push(doc);
       }
     });
-    console.log(folders);
+
     dispatch({
       type: GET_DOCUMENTS,
       payload: folders,
@@ -76,7 +77,7 @@ export const uploadDocument =
         payload: document,
       });
     } catch {
-      console.log("Fallo");
+      console.log("Upload document error");
     }
   };
 
@@ -87,7 +88,7 @@ export const unloadDocument = (index) => async (dispatch) => {
       payload: index,
     });
   } catch {
-    console.log("Fallo");
+    console.log("Unload document error");
   }
 };
 
@@ -128,28 +129,40 @@ export const signDocument = (id, email) => async (dispatch) => {
     headers: { "Content-Type": "application/json" },
   };
   try {
+    let signatureB64: string = "";
+    const setSignedDocument = async (signedDocument) => {
+      dispatch(setPath(signedDocument.signatureB64));
+      signatureB64 = signedDocument?.signatureB64;
+      console.log("añade el application:data/pdf " + signatureB64);
+    };
     const documentToDownload = await axios.get("/api/document/" + id, config);
-    //HAY QUE ACTUALIZAR EL FILE CONTENT
-    //autofirma(documentToDownload.data.fileContent);
     let uploadedDocument = documentToDownload.data;
+    autofirma(uploadedDocument.fileContent, setSignedDocument)
+      .then(() => {
+        console.log("Ya hemos firmado");
+      })
+      .catch(() => console.log("lo intentaste"));
     const recipients = uploadedDocument.recipients;
-    const user = recipients.filter((r) => r.email === email);
-    console.log(JSON.stringify(user));
-    user.map((u) => {
-      let index = recipients.indexOf(u);
-      recipients[index].signed = true;
-      recipients[index].viewed = true;
-    });
-    const signed =
-      recipients.filter((r) => r.signed === true).length === recipients.length
-        ? true
-        : false;
-    const viewed =
-      recipients.filter((r) => r.viewed === true).length === recipients.length
-        ? true
-        : false;
+    const user = recipients.find((r) => r.email === email);
+
+    let index = recipients.indexOf(user);
+    recipients[index] = {
+      ...recipients[index],
+      signed: true,
+      viewed: true,
+      needsToSign: false,
+      needsToView: false,
+    };
+
+    const signed = recipients.every(
+      (r) => r.signed === true && r.viewed === true
+    );
+    const viewed = !recipients.some(
+      (r) => r.signed === false || r.viewed === false
+    );
     uploadedDocument = {
       ...uploadedDocument,
+      fileContent: uploadedDocument,
       recipients: recipients,
       signed: signed,
       viewed: viewed,
@@ -160,7 +173,7 @@ export const signDocument = (id, email) => async (dispatch) => {
     });
     //await axios.put("/api/document/" + id, config);
   } catch (err: any) {
-    console.log("Casi pero no");
+    console.log("Error sign document");
   }
 };
 export const downloadDocument = (id) => async () => {
@@ -183,7 +196,6 @@ export const getDocument = (id) => async (dispatch) => {
   };
   try {
     const document = await axios.get("/api/document/" + id, config);
-    console.log(document);
     dispatch({
       type: GET_DOCUMENT,
       payload: document.data,
@@ -205,7 +217,7 @@ export const searchDocument = (title, page) => async (dispatch) => {
       payload: { title: title, page: page },
     });
   } catch {
-    console.log("Fallo");
+    console.log("Search document error");
   }
 };
 export const unsearchDocuments = () => async (dispatch) => {
@@ -214,7 +226,7 @@ export const unsearchDocuments = () => async (dispatch) => {
       type: UNSEARCH_DOCUMENT,
     });
   } catch {
-    console.log("Fallo unsearchDocuments");
+    console.log("UnsearchDocuments error");
   }
 };
 
