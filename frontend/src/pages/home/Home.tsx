@@ -15,6 +15,8 @@ export interface User {
 }
 export default function Home() {
   const user: any = useSelector((state: rootState) => state?.auth?.user);
+  const dispatch = useDispatch();
+  dispatch(loadDocuments(user?.email));
   const documents: any = useSelector((state: rootState) => state?.document);
   const [notification, setNotifications] = useState({
     actionRequired: 0,
@@ -23,7 +25,6 @@ export default function Home() {
     completed: 0,
   });
   const documentsJsonString = JSON.stringify(documents);
-  const dispatch = useDispatch();
   const updateUserInformation = () => {
     let allDocuments = [
       ...new Set([...documents["sent"], ...documents["inbox"]]),
@@ -49,7 +50,7 @@ export default function Home() {
       ) {
         counters.waitingForOthersCont++;
       }
-      if (d.recipients.every((r) => r?.signed && r?.viewed).length === 0) {
+      if (d.recipients.every((r) => r?.signed && r?.viewed)) {
         counters.completedCont++;
       }
       if (
@@ -68,12 +69,9 @@ export default function Home() {
   };
 
   useEffect(() => {
-    dispatch(
-      loadDocuments(user?.email)
-        .then(() => updateUserInformation())
-        .catch(() => console.log("Imposible to load documents"))
-    );
-  }, []);
+    setTimeout(() => {}, 5000);
+    updateUserInformation();
+  }, [documentsJsonString]);
   return (
     <div className="home-container">
       <div className="home-user">

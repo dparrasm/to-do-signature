@@ -16,7 +16,10 @@ function SignDocument(props) {
   const [numPages, setNumPages] = useState(null);
   const user: any = useSelector((state: rootState) => state?.auth?.user);
   const envelope: any = useSelector((state: rootState) => state?.envelope);
-  const [document, nextDocument] = useState(envelope?.documents);
+  const [index, setIndex] = useState(0);
+  const [document, setDocument] = useState(
+    envelope?.documents[index].fileContent
+  );
 
   const dispatch = useDispatch();
   const sign = () => {
@@ -51,9 +54,7 @@ function SignDocument(props) {
       })
     );
   };
-  useEffect(() => {
-    nextDocument(document);
-  }, [envelope]);
+
   function onDocumentLoadSuccess({ numPages }) {
     setNumPages(numPages);
   }
