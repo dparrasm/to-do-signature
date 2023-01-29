@@ -103,7 +103,8 @@ var AutoScript = ( function ( window, undefined ) {
          * Indica si el navegador soporta WebSockets.
          */
         function isWebSocketsSupported() {
-        	return 'WebSocket' in window || 'MozWebSocket' in window;
+        	//return 'WebSocket' in window || 'MozWebSocket' in window;
+			return false;
         }
 
 		/** Comprueba si una cadena de texto es una URL (http/https). La alternativa implicaria ser un Base64. */ 

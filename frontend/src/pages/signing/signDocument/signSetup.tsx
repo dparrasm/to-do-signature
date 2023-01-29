@@ -1,5 +1,3 @@
-import React from "react";
-
 export const autofirma = async (dataB64, setSignedDocument) => {
   let signedDocument = { signatureB64: "", certificateB64: "" };
   AutoScript.checkTime(AutoScript.CHECKTIME_RECOMMENDED, 300000);

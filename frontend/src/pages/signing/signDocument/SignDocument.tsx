@@ -1,5 +1,5 @@
 import "./SignDocument.scss";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Document, Page, pdfjs } from "react-pdf";
 import { useDispatch, useSelector } from "react-redux";
 import { rootState } from "../../../reducers";
@@ -8,19 +8,41 @@ import MenuItem from "../../../components/menuItem/MenuItem";
 import { Link } from "react-router-dom";
 import {
   postDocuments,
+  removeUploadedDocuments,
   signDocument,
 } from "../../../reducers/actions/documentActions";
+import IconButton from "../../../components/iconButton/IconButton";
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
 function SignDocument(props) {
   const [numPages, setNumPages] = useState(null);
   const user: any = useSelector((state: rootState) => state?.auth?.user);
   const envelope: any = useSelector((state: rootState) => state?.envelope);
-  const [document, nextDocument] = useState(envelope?.documents);
+  const [index, setIndex] = useState(0);
+  const [document, setDocument] = useState(envelope?.documents);
 
   const dispatch = useDispatch();
   const sign = () => {
     document.map((doc) => dispatch(signDocument(doc._id, user.email)));
+  };
+  const nextDocument = () => {
+    const length = document.length - 1;
+    if (index < length) {
+      setIndex(index + 1);
+    } else {
+      setIndex(0);
+    }
+  };
+  const previousDocument = () => {
+    const length = document.length - 1;
+    if (index > 0) {
+      setIndex(index + 1);
+    } else {
+      setIndex(length);
+    }
+  };
+  const removeDocuments = () => {
+    dispatch(removeUploadedDocuments());
   };
   const sendEnvelope = () => {
     const recipient = {
@@ -50,10 +72,9 @@ function SignDocument(props) {
         email: envelope?.email,
       })
     );
+    dispatch(removeUploadedDocuments());
   };
-  useEffect(() => {
-    nextDocument(document);
-  }, [envelope]);
+
   function onDocumentLoadSuccess({ numPages }) {
     setNumPages(numPages);
   }
@@ -68,7 +89,7 @@ function SignDocument(props) {
       <div className="sign-document-header">
         <h6>Drag and drop fields from the left panel onto the document</h6>
         <Link to="/manage">
-          <button>X</button>
+          <button onClick={removeDocuments}>X</button>
         </Link>
       </div>
       <div className="root-sign-document">
@@ -94,12 +115,20 @@ function SignDocument(props) {
         </div>
         <div className="document-to-sign-container">
           <div className="document-info-header">
-            <h1>document title</h1>
+            <div className="sign-document-buttons" onClick={previousDocument}>
+              <IconButton icon={icons.previous} />
+            </div>
+            <div className="sign-document-title">
+              <h1>{document[index].title}</h1>
+            </div>
+            <div className="sign-document-buttons" onClick={nextDocument}>
+              <IconButton icon={icons.next} />
+            </div>
           </div>
           <div className="signing-display-document">
             <div>
               <Document
-                file={document}
+                file={document[index].fileContent}
                 onLoadSuccess={onDocumentLoadSuccess}
                 onLoadError={loadError}
               >

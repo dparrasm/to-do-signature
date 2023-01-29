@@ -12,6 +12,8 @@ import {
   UNSELECT_DOCUMENTS,
   SIGN_DOCUMENT,
   UNSEARCH_DOCUMENT,
+  REMOVE_UPLOADED_DOCUMENTS,
+  SEND_UNSIGNED_DOCUMENT_REMINDER,
 } from "./actions/types";
 
 const initialState = {
@@ -131,6 +133,7 @@ export default function documentReducer(state = initialState, action) {
           };
       }
     }
+    case SEND_UNSIGNED_DOCUMENT_REMINDER:
     case UNSELECT_DOCUMENTS: {
       let foldersToUpdate = folders.filter((f) => f === payload.folder);
       let auxObject = {};
@@ -179,6 +182,12 @@ export default function documentReducer(state = initialState, action) {
         ...state,
         inbox: inbox,
         sent: sent,
+      };
+    }
+    case REMOVE_UPLOADED_DOCUMENTS: {
+      return {
+        ...state,
+        uploadedDocuments: [],
       };
     }
     case DOCUMENT_FAIL:

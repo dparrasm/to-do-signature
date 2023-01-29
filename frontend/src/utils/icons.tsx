@@ -22,4 +22,6 @@ export const icons = {
   eye: "fas fa-eye",
   exclamationCircle: "fas fa-exclamation-circle",
   checkCircle: "fas fa-check-circle",
+  previous: "fas fa-angle-double-left",
+  next: "fas fa-angle-double-right",
 };

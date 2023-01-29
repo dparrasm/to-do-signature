@@ -2,21 +2,28 @@ import React, { useEffect } from "react";
 import "./Column.scss";
 import { icons } from "../../utils/icons";
 import { Link, useHistory, useLocation } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   unsearchDocuments,
   unselectDocuments,
 } from "../../reducers/actions/documentActions";
+import { rootState } from "../../reducers";
 
 export default function Column() {
   const location = useLocation();
   const dispatch = useDispatch();
   const history = useHistory();
+  const documents = useSelector((state: rootState) => state?.document);
 
   useEffect(() => {
-    const folder = location.pathname.replace("/manage/", "");
-    dispatch(unselectDocuments(folder));
+    if (location.pathname.includes("/manage/")) {
+      const folder = location.pathname.replace("/manage/", "");
+      if (documents[folder].some((doc) => doc.isChecked === true)) {
+        dispatch(unselectDocuments(folder));
+      }
+    }
   }, [location]);
+
   const handleClick = (page) => {
     history.push("/manage/" + page);
     dispatch(unsearchDocuments());

@@ -16,6 +16,8 @@ import {
   UNSELECT_DOCUMENTS,
   SIGN_DOCUMENT,
   UNSEARCH_DOCUMENT,
+  REMOVE_UPLOADED_DOCUMENTS,
+  SEND_UNSIGNED_DOCUMENT_REMINDER,
 } from "./types";
 
 export const loadDocuments = (userId) => async (dispatch) => {
@@ -92,6 +94,17 @@ export const unloadDocument = (index) => async (dispatch) => {
   }
 };
 
+export const removeUploadedDocuments = () => async (dispatch) => {
+  try {
+    dispatch({
+      type: REMOVE_UPLOADED_DOCUMENTS,
+      payload: [],
+    });
+  } catch (err: any) {
+    console.log("Error removing uploaded documents");
+    // console.log(err);
+  }
+};
 export const postDocuments =
   ({ documents, signedBy, signed, viewed, recipients, lastChange, email }) =>
   async (dispatch) => {
@@ -107,13 +120,17 @@ export const postDocuments =
       lastChange,
       email,
     });
-
     try {
       const doc = await axios.post("/api/document", body, config);
       dispatch({
         type: POST_DOCUMENT,
         payload: doc.data,
       });
+      const notRegisteredRecipients = await axios.post(
+        "/api/users/notRegisteredRecipients",
+        body,
+        config
+      );
     } catch (err: any) {
       const errors = err?.response?.data?.errors;
       if (errors) {
@@ -166,6 +183,7 @@ export const signDocument = (id, email) => async (dispatch) => {
       recipients: recipients,
       signed: signed,
       viewed: viewed,
+      isChecked: false,
     };
     dispatch({
       type: SIGN_DOCUMENT,
@@ -289,3 +307,24 @@ export const deleteDocument = (id, folder) => async (dispatch) => {
     });
   }
 };
+
+export const sendUnsignedDocumentsReminder =
+  (selectedDocuments, folder) => async (dispatch) => {
+    console.log(JSON.stringify(selectedDocuments));
+    const config = {
+      headers: { "Content-Type": "application/json" },
+    };
+    const body = JSON.stringify(selectedDocuments);
+    try {
+      await axios.post("/api/document/unsignedDocumentsReminder", body, config);
+      dispatch({
+        type: SEND_UNSIGNED_DOCUMENT_REMINDER,
+        payload: { folder: folder },
+      });
+    } catch (err: any) {
+      const errors = err?.response?.data?.errors;
+      if (errors) {
+        errors.forEach((error) => console.log((error.msg, "error")));
+      }
+    }
+  };
