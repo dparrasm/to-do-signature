@@ -10,7 +10,10 @@ import { icons } from "../../utils/icons";
 import { rootState } from "../../reducers";
 import { useSelector } from "react-redux";
 import { uploadEnvelope } from "../../reducers/actions/envelopeActions";
-import { unloadDocument } from "../../reducers/actions/documentActions";
+import {
+  removeUploadedDocuments,
+  unloadDocument,
+} from "../../reducers/actions/documentActions";
 import Filepicker from "../../components/filepicker/Filepicker";
 
 export default function PrepareEnvelope(props) {
@@ -149,12 +152,14 @@ export default function PrepareEnvelope(props) {
     };
     dispatch(uploadEnvelope(envelope));
   };
-
+  const handleOnClick = () => {
+    dispatch(removeUploadedDocuments());
+  };
   return (
     <div className="scroll">
       <div className="close-bar">
         <Link className="cross-button" to="/manage">
-          <button>X</button>
+          <button onClick={handleOnClick}>X</button>
         </Link>
       </div>
       <div className="container-wrap">

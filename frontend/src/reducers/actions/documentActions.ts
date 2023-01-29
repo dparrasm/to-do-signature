@@ -16,6 +16,7 @@ import {
   UNSELECT_DOCUMENTS,
   SIGN_DOCUMENT,
   UNSEARCH_DOCUMENT,
+  REMOVE_UPLOADED_DOCUMENTS,
 } from "./types";
 
 export const loadDocuments = (userId) => async (dispatch) => {
@@ -92,6 +93,17 @@ export const unloadDocument = (index) => async (dispatch) => {
   }
 };
 
+export const removeUploadedDocuments = () => async (dispatch) => {
+  try {
+    dispatch({
+      type: REMOVE_UPLOADED_DOCUMENTS,
+      payload: [],
+    });
+  } catch (err: any) {
+    console.log("Error removing uploaded documents");
+    // console.log(err);
+  }
+};
 export const postDocuments =
   ({ documents, signedBy, signed, viewed, recipients, lastChange, email }) =>
   async (dispatch) => {
@@ -107,7 +119,6 @@ export const postDocuments =
       lastChange,
       email,
     });
-
     try {
       const doc = await axios.post("/api/document", body, config);
       dispatch({

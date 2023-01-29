@@ -116,6 +116,7 @@
 .envelope-table-row-cell{
     display: table-cell;
     width: 10%;
+    padding-top: 4px;
 }
 .envelope-table-row-cell-checkbox{
     display: table-cell;
@@ -137,6 +138,10 @@
     padding:10px;
     color: #717171;
     border-radius: 20px;
+}
+.envelope-table-row-cell-iconbutton-hidden {
+    padding: 10px;
+    color: green;
 }
 .envelope-table-row-cell-iconbutton:hover {
     background: #e0e0de;

@@ -74,7 +74,9 @@ export default function Manage(props) {
   useEffect(() => {
     dispatch(loadDocuments(user?.email));
     dispatch(unselectDocuments(page));
-    setCheckAll(false);
+    if (checkAll) {
+      setCheckAll(false);
+    }
   }, [location, page]);
 
   return (
@@ -148,6 +150,15 @@ export default function Manage(props) {
                   handleClick={handleClick}
                   isChecked={doc.isChecked}
                   completed={doc.signed && doc.viewed ? true : false}
+                  userId={user._id}
+                  needsToSign={
+                    doc.recipients.find((r) => r.email === user.email)
+                      .needsToSign
+                  }
+                  needsToView={
+                    doc.recipients.find((r) => r.email === user.email)
+                      .needsToView
+                  }
                 />
               ))}
         </div>

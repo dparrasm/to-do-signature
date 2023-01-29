@@ -1,5 +1,5 @@
 import "./SignDocument.scss";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Document, Page, pdfjs } from "react-pdf";
 import { useDispatch, useSelector } from "react-redux";
 import { rootState } from "../../../reducers";
@@ -8,6 +8,7 @@ import MenuItem from "../../../components/menuItem/MenuItem";
 import { Link } from "react-router-dom";
 import {
   postDocuments,
+  removeUploadedDocuments,
   signDocument,
 } from "../../../reducers/actions/documentActions";
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
@@ -24,6 +25,9 @@ function SignDocument(props) {
   const dispatch = useDispatch();
   const sign = () => {
     document.map((doc) => dispatch(signDocument(doc._id, user.email)));
+  };
+  const removeDocuments = () => {
+    dispatch(removeUploadedDocuments());
   };
   const sendEnvelope = () => {
     const recipient = {
@@ -53,6 +57,7 @@ function SignDocument(props) {
         email: envelope?.email,
       })
     );
+    dispatch(removeUploadedDocuments());
   };
 
   function onDocumentLoadSuccess({ numPages }) {
@@ -69,7 +74,7 @@ function SignDocument(props) {
       <div className="sign-document-header">
         <h6>Drag and drop fields from the left panel onto the document</h6>
         <Link to="/manage">
-          <button>X</button>
+          <button onClick={removeDocuments}>X</button>
         </Link>
       </div>
       <div className="root-sign-document">

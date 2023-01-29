@@ -30,13 +30,19 @@ export const loadUser = () => async (dispatch) => {
   }
 };
 export const updateUser = (user) => async (dispatch) => {
+  if (localStorage.token) {
+    setAuthToken(localStorage.token);
+  }
   const config = {
     headers: {
       "Content-Type": "application/json",
     },
   };
-  const body = JSON.stringify(user);
+
   try {
+    const user = await axios.get("/api/auth");
+    const body = { ...user, _id: user.data._id };
+    console.log(JSON.stringify(body));
     const res = await axios.put("/api/users", body, config);
     dispatch({
       type: USER_UPDATED,
@@ -113,4 +119,26 @@ export const login = (email, password) => async (dispatch) => {
 };
 export const logout = () => (dispatch) => {
   dispatch({ type: LOGOUT });
+};
+
+export const deleteUser = () => async (dispatch) => {
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  };
+  try {
+    const user = await axios.get("/api/auth");
+    console.log(JSON.stringify(user));
+    await axios.delete("/api/auth/" + user?.data?._id, config);
+    dispatch({
+      type: LOGOUT,
+    });
+  } catch (err: any) {
+    const errors = err?.response?.data?.errors;
+
+    if (errors) {
+      errors.forEach((error) => dispatch(setAlert(error.msg, "error")));
+    }
+  }
 };

@@ -4,7 +4,12 @@ import "./UserProfile.scss";
 import Filepicker from "../../components/filepicker/Filepicker";
 import { rootState } from "../../reducers";
 import { useDispatch, useSelector } from "react-redux";
-import { updateUser } from "../../reducers/actions/authActions";
+import {
+  deleteUser,
+  logout,
+  updateUser,
+} from "../../reducers/actions/authActions";
+import { Link, useHistory } from "react-router-dom";
 
 export default function UserProfile() {
   const user = useSelector((state: rootState) => state.auth?.user);
@@ -16,6 +21,18 @@ export default function UserProfile() {
   const email = useRef<HTMLInputElement>(null);
   const password = useRef<HTMLInputElement>(null);
 
+  const handleDelete = () => {
+    try {
+      dispatch(deleteUser());
+      dispatch(logout());
+    } catch (err: any) {
+      const errors = err.response.data.errors;
+
+      if (errors) {
+        errors.forEach((error) => console.log(error.msg, "error"));
+      }
+    }
+  };
   const handleOnClick = () => {
     const newUser = {
       name: name?.current?.value ? name.current.value : user.name,
@@ -115,14 +132,16 @@ export default function UserProfile() {
         >
           Update
         </Button>
-        <Button
-          className="red-button"
-          variant="contained"
-          color="primary"
-          onClick={handleOnClick}
-        >
-          Delete
-        </Button>
+        <Link to="/login">
+          <Button
+            className="red-button"
+            variant="contained"
+            color="primary"
+            onClick={handleDelete}
+          >
+            Delete
+          </Button>
+        </Link>
       </div>
     </div>
   );
