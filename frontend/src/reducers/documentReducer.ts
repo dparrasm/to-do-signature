@@ -13,6 +13,7 @@ import {
   SIGN_DOCUMENT,
   UNSEARCH_DOCUMENT,
   REMOVE_UPLOADED_DOCUMENTS,
+  SEND_UNSIGNED_DOCUMENT_REMINDER,
 } from "./actions/types";
 
 const initialState = {
@@ -132,6 +133,7 @@ export default function documentReducer(state = initialState, action) {
           };
       }
     }
+    case SEND_UNSIGNED_DOCUMENT_REMINDER:
     case UNSELECT_DOCUMENTS: {
       let foldersToUpdate = folders.filter((f) => f === payload.folder);
       let auxObject = {};

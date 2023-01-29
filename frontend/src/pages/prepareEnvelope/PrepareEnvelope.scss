@@ -79,6 +79,10 @@
 }
 .recipients-container input{
     cursor: pointer;
+    font-family: 'Roboto';
+}
+.recipients-container textarea{
+    font-family: 'Roboto';
 }
 .prepare-envelope-button-actions {
     display: flex;

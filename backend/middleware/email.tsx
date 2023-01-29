@@ -9,8 +9,8 @@ import {
 
 exports.sendEmail = function (
   emailAddress: string,
-  email: { subject: string; message: string },
-  documents: { title: string; fileContent: string }[]
+  email: { subject: string; message: string } /*,
+documents: { title: string; fileContent: string}[]*/
 ) {
   let transporter = nodemailer.createTransport({
     service: "gmail",
@@ -23,19 +23,19 @@ exports.sendEmail = function (
       refreshToken: OAUTH_REFRESH_TOKEN,
     },
   });
-  const attachments = documents.map((d) => {
-    return {
-      filename: d?.title,
-      path: d?.fileContent,
-    };
-  });
+  // const attachments = documents.map((d) => {
+  //   return {
+  //     filename: d?.title,
+  //     path: d?.fileContent,
+  //   };
+  // });
 
   let mailOptions = {
     from: MAIL_USERNAME,
     to: emailAddress,
     subject: email?.subject,
     text: email?.message,
-    attachments: attachments,
+    //attachments: attachments,
   };
 
   transporter.sendMail(mailOptions, function (err, data) {

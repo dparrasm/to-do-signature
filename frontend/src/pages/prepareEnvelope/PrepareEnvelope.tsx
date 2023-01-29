@@ -15,6 +15,7 @@ import {
   unloadDocument,
 } from "../../reducers/actions/documentActions";
 import Filepicker from "../../components/filepicker/Filepicker";
+import { documentsReadyToBeSign } from "../../utils/emailMessages";
 
 export default function PrepareEnvelope(props) {
   const dispatch = useDispatch();
@@ -233,7 +234,11 @@ export default function PrepareEnvelope(props) {
                 <span>Email Subject</span>
                 <span className="star">*</span>
               </div>
-              <input type="text" ref={subjectRef} />
+              <input
+                type="text"
+                ref={subjectRef}
+                defaultValue={documentsReadyToBeSign.subject}
+              />
             </div>
             <div>
               <div>
@@ -242,6 +247,7 @@ export default function PrepareEnvelope(props) {
               <textarea
                 className="prepare-envelope-email-message"
                 ref={messageRef}
+                defaultValue={documentsReadyToBeSign.message}
               />
             </div>
           </div>

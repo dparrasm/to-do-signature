@@ -17,6 +17,7 @@ import {
   SIGN_DOCUMENT,
   UNSEARCH_DOCUMENT,
   REMOVE_UPLOADED_DOCUMENTS,
+  SEND_UNSIGNED_DOCUMENT_REMINDER,
 } from "./types";
 
 export const loadDocuments = (userId) => async (dispatch) => {
@@ -125,6 +126,11 @@ export const postDocuments =
         type: POST_DOCUMENT,
         payload: doc.data,
       });
+      const notRegisteredRecipients = await axios.post(
+        "/api/users/notRegisteredRecipients",
+        body,
+        config
+      );
     } catch (err: any) {
       const errors = err?.response?.data?.errors;
       if (errors) {
@@ -301,3 +307,24 @@ export const deleteDocument = (id, folder) => async (dispatch) => {
     });
   }
 };
+
+export const sendUnsignedDocumentsReminder =
+  (selectedDocuments, folder) => async (dispatch) => {
+    console.log(JSON.stringify(selectedDocuments));
+    const config = {
+      headers: { "Content-Type": "application/json" },
+    };
+    const body = JSON.stringify(selectedDocuments);
+    try {
+      await axios.post("/api/document/unsignedDocumentsReminder", body, config);
+      dispatch({
+        type: SEND_UNSIGNED_DOCUMENT_REMINDER,
+        payload: { folder: folder },
+      });
+    } catch (err: any) {
+      const errors = err?.response?.data?.errors;
+      if (errors) {
+        errors.forEach((error) => console.log((error.msg, "error")));
+      }
+    }
+  };

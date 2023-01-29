@@ -8,6 +8,7 @@ import {
   downloadDocument,
   loadDocuments,
   selectAllDocuments,
+  sendUnsignedDocumentsReminder,
   signDocument,
   unselectDocuments,
 } from "../../reducers/actions/documentActions";
@@ -32,6 +33,9 @@ export default function Manage(props) {
     (state: rootState) => state?.document
   );
   const user = useSelector((state: rootState) => state?.auth?.user);
+  const selectedDocuments = useSelector(
+    (state: rootState) => state?.document?.selectedDocuments
+  );
   const dispatch = useDispatch();
   const [checkAll, setCheckAll] = useState(false);
   const history = useHistory();
@@ -39,8 +43,12 @@ export default function Manage(props) {
   const page = location.pathname.replace("/manage/", "");
 
   const handleOnChange = () => {
+    if (!checkAll) {
+      dispatch(selectAllDocuments(page, checkAll));
+    } else {
+      dispatch(unselectDocuments(page));
+    }
     setCheckAll(!checkAll);
-    dispatch(selectAllDocuments(page, checkAll));
   };
 
   const handleClick = (
@@ -69,6 +77,23 @@ export default function Manage(props) {
       default:
         console.log("Unknown action");
     }
+  };
+  const multipleAction = (action: string) => {
+    const array = [...selectedDocuments];
+    switch (action) {
+      case "delete":
+        return array.map((doc) => {
+          dispatch(deleteDocument(doc._id, page));
+        });
+      case "signature":
+        return array.map((doc) => {
+          dispatch(signDocument(doc._id, user?.email));
+        });
+      default:
+        console.log("Send document again");
+        dispatch(sendUnsignedDocumentsReminder(selectedDocuments, page));
+    }
+    unselectDocuments(page);
   };
 
   useEffect(() => {
@@ -104,11 +129,28 @@ export default function Manage(props) {
                 checked={checkAll}
                 onChange={handleOnChange}
               />
-              <div>
-                <button>Sign</button>
-                <button className="middle-button ">Send again</button>
-                <button>Delete</button>
-              </div>
+              {selectedDocuments.length > 0 ? (
+                <div className="manage-button-bar">
+                  <button onClick={() => multipleAction("signature")}>
+                    Sign
+                  </button>
+                  <button
+                    className="middle-button "
+                    onClick={() => multipleAction("")}
+                  >
+                    Send again
+                  </button>
+                  <button onClick={() => multipleAction("delete")}>
+                    Delete
+                  </button>
+                </div>
+              ) : (
+                <div>
+                  <button>Sign</button>
+                  <button className="middle-button ">Send again</button>
+                  <button>Delete</button>
+                </div>
+              )}
             </div>
           </div>
           <div className="table-columns">

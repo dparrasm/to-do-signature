@@ -34,7 +34,7 @@ router.post(
           .status(400)
           .json({ errors: [{ msg: "User already exists" }] });
       }
-      //Añadir en algún momento más seguridad para la contraseña.
+
       user = new User({
         name,
         surname,
@@ -94,4 +94,20 @@ router.put("/", async (req, res, next) => {
   }
 });
 
+router.post("/notRegisteredRecipients", async (req, res, next) => {
+  const recipients = req.body.recipients;
+  let notRegisteredRecipients: string[] = [];
+  try {
+    recipients.map(async (r) => {
+      let user = await User.find({ email: r.email }).select("-password");
+      if (user === null) {
+        notRegisteredRecipients.push(r.email);
+      }
+    });
+    res.status(200).json(notRegisteredRecipients);
+  } catch (err: any) {
+    console.error(err.message);
+    res.status(500).send("Server error on user invitation");
+  }
+});
 module.exports = router;

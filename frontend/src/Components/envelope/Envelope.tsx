@@ -11,7 +11,10 @@ export default function Envelope(props) {
   const handleOnChange = () => {
     dispatch(selectDocument(props.id, props.folder));
   };
-
+  console.log(props.title);
+  console.log(props.needsToSign);
+  console.log(props.needsToView);
+  console.log(props.userId);
   const handleInputChange = () => {
     console.log("isChecked");
   };
@@ -27,7 +30,7 @@ export default function Envelope(props) {
           <input
             type="checkbox"
             id="isChecked"
-            name="vehicle1"
+            name="isChecked"
             value={props.index}
             checked={props.isChecked}
             onChange={handleInputChange}
@@ -88,14 +91,26 @@ export default function Envelope(props) {
         </div>
         <div className="envelope-table-row-cell">
           <div className="envelope-table-row-cell-iconbutton-container">
-            <div
-              className="envelope-table-row-cell-iconbutton"
-              onClick={(e) =>
-                props.handleClick(e, { id: props.id, action: "SIGN" })
-              }
-            >
-              <IconButton icon={icons.pen} />
-            </div>
+            {props.needsToSign ? (
+              <div
+                className="envelope-table-row-cell-iconbutton"
+                onClick={(e) =>
+                  props.handleClick(e, { id: props.id, action: "SIGN" })
+                }
+              >
+                <IconButton icon={icons.pen} />
+              </div>
+            ) : (
+              <div
+                className="envelope-table-row-cell-iconbutton-hidden"
+                onClick={(e) =>
+                  props.handleClick(e, { id: props.id, action: "SIGN" })
+                }
+              >
+                <IconButton icon={icons.signed} />
+              </div>
+            )}
+
             <div
               className="envelope-table-row-cell-iconbutton"
               onClick={(e) =>
