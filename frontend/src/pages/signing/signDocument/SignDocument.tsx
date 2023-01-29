@@ -11,6 +11,7 @@ import {
   removeUploadedDocuments,
   signDocument,
 } from "../../../reducers/actions/documentActions";
+import IconButton from "../../../components/iconButton/IconButton";
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
 function SignDocument(props) {
@@ -18,13 +19,27 @@ function SignDocument(props) {
   const user: any = useSelector((state: rootState) => state?.auth?.user);
   const envelope: any = useSelector((state: rootState) => state?.envelope);
   const [index, setIndex] = useState(0);
-  const [document, setDocument] = useState(
-    envelope?.documents[index].fileContent
-  );
+  const [document, setDocument] = useState(envelope?.documents);
 
   const dispatch = useDispatch();
   const sign = () => {
     document.map((doc) => dispatch(signDocument(doc._id, user.email)));
+  };
+  const nextDocument = () => {
+    const length = document.length - 1;
+    if (index < length) {
+      setIndex(index + 1);
+    } else {
+      setIndex(0);
+    }
+  };
+  const previousDocument = () => {
+    const length = document.length - 1;
+    if (index > 0) {
+      setIndex(index + 1);
+    } else {
+      setIndex(length);
+    }
   };
   const removeDocuments = () => {
     dispatch(removeUploadedDocuments());
@@ -100,12 +115,20 @@ function SignDocument(props) {
         </div>
         <div className="document-to-sign-container">
           <div className="document-info-header">
-            <h1>document title</h1>
+            <div className="sign-document-buttons" onClick={previousDocument}>
+              <IconButton icon={icons.previous} />
+            </div>
+            <div className="sign-document-title">
+              <h1>{document[index].title}</h1>
+            </div>
+            <div className="sign-document-buttons" onClick={nextDocument}>
+              <IconButton icon={icons.next} />
+            </div>
           </div>
           <div className="signing-display-document">
             <div>
               <Document
-                file={document}
+                file={document[index].fileContent}
                 onLoadSuccess={onDocumentLoadSuccess}
                 onLoadError={loadError}
               >
