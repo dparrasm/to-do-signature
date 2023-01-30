@@ -67,7 +67,7 @@ router.post("/", (req, res, next) => {
 
   const recipients = req.body.recipients;
   recipients?.map((r) => {
-    sendEmail(r.email, req?.body?.email, documentsArray);
+    sendEmail(r.email, req?.body?.email);
   });
 
   res.status(201).json({
@@ -120,26 +120,24 @@ router.delete("/:id", (req, res, next) => {
 router.post("/unsignedDocumentsReminder", (req, res, next) => {
   let documentsArray = req?.body;
   const result: { email: string; titles: string[] }[] = [];
-  
-  documentsArray.forEach(
-    (document) => {
-      document.recipients.forEach((recipient) => {
-        if (!recipient.signed || recipient.viewed) {
-          const existingUser = result.find(
-            (user) => user.email === recipient.email
-          );
-          if (existingUser) {
-            existingUser.titles.push(document.title);
-          } else {
-            result.push({
-              email: recipient.email,
-              titles: [document.title],
-            });
-          }
+
+  documentsArray.forEach((document) => {
+    document.recipients.forEach((recipient) => {
+      if (!recipient.signed || recipient.viewed) {
+        const existingUser = result.find(
+          (user) => user.email === recipient.email
+        );
+        if (existingUser) {
+          existingUser.titles.push(document.title);
+        } else {
+          result.push({
+            email: recipient.email,
+            titles: [document.title],
+          });
         }
-      });
-    }
-  );
+      }
+    });
+  });
   console.log("Result: " + JSON.stringify(result));
   result?.map((r) => {
     sendEmail(

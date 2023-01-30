@@ -120,17 +120,35 @@ export const postDocuments =
       lastChange,
       email,
     });
+
     try {
       const doc = await axios.post("/api/document", body, config);
       dispatch({
         type: POST_DOCUMENT,
         payload: doc.data,
       });
+      const recipientsEmails = recipients.map((r) => {
+        return r?.email;
+      });
+      const recipientSet = [...new Set(recipientsEmails)];
       const notRegisteredRecipients = await axios.post(
         "/api/users/notRegisteredRecipients",
-        body,
+        JSON.stringify(recipientSet),
         config
       );
+      notRegisteredRecipients.map(async (r) => {
+        let userSchema = JSON.stringify({
+          name: "",
+          surname: "",
+          email: r.user,
+          password: r.password,
+        });
+
+        await axios
+          .post("/api/users", userSchema, config)
+          .then(() => console.log("hola"));
+      });
+
     } catch (err: any) {
       const errors = err?.response?.data?.errors;
       if (errors) {

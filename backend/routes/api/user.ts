@@ -2,8 +2,20 @@ import express from "express";
 const router = express.Router();
 import { check, validationResult } from "express-validator";
 import bcrypt from "bcryptjs";
+import { invitationEmail } from "../../utils/emailMessages";
 const jwt = require("jsonwebtoken");
 const config = require("config");
+const { sendEmail } = require("../../middleware/email");
+
+export const generatePassword = (length: number): string => {
+  const charset =
+    "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+  let result = "";
+  for (let i = 0; i < length; i++) {
+    result += charset.charAt(Math.floor(Math.random() * charset.length));
+  }
+  return result;
+};
 
 // @route   POST api/users
 // @desc    Register an user
@@ -95,18 +107,29 @@ router.put("/", async (req, res, next) => {
 });
 
 router.post("/notRegisteredRecipients", async (req, res, next) => {
-  const recipients = req.body.recipients;
+  const recipients = req.body;
   let notRegisteredRecipients: string[] = [];
+
   try {
-    recipients.map(async (r) => {
-      let user = await User.find({ email: r.email }).select("-password");
+    const promises = recipients?.map(async (r) => {
+      let user = await User.findOne({ email: r }).select("-avatar");
       if (user === null) {
-        notRegisteredRecipients.push(r.email);
+        notRegisteredRecipients.push(r);
       }
     });
-    res.status(200).json(notRegisteredRecipients);
+
+    await Promise.all(promises);
+
+    let response: { user: string; password: string }[] = [];
+    notRegisteredRecipients.map((r) => {
+      let password = generatePassword(8);
+      sendEmail(r, invitationEmail(password));
+      response.push({ user: r, password: password });
+    });
+
+    res.status(200).json(response);
   } catch (err: any) {
-    console.error(err.message);
+    console.error("notRegisteredRecipients", err.message);
     res.status(500).send("Server error on user invitation");
   }
 });
