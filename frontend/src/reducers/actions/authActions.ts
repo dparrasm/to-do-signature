@@ -19,6 +19,7 @@ export const loadUser = () => async (dispatch) => {
   }
   try {
     const res = await axios.get("/api/auth");
+    console.log("res: authActions --> " + JSON.stringify(res));
     dispatch({
       type: USER_LOADED,
       payload: res.data,
@@ -40,13 +41,13 @@ export const updateUser = (user) => async (dispatch) => {
   };
 
   try {
-    const user = await axios.get("/api/auth");
-    const body = { ...user, _id: user.data._id };
+    const newUser = await axios.get("/api/auth");
+    const body = { ...user, _id: newUser.data._id };
     console.log(JSON.stringify(body));
     const res = await axios.put("/api/users", body, config);
     dispatch({
       type: USER_UPDATED,
-      payload: user,
+      payload: res.data,
     });
   } catch (err: any) {
     const errors = err.response.data.errors;
@@ -66,7 +67,13 @@ export const register =
       },
     };
 
-    const body = JSON.stringify({ name, surname, email, password });
+    const body = JSON.stringify({
+      name,
+      surname,
+      email,
+      password,
+      avatar: "",
+    });
 
     try {
       const res = await axios.post("/api/users", body, config);
@@ -139,6 +146,22 @@ export const deleteUser = () => async (dispatch) => {
 
     if (errors) {
       errors.forEach((error) => dispatch(setAlert(error.msg, "error")));
+    }
+  }
+};
+export const passwordResetRequest = (email) => async (dispatch) => {
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  };
+  const body = JSON.stringify({ email: email });
+  try {
+    await axios.put("/api/users/passwordResetRequest", body, config);
+  } catch (err: any) {
+    const errors = err?.response?.data?.errors;
+    if (errors) {
+      errors.forEach((error) => console.log(error));
     }
   }
 };

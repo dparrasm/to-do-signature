@@ -18,6 +18,7 @@ import {
   UNSEARCH_DOCUMENT,
   REMOVE_UPLOADED_DOCUMENTS,
   SEND_UNSIGNED_DOCUMENT_REMINDER,
+  RESET_DOCUMENTS_STATE,
 } from "./types";
 
 export const loadDocuments = (userId) => async (dispatch) => {
@@ -148,7 +149,6 @@ export const postDocuments =
           .post("/api/users", userSchema, config)
           .then(() => console.log("hola"));
       });
-
     } catch (err: any) {
       const errors = err?.response?.data?.errors;
       if (errors) {
@@ -346,3 +346,13 @@ export const sendUnsignedDocumentsReminder =
       }
     }
   };
+
+export const resetDocumentsState = async (dispatch) => {
+  try {
+    dispatch({
+      type: RESET_DOCUMENTS_STATE,
+    });
+  } catch (e: any) {
+    console.log("Error imposible to reset documents state");
+  }
+};

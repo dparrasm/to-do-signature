@@ -11,10 +11,6 @@ export default function Envelope(props) {
   const handleOnChange = () => {
     dispatch(selectDocument(props.id, props.folder));
   };
-  console.log(props.title);
-  console.log(props.needsToSign);
-  console.log(props.needsToView);
-  console.log(props.userId);
   const handleInputChange = () => {
     console.log("isChecked");
   };

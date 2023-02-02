@@ -14,6 +14,7 @@ import {
   UNSEARCH_DOCUMENT,
   REMOVE_UPLOADED_DOCUMENTS,
   SEND_UNSIGNED_DOCUMENT_REMINDER,
+  RESET_DOCUMENTS_STATE,
 } from "./actions/types";
 
 const initialState = {
@@ -190,6 +191,10 @@ export default function documentReducer(state = initialState, action) {
         uploadedDocuments: [],
       };
     }
+    case RESET_DOCUMENTS_STATE:
+      return {
+        ...initialState,
+      };
     case DOCUMENT_FAIL:
       return state;
     default:

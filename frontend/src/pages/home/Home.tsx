@@ -16,7 +16,6 @@ export interface User {
 export default function Home() {
   const user: any = useSelector((state: rootState) => state?.auth?.user);
   const dispatch = useDispatch();
-  dispatch(loadDocuments(user?.email));
   const documents: any = useSelector((state: rootState) => state?.document);
   const [notification, setNotifications] = useState({
     actionRequired: 0,
@@ -67,11 +66,20 @@ export default function Home() {
       completed: counters.completedCont,
     });
   };
-
+  const cargarDocumentos = async () => {
+    await dispatch(loadDocuments(user?.email));
+  };
   useEffect(() => {
-    setTimeout(() => {}, 5000);
-    updateUserInformation();
+    console.log("Cargando documentos...");
+    const doc = cargarDocumentos();
+    doc
+      .then(() => {
+        console.log("Cargando usuario...");
+        updateUserInformation();
+      })
+      .catch((e: any) => console.log(e));
   }, [documentsJsonString]);
+
   return (
     <div className="home-container">
       <div className="home-user">
