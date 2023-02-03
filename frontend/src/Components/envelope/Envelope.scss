@@ -76,6 +76,16 @@
 .document-subtitle{
     font-size: 10px;
     color:gray;
+    display: inline-flex;
+}
+.document-subtitle h5{
+    margin-right: 2px;
+    line-height: 0;
+    font-size: 10px;
+    font-weight: unset;
+}
+.envelope-recipients{
+    display: inline-flex;
 }
 .td-checkbox{
     text-align: center !important;

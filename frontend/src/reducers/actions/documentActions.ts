@@ -18,6 +18,7 @@ import {
   UNSEARCH_DOCUMENT,
   REMOVE_UPLOADED_DOCUMENTS,
   SEND_UNSIGNED_DOCUMENT_REMINDER,
+  RESET_DOCUMENTS_STATE,
 } from "./types";
 
 export const loadDocuments = (userId) => async (dispatch) => {
@@ -120,17 +121,34 @@ export const postDocuments =
       lastChange,
       email,
     });
+
     try {
       const doc = await axios.post("/api/document", body, config);
       dispatch({
         type: POST_DOCUMENT,
         payload: doc.data,
       });
+      const recipientsEmails = recipients.map((r) => {
+        return r?.email;
+      });
+      const recipientSet = [...new Set(recipientsEmails)];
       const notRegisteredRecipients = await axios.post(
         "/api/users/notRegisteredRecipients",
-        body,
+        JSON.stringify(recipientSet),
         config
       );
+      notRegisteredRecipients.map(async (r) => {
+        let userSchema = JSON.stringify({
+          name: "",
+          surname: "",
+          email: r.user,
+          password: r.password,
+        });
+
+        await axios
+          .post("/api/users", userSchema, config)
+          .then(() => console.log("hola"));
+      });
     } catch (err: any) {
       const errors = err?.response?.data?.errors;
       if (errors) {
@@ -154,41 +172,44 @@ export const signDocument = (id, email) => async (dispatch) => {
     };
     const documentToDownload = await axios.get("/api/document/" + id, config);
     let uploadedDocument = documentToDownload.data;
-    autofirma(uploadedDocument.fileContent, setSignedDocument)
+    await autofirma(uploadedDocument.fileContent, setSignedDocument)
       .then(() => {
-        console.log("Ya hemos firmado");
+        const recipients = uploadedDocument.recipients;
+        const user = recipients.filter((r) => r.email === email);
+        console.log(JSON.stringify(user));
+        user.map((u) => {
+          let index = recipients.indexOf(u);
+          console.log(index);
+          recipients[index] = {
+            ...recipients[index],
+            signed: true,
+            viewed: true,
+            needsToSign: false,
+            needsToView: false,
+          };
+        });
+
+        const signed = recipients.every(
+          (r) => r.signed === true && r.viewed === true
+        );
+        const viewed = !recipients.some(
+          (r) => r.signed === false || r.viewed === false
+        );
+        uploadedDocument = {
+          ...uploadedDocument,
+          fileContent: uploadedDocument,
+          recipients: recipients,
+          signed: signed,
+          viewed: viewed,
+          isChecked: false,
+        };
+        dispatch({
+          type: SIGN_DOCUMENT,
+          payload: uploadedDocument,
+        });
       })
       .catch(() => console.log("lo intentaste"));
-    const recipients = uploadedDocument.recipients;
-    const user = recipients.find((r) => r.email === email);
 
-    let index = recipients.indexOf(user);
-    recipients[index] = {
-      ...recipients[index],
-      signed: true,
-      viewed: true,
-      needsToSign: false,
-      needsToView: false,
-    };
-
-    const signed = recipients.every(
-      (r) => r.signed === true && r.viewed === true
-    );
-    const viewed = !recipients.some(
-      (r) => r.signed === false || r.viewed === false
-    );
-    uploadedDocument = {
-      ...uploadedDocument,
-      fileContent: uploadedDocument,
-      recipients: recipients,
-      signed: signed,
-      viewed: viewed,
-      isChecked: false,
-    };
-    dispatch({
-      type: SIGN_DOCUMENT,
-      payload: uploadedDocument,
-    });
     //await axios.put("/api/document/" + id, config);
   } catch (err: any) {
     console.log("Error sign document");
@@ -328,3 +349,13 @@ export const sendUnsignedDocumentsReminder =
       }
     }
   };
+
+export const resetDocumentsState = async (dispatch) => {
+  try {
+    dispatch({
+      type: RESET_DOCUMENTS_STATE,
+    });
+  } catch (e: any) {
+    console.log("Error imposible to reset documents state");
+  }
+};

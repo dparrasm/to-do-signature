@@ -44,6 +44,7 @@ export default function UserProfile() {
           ? password?.current?.value
           : user.password,
     };
+    console.log("new password: " + newUser.password);
     if (JSON.stringify(user) !== JSON.stringify(newUser)) {
       dispatch(updateUser(newUser));
     }
@@ -111,6 +112,7 @@ export default function UserProfile() {
               type="text"
               placeholder="Email"
               value={user?.email}
+              readOnly={true}
             />
             <input
               name="password"

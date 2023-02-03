@@ -178,6 +178,16 @@ export default function Manage(props) {
                   handleOnChange={handleOnChange}
                   handleClick={handleClick}
                   isChecked={doc.isChecked}
+                  completed={doc.signed && doc.viewed ? true : false}
+                  userId={user._id}
+                  needsToSign={
+                    doc.recipients.find((r) => r.email === user.email)
+                      .needsToSign
+                  }
+                  needsToView={
+                    doc.recipients.find((r) => r.email === user.email)
+                      .needsToView
+                  }
                 />
               ))
             : documentState[page]?.map((doc, index) => (
@@ -201,6 +211,7 @@ export default function Manage(props) {
                     doc.recipients.find((r) => r.email === user.email)
                       .needsToView
                   }
+                  recipients={doc.recipients}
                 />
               ))}
         </div>

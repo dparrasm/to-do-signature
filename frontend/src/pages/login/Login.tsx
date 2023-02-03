@@ -1,7 +1,7 @@
 import withStyles from "@material-ui/core/styles/withStyles";
 import React, { Component } from "react";
 import { Button, TextField } from "@material-ui/core";
-import Signup from "./signup/Signup";
+import { Signup } from "./signup/Signup";
 import { connect, ConnectedProps } from "react-redux";
 import { setAlert } from "../../reducers/actions/alertActions";
 import Alert from "../../components/alert/Alert";
@@ -17,6 +17,7 @@ interface LoginProps {
 interface LoginState {
   isModalOpen: boolean;
   user: any;
+  caller: string;
 }
 const styles = {
   schema: {
@@ -117,6 +118,9 @@ const styles = {
     justifyContent: "center",
     alignItems: "center",
   },
+  loginForgotPassword: {
+    paddingTop: "10px",
+  },
 };
 
 class Login extends Component<
@@ -134,9 +138,16 @@ class Login extends Component<
         email: "",
         password: "",
       },
+      caller: "signup",
     };
   }
-
+  hanldeCaller = (caller: string) => {
+    this.setState({
+      ...this.state,
+      caller: caller,
+      isModalOpen: true,
+    });
+  };
   handleInputChange = (e) => {
     this.setState({
       user: {
@@ -156,6 +167,7 @@ class Login extends Component<
     event.preventDefault();
     this.props.login(this.state.user.email, this.state.user.password);
   };
+  
   render() {
     const { classes } = this.props;
 
@@ -204,25 +216,26 @@ class Login extends Component<
                   >
                     Log In
                   </Button>
-                  <a
-                    rel="noreferrer"
-                    className={classes.passwordLink}
-                    target="_blank"
-                    href="https://smallbiztrends.com/2015/02/ways-to-remember-passwords.html"
-                  >
-                    Forgot Password ?
-                  </a>
+                  <div className="login-forgot-password">
+                    <Button
+                      className={classes.passwordLink}
+                      onClick={() => this.hanldeCaller("forgotpasword")}
+                    >
+                      Forgot Password ?
+                    </Button>
+                  </div>
                   <div className={classes.linkContainer}>
                     <Button
                       className={classes.link}
                       variant="contained"
                       color="primary"
-                      onClick={this.handleOpen}
+                      onClick={() => this.hanldeCaller("signup")}
                     >
                       Create New Account
                     </Button>
                     <Signup
                       shouldOpenModal={this.state.isModalOpen}
+                      caller={this.state.caller}
                       handleClose={this.handleClose}
                     />
                   </div>
