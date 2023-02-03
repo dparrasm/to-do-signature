@@ -107,10 +107,19 @@ export default function documentReducer(state = initialState, action) {
       let array = state[payload.page].filter((doc) =>
         doc.title.includes(payload.title)
       );
-      return {
-        ...state,
-        searchedDocuments: array,
-      };
+      console.log("title length: " + payload?.title?.length);
+      console.log("array length" + array?.length);
+      if (payload?.title?.length > 0 && array.length == 0) {
+        return {
+          ...state,
+          searchedDocuments: [],
+        };
+      } else {
+        return {
+          ...state,
+          searchedDocuments: array,
+        };
+      }
     }
     case SELECT_ALL_DOCUMENTS: {
       let array = [...state[payload.folder]];

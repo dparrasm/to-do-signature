@@ -41,7 +41,21 @@ export default function Envelope(props) {
                   : props?.title}
               </h1>
             </div>
-            <div className="document-subtitle">Para: David Parras Martínez</div>
+            <div className="document-subtitle">
+              <h5>To:</h5>
+              {props.recipients?.length > 1 ? (
+                <div className="envelope-recipients">
+                  <h5>{props.recipients[0]?.name}</h5>
+                  <h5>{props.recipients[0]?.surname}</h5>
+                  <h5>and {parseInt(props.recipients?.length) - 1} more</h5>
+                </div>
+              ) : (
+                <div>
+                  <h5>{props.recipients[0]?.name} </h5>
+                  <h5>{props.recipients[0]?.surname} </h5>
+                </div>
+              )}
+            </div>
           </div>
         </div>
         <div className="envelope-table-row-cell">

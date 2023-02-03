@@ -19,7 +19,6 @@ export const loadUser = () => async (dispatch) => {
   }
   try {
     const res = await axios.get("/api/auth");
-    console.log("res: authActions --> " + JSON.stringify(res));
     dispatch({
       type: USER_LOADED,
       payload: res.data,
@@ -43,7 +42,6 @@ export const updateUser = (user) => async (dispatch) => {
   try {
     const newUser = await axios.get("/api/auth");
     const body = { ...user, _id: newUser.data._id };
-    console.log(JSON.stringify(body));
     const res = await axios.put("/api/users", body, config);
     dispatch({
       type: USER_UPDATED,

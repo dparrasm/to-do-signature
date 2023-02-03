@@ -172,41 +172,44 @@ export const signDocument = (id, email) => async (dispatch) => {
     };
     const documentToDownload = await axios.get("/api/document/" + id, config);
     let uploadedDocument = documentToDownload.data;
-    autofirma(uploadedDocument.fileContent, setSignedDocument)
+    await autofirma(uploadedDocument.fileContent, setSignedDocument)
       .then(() => {
-        console.log("Ya hemos firmado");
+        const recipients = uploadedDocument.recipients;
+        const user = recipients.filter((r) => r.email === email);
+        console.log(JSON.stringify(user));
+        user.map((u) => {
+          let index = recipients.indexOf(u);
+          console.log(index);
+          recipients[index] = {
+            ...recipients[index],
+            signed: true,
+            viewed: true,
+            needsToSign: false,
+            needsToView: false,
+          };
+        });
+
+        const signed = recipients.every(
+          (r) => r.signed === true && r.viewed === true
+        );
+        const viewed = !recipients.some(
+          (r) => r.signed === false || r.viewed === false
+        );
+        uploadedDocument = {
+          ...uploadedDocument,
+          fileContent: uploadedDocument,
+          recipients: recipients,
+          signed: signed,
+          viewed: viewed,
+          isChecked: false,
+        };
+        dispatch({
+          type: SIGN_DOCUMENT,
+          payload: uploadedDocument,
+        });
       })
       .catch(() => console.log("lo intentaste"));
-    const recipients = uploadedDocument.recipients;
-    const user = recipients.find((r) => r.email === email);
 
-    let index = recipients.indexOf(user);
-    recipients[index] = {
-      ...recipients[index],
-      signed: true,
-      viewed: true,
-      needsToSign: false,
-      needsToView: false,
-    };
-
-    const signed = recipients.every(
-      (r) => r.signed === true && r.viewed === true
-    );
-    const viewed = !recipients.some(
-      (r) => r.signed === false || r.viewed === false
-    );
-    uploadedDocument = {
-      ...uploadedDocument,
-      fileContent: uploadedDocument,
-      recipients: recipients,
-      signed: signed,
-      viewed: viewed,
-      isChecked: false,
-    };
-    dispatch({
-      type: SIGN_DOCUMENT,
-      payload: uploadedDocument,
-    });
     //await axios.put("/api/document/" + id, config);
   } catch (err: any) {
     console.log("Error sign document");
