@@ -26,11 +26,15 @@ export interface document {
   signed: String;
   viewed: String;
   searchedDocuments: any;
+  inbox: any;
+  sent: any;
 }
 export default function Manage(props) {
   const documentState: document = useSelector(
     (state: rootState) => state?.document
   );
+  const inboxState = useSelector((state: rootState) => state?.document?.inbox);
+  const sentState = useSelector((state: rootState) => state?.document?.sent);
   const user = useSelector((state: rootState) => state?.auth?.user);
   const selectedDocuments = useSelector(
     (state: rootState) => state?.document?.selectedDocuments
@@ -44,8 +48,12 @@ export default function Manage(props) {
   const getSearchText = (text) => {
     setSearchText(text);
   };
+  const inboxJsonString = JSON.stringify(inboxState);
+  const [prevInboxState, setPrevInboxState] = useState(inboxJsonString);
+  const sentJsonString = JSON.stringify(sentState);
+  const [prevSentState, setPrevSentState] = useState(sentJsonString);
+  const documentsJsonString = JSON.stringify(documentState);
   const displayEnvelopes = () => {
-    console.log("Search: ", searchText);
     if (searchText.length > 0) {
       return documentState.searchedDocuments.map((doc, index) => (
         <>
@@ -155,13 +163,20 @@ export default function Manage(props) {
   };
 
   useEffect(() => {
-    dispatch(loadDocuments(user?.email));
     dispatch(unselectDocuments(page));
     if (checkAll) {
       setCheckAll(false);
     }
   }, [location, page]);
 
+  useEffect(() => {
+    if (
+      inboxJsonString === prevInboxState ||
+      sentJsonString === prevSentState
+    ) {
+      dispatch(loadDocuments(user?.email));
+    }
+  }, [inboxJsonString, sentJsonString]);
   return (
     <div className="container-manager">
       <div className="column">
