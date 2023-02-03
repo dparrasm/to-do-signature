@@ -14,6 +14,7 @@ export default function Searchbar(props) {
   const onChange = (event) => {
     setSearchText(event.target.value);
     dispatch(searchDocument(event.target.value, props?.page));
+    props.getSearchText(event.target.value);
   };
 
   useEffect(() => {

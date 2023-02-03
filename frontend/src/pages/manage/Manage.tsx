@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useHistory, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import Envelope from "../../components/envelope/Envelope";
@@ -16,7 +16,6 @@ import Searchbar from "../../components/searchbar/Searchbar";
 import "./Manage.scss";
 import Column from "../../components/column/Column";
 import { uploadEnvelopeByDocumentId } from "../../reducers/actions/envelopeActions";
-import { setPath } from "../../reducers/actions/routerActions";
 
 export interface document {
   readingDocument: any;
@@ -36,11 +35,70 @@ export default function Manage(props) {
   const selectedDocuments = useSelector(
     (state: rootState) => state?.document?.selectedDocuments
   );
+  const [searchText, setSearchText] = useState("");
   const dispatch = useDispatch();
   const [checkAll, setCheckAll] = useState(false);
   const history = useHistory();
   const location = useLocation();
   const page = location.pathname.replace("/manage/", "");
+  const getSearchText = (text) => {
+    setSearchText(text);
+  };
+  const displayEnvelopes = () => {
+    console.log("Search: ", searchText);
+    if (searchText.length > 0) {
+      return documentState.searchedDocuments.map((doc, index) => (
+        <>
+          <Envelope
+            key={index}
+            index={index}
+            id={doc._id}
+            title={doc.title}
+            folder={page}
+            lastChange={doc.lastChange}
+            handleOnChange={handleOnChange}
+            handleClick={handleClick}
+            isChecked={doc.isChecked}
+            completed={doc.signed && doc.viewed ? true : false}
+            userId={user._id}
+            needsToSign={
+              doc.recipients.find((r) => r.email === user.email).needsToSign
+            }
+            needsToView={
+              doc.recipients.find((r) => r.email === user.email).needsToView
+            }
+            recipients={doc.recipients}
+          />
+          <div />
+        </>
+      ));
+    } else {
+      return documentState[page]?.map((doc, index) => (
+        <>
+          <Envelope
+            key={index}
+            index={index}
+            id={doc._id}
+            title={doc.title}
+            folder={page}
+            lastChange={doc.lastChange}
+            handleOnChange={handleOnChange}
+            handleClick={handleClick}
+            isChecked={doc.isChecked}
+            completed={doc.signed && doc.viewed ? true : false}
+            userId={user._id}
+            needsToSign={
+              doc.recipients.find((r) => r.email === user.email).needsToSign
+            }
+            needsToView={
+              doc.recipients.find((r) => r.email === user.email).needsToView
+            }
+            recipients={doc.recipients}
+          />
+        </>
+      ));
+    }
+  };
 
   const handleOnChange = () => {
     if (!checkAll) {
@@ -116,7 +174,7 @@ export default function Manage(props) {
               <h1>{page.charAt(0).toUpperCase() + page.slice(1)}</h1>
             </div>
             <div className="received-signature-searchbar">
-              <Searchbar page={page} />
+              <Searchbar page={page} getSearchText={getSearchText} />
             </div>
           </div>
           <div>
@@ -165,56 +223,7 @@ export default function Manage(props) {
             </div>
           </div>
         </div>
-        <div className="table-body">
-          {documentState.searchedDocuments.length > 0
-            ? documentState.searchedDocuments.map((doc, index) => (
-                <Envelope
-                  key={index}
-                  index={index}
-                  id={doc._id}
-                  title={doc.title}
-                  folder={page}
-                  lastChange={doc.lastChange}
-                  handleOnChange={handleOnChange}
-                  handleClick={handleClick}
-                  isChecked={doc.isChecked}
-                  completed={doc.signed && doc.viewed ? true : false}
-                  userId={user._id}
-                  needsToSign={
-                    doc.recipients.find((r) => r.email === user.email)
-                      .needsToSign
-                  }
-                  needsToView={
-                    doc.recipients.find((r) => r.email === user.email)
-                      .needsToView
-                  }
-                />
-              ))
-            : documentState[page]?.map((doc, index) => (
-                <Envelope
-                  key={index}
-                  index={index}
-                  id={doc._id}
-                  title={doc.title}
-                  folder={page}
-                  lastChange={doc.lastChange}
-                  handleOnChange={handleOnChange}
-                  handleClick={handleClick}
-                  isChecked={doc.isChecked}
-                  completed={doc.signed && doc.viewed ? true : false}
-                  userId={user._id}
-                  needsToSign={
-                    doc.recipients.find((r) => r.email === user.email)
-                      .needsToSign
-                  }
-                  needsToView={
-                    doc.recipients.find((r) => r.email === user.email)
-                      .needsToView
-                  }
-                  recipients={doc.recipients}
-                />
-              ))}
-        </div>
+        <div className="table-body">{displayEnvelopes()}</div>
       </div>
     </div>
   );
