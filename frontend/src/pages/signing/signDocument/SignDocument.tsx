@@ -23,7 +23,9 @@ function SignDocument(props) {
 
   const dispatch = useDispatch();
   const sign = () => {
-    document.map((doc) => dispatch(signDocument(doc._id, user.email)));
+    document.map((doc) =>
+      dispatch(signDocument(doc._id, user.email, document[index]))
+    );
   };
   const nextDocument = () => {
     const length = document.length - 1;

@@ -39,6 +39,10 @@ export default function Manage(props) {
   const selectedDocuments = useSelector(
     (state: rootState) => state?.document?.selectedDocuments
   );
+  const selectedDocumentsString = JSON.stringify(selectedDocuments);
+  const [prevSelectedDocuments, setPrevSelectedDocuments] = useState(
+    selectedDocumentsString
+  );
   const [searchText, setSearchText] = useState("");
   const dispatch = useDispatch();
   const [checkAll, setCheckAll] = useState(false);
@@ -52,7 +56,6 @@ export default function Manage(props) {
   const [prevInboxState, setPrevInboxState] = useState(inboxJsonString);
   const sentJsonString = JSON.stringify(sentState);
   const [prevSentState, setPrevSentState] = useState(sentJsonString);
-  const documentsJsonString = JSON.stringify(documentState);
   const displayEnvelopes = () => {
     if (searchText.length > 0) {
       return documentState.searchedDocuments.map((doc, index) => (
@@ -171,12 +174,13 @@ export default function Manage(props) {
 
   useEffect(() => {
     if (
-      inboxJsonString === prevInboxState ||
-      sentJsonString === prevSentState
+      selectedDocumentsString === prevSelectedDocuments &&
+      (prevInboxState === inboxJsonString || prevSentState === sentJsonString)
     ) {
       dispatch(loadDocuments(user?.email));
     }
   }, [inboxJsonString, sentJsonString]);
+
   return (
     <div className="container-manager">
       <div className="column">

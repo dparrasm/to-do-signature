@@ -45,6 +45,7 @@ router.get("/:id", (req, res, next) => {
 // @access  Public
 
 router.post("/", (req, res, next) => {
+  console.log(JSON.stringify(req.body));
   const documentsArray = req?.body?.documents;
   let cont = 1;
   documentsArray.map((d) => {
@@ -81,7 +82,7 @@ router.post("/", (req, res, next) => {
 // @access  Public
 
 router.put("/sign/:id", (req, res, next) => {
-  Document.findByIdAndUpdate(req.params.id, req.body.document)
+  Document.findByIdAndUpdate(req.params.id, req.body)
     .exec()
     .then((docs) => {
       res.status(200).json(docs);

@@ -27,8 +27,9 @@ export const autofirma = async (dataB64, setSignedDocument) => {
   // Almacenara la firma, el certificado y el nombre del fichero firmado en
   // campos de un formulario y lo enviará a servidor
   function sendSignatureCallback(signatureB64, certificateB64, extraData) {
-    // Obtenemos el nombre del fichero cargado para
+    // Documento firmado
     signedDocument.signatureB64 = signatureB64;
+    // Este es el certificado usado.
     signedDocument.certificateB64 = certificateB64;
     setSignedDocument(signedDocument).then(() =>
       console.log("Signing document")

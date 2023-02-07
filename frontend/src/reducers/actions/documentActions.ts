@@ -1,7 +1,6 @@
 import axios from "axios";
 import { autofirma } from "../../pages/signing/signDocument/signSetup";
 import { setAlert } from "./alertActions";
-import { setPath } from "./routerActions";
 import {
   DOCUMENT_FAIL,
   GET_DOCUMENTS,
@@ -166,12 +165,35 @@ export const signDocument = (id, email) => async (dispatch) => {
   try {
     let signatureB64: string = "";
     const setSignedDocument = async (signedDocument) => {
-      dispatch(setPath(signedDocument.signatureB64));
-      signatureB64 = signedDocument?.signatureB64;
+      try {
+        //await axios.post("api/document/", signedDocument, config);
+        if (signedDocument.certificateB64 !== undefined) {
+          await axios.put(
+            "/api/document/sign/" + id,
+            {
+              ...uploadedDocument,
+              fileContent:
+                "data:application/pdf;base64," + signedDocument?.signatureB64,
+            },
+            config
+          );
+          console.log(JSON.stringify(uploadDocument));
+          console.log(JSON.stringify(signedDocument.certificateB64));
+          dispatch({
+            type: SIGN_DOCUMENT,
+            payload: uploadedDocument,
+          });
+        }
+      } catch (e: any) {
+        if (e) {
+          e.forEach((error) => console.log(error.msg, "error"));
+        }
+      }
+
       console.log("añade el application:data/pdf " + signatureB64);
     };
-    const documentToDownload = await axios.get("/api/document/" + id, config);
-    let uploadedDocument = documentToDownload.data;
+    let originalDocument = await axios.get("/api/document/" + id, config);
+    let uploadedDocument = originalDocument.data;
     await autofirma(uploadedDocument.fileContent, setSignedDocument)
       .then(() => {
         const recipients = uploadedDocument.recipients;
@@ -203,10 +225,20 @@ export const signDocument = (id, email) => async (dispatch) => {
           viewed: viewed,
           isChecked: false,
         };
-        dispatch({
-          type: SIGN_DOCUMENT,
-          payload: uploadedDocument,
-        });
+        // dispatch(
+        //   postDocuments({
+        //     documents: envelope?.documents,
+        //     lastChange: new Date(),
+        //     recipients:
+        //       recipientsNoId?.length > 0
+        //         ? recipientsNoId.concat(recipient)
+        //         : [recipient],
+        //     signedBy: [""],
+        //     signed: false,
+        //     viewed: false,
+        //     email: envelope?.email,
+        //   })
+        // );
       })
       .catch(() => console.log("lo intentaste"));
 
