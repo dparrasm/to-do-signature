@@ -45,16 +45,22 @@
     margin-left: 50px;
 }
 .home-drag-and-drop-container{
-    display:flex;
+    display: flex;
     justify-content: center;
     align-items: center;
+    height: 100%;
+    margin-top: 150px;
 }
 .home-drag-and-drop{
-    background: white;
-    height: 400px;
-    width: 60%;
-    margin-top: -50px;
-    border: 1px solid #e0e0de;
+    // background: white;
+    // height: 400px;
+    width: 100%;
+    // margin-top: -50px;
+    // border: 1px solid #e0e0de;
+
+}
+.home-drag-and-drop button{
+    min-width: 100px;
 }
 .home-container{
     overflow: hidden;

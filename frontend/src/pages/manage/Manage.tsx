@@ -167,6 +167,7 @@ export default function Manage(props) {
 
   useEffect(() => {
     dispatch(unselectDocuments(page));
+    dispatch(loadDocuments(user?.email));
     if (checkAll) {
       setCheckAll(false);
     }

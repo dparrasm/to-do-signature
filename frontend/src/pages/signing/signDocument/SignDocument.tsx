@@ -12,6 +12,7 @@ import {
   signDocument,
 } from "../../../reducers/actions/documentActions";
 import IconButton from "../../../components/iconButton/IconButton";
+import { signEnvelopeDocument } from "../../../reducers/actions/envelopeActions";
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
 function SignDocument(props) {
@@ -23,9 +24,9 @@ function SignDocument(props) {
 
   const dispatch = useDispatch();
   const sign = () => {
-    document.map((doc) =>
-      dispatch(signDocument(doc._id, user.email, document[index]))
-    );
+    document.map((doc, index) => {
+      dispatch(signEnvelopeDocument(doc, index, user.email));
+    });
   };
   const nextDocument = () => {
     const length = document.length - 1;
