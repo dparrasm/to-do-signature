@@ -166,7 +166,6 @@ export const signDocument = (id, email) => async (dispatch) => {
     let signatureB64: string = "";
     const setSignedDocument = async (signedDocument) => {
       try {
-        //await axios.post("api/document/", signedDocument, config);
         if (signedDocument.certificateB64 !== undefined) {
           await axios.put(
             "/api/document/sign/" + id,
@@ -177,8 +176,6 @@ export const signDocument = (id, email) => async (dispatch) => {
             },
             config
           );
-          console.log(JSON.stringify(uploadDocument));
-          console.log(JSON.stringify(signedDocument.certificateB64));
           dispatch({
             type: SIGN_DOCUMENT,
             payload: uploadedDocument,
@@ -225,20 +222,6 @@ export const signDocument = (id, email) => async (dispatch) => {
           viewed: viewed,
           isChecked: false,
         };
-        // dispatch(
-        //   postDocuments({
-        //     documents: envelope?.documents,
-        //     lastChange: new Date(),
-        //     recipients:
-        //       recipientsNoId?.length > 0
-        //         ? recipientsNoId.concat(recipient)
-        //         : [recipient],
-        //     signedBy: [""],
-        //     signed: false,
-        //     viewed: false,
-        //     email: envelope?.email,
-        //   })
-        // );
       })
       .catch(() => console.log("lo intentaste"));
 
