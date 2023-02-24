@@ -1,3 +1,3 @@
 [build]
-  command = "cd frontend && yarn && yarn build && cd ../backend && npm install && npm run build"
-  publish = "backend/build"
+  command = "npm cache clean --force && cd frontend && yarn && yarn build && cd ../backend && npm install && npm run build"
+  publish = "/opt/build/repo/backend/build"
