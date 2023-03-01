@@ -1,4 +1,4 @@
-.container-manager{
+.manage-content{
   margin-top: 0px;
   width: 100%;
   height: 100%;
@@ -7,20 +7,32 @@
   flex-direction: row;
   justify-content: center;
 }
-.column {
+.manage-column-menu {
   width: 15%;
   min-width: 200px;
   padding-top: 40px;
   background-color: #e0e0de;
   justify-content: left;
 }
-.container-documents {
-  //  height: 100%;
+.manage-content-dashboard {
     width: 100%;
     display: flex;
     flex-direction: column;
     background: white;
   }
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 15px;
+}
+thead {
+  border-bottom: 1px solid #e0e0de;
+  text-align: left;
+}
+th {
+  padding: 10px;
+}
 
 .pedingSignatures {
     border-radius: 15px;
@@ -41,58 +53,74 @@
     display: flex;
     flex-direction: row;
 }
-.tab{
+.manage-content-dashboard-header{
   margin: 0px;
   display: flex;
   justify-content: space-between;
+  padding: 45px 45px 35px 45px;
+  border-bottom: 1px solid #e0e0de;
 }
-.tab h1{
+.manage-content-dashboard-header h1{
   margin: 0px;
   width: 100%;
 }
-.table-header{
-  display: flex;
-  flex-direction: column;
-  border-bottom: 1px solid #e0e0de;
-  padding: 35px 20px 15px 35px;
-  justify-content: space-between;
-}
-.table-body{
-  overflow: scroll;
-  border-collapse: collapse;
-}
+
 .received-signature-searchbar{
-  width:50%;
+  width: 50%;
 }
+
 .button-bar {
   display: flex;
-  margin: 35px 0px 0px -32px;
+  padding: 20px 0px 20px 20px;
+  height: 50px;
+  flex-direction: column;
+  align-items: baseline;
+}
+.button-bar h1{
+  color: gray;
+  font-size: 11px;
+  padding-left: 5px;
 }
 .button-bar input{
   margin-right: 15px;
 }
 .button-bar button{
-  border: 1px solid black;
-  width: 90px;
-  height: 100%;
-  background: #1877f28f;
-  color: white;
-}
-.middle-button {
-  border-left: 0px !important;
-  border-right: 0px !important;
-}
-.table-columns{
-  display: table;
-  text-align: left;
-  margin-top: 20px;
-}
-.table-column{
-  display: table-cell;
-  line-height: 0;
-  font-size: 8px;
-}
-.manage-button-bar button{
   cursor: pointer;
-  background: #1877f2;
+  font-weight: 600;
+  align-items: center;
+  background-color: #1877f2;
+  color: white;
+  margin-right: 3px;
+  min-width: 80px;
+  min-height: 30px;
+  max-width: 140px;
+  margin-top: 10px;
+  border: none;
+  border-radius: 3px;
+  box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.20), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12);
+
+}
+.manage-status-cell {
+  width: 15%;
+}
+.manage-checkAll-checkbox{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-left: 5px solid white;
+}
+.manage-button-bar-not-displayed button{
+  display: none;
+}
+.manage-button-bar-disabled button{
+  background-color: #aaccf8;
+  cursor: unset;
+}
+.manage-empty-folder-message{
+  color:gray;
+  display: flex;
+  width: 100%;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
 }

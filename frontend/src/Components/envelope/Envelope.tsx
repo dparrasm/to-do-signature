@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import "./Envelope.scss";
 import IconButton from "../iconButton/IconButton";
 import { icons } from "../../utils/icons";
@@ -16,13 +16,13 @@ export default function Envelope(props) {
   };
 
   return (
-    <div
-      className={props.isChecked ? "test-selected" : "test"}
-      id={props.index}
-      onClick={handleOnChange}
-    >
-      <div className="envelope-table-row">
-        <div className="envelope-table-row-cell-checkbox">
+    <>
+      <tr
+        className={props.isChecked ? "selected-envelope" : "envelope"}
+        id={props.index}
+        onClick={handleOnChange}
+      >
+        <td className={props.Completed ? "envelope-green" : "envelope-red"}>
           <input
             type="checkbox"
             id="isChecked"
@@ -31,8 +31,8 @@ export default function Envelope(props) {
             checked={props.isChecked}
             onChange={handleInputChange}
           />
-        </div>
-        <div className="envelope-table-row-cell">
+        </td>
+        <td>
           <div className="document-info">
             <div className="document-title">
               <h1>
@@ -42,26 +42,25 @@ export default function Envelope(props) {
               </h1>
             </div>
             <div className="document-subtitle">
-              <h5>To:</h5>
               {props.recipients?.length > 1 ? (
                 <div className="envelope-recipients">
-                  <h5>
+                  <>
                     {props?.recipients?.length > 0
-                      ? props.recipients[0]?.name
+                      ? "To: " + props.recipients[0]?.name
                       : ""}
-                  </h5>
-                  <h5>
+                  </>
+                  <>
                     {props?.recipients?.length > 0
                       ? props?.recipients[0]?.surname
                       : ""}
-                  </h5>
-                  <h5>and {parseInt(props.recipients?.length) - 1} more</h5>
+                  </>
+                  <> and {parseInt(props.recipients?.length) - 1} more</>
                 </div>
               ) : (
                 <div>
                   <h5>
                     {props?.recipients?.length > 0
-                      ? props.recipients[0]?.name
+                      ? "To: " + props.recipients[0]?.name
                       : ""}
                   </h5>
                   <h5>
@@ -73,23 +72,25 @@ export default function Envelope(props) {
               )}
             </div>
           </div>
-        </div>
-        <div className="envelope-table-row-cell">
-          <div className="test-progressbar">
+        </td>
+        <td>
+          <div className="envelope-status">
             {props.completed ? (
               <div className="completed-icon">
                 <i className={icons.checkCircle}></i>
+                <h1>Completed</h1>
               </div>
             ) : (
               <div className="incompleted-icon">
                 <i className={icons.exclamationCircle}></i>
+                <h1>Pending</h1>
               </div>
             )}
           </div>
-        </div>
-        <div className="envelope-table-row-cell-date">
-          <div className="envelope-table-row-cell-date-date-info">
-            <div>
+        </td>
+        <td>
+          <div className="envelope-date-cell">
+            <div className="document-title">
               <h1>
                 {new Date(props.lastChange)
                   .getDate()
@@ -114,8 +115,8 @@ export default function Envelope(props) {
                 .padStart(2, "0")}
             </div>
           </div>
-        </div>
-        <div className="envelope-table-row-cell">
+        </td>
+        <td>
           <div className="envelope-table-row-cell-iconbutton-container">
             {props.needsToSign ? (
               <div
@@ -161,9 +162,18 @@ export default function Envelope(props) {
             >
               <IconButton icon={icons.download} />
             </div>
+            <div
+              className="envelope-table-row-cell-iconbutton"
+              onClick={(e) =>
+                props.handleClick(e, { id: props.id, action: "DOWNLOAD" })
+              }
+            >
+              <IconButton icon={icons.menu} />
+            </div>
           </div>
-        </div>
-      </div>
-    </div>
+        </td>
+      </tr>
+      {/* </div> */}
+    </>
   );
 }

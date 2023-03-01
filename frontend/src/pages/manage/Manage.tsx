@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import { useHistory, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import Envelope from "../../components/envelope/Envelope";
@@ -56,6 +56,38 @@ export default function Manage(props) {
   const [prevInboxState, setPrevInboxState] = useState(inboxJsonString);
   const sentJsonString = JSON.stringify(sentState);
   const [prevSentState, setPrevSentState] = useState(sentJsonString);
+  const displayEmptyFolderMessage = (page) => {
+    switch (page) {
+      case "inbox":
+        return (
+          <div>
+            <div>
+              <h1>Everything sent to you in one place</h1>
+            </div>
+            <div>
+              <h2>You will find envelopes sent to you here.</h2>
+            </div>
+          </div>
+        );
+      case "sent":
+        return (
+          <div>
+            <div>
+              <h1>Everything you send in one place</h1>
+            </div>
+            <div>
+              <h2>We will track and store your envelopes here.</h2>
+            </div>
+          </div>
+        );
+      default:
+        <div>
+          <div>
+            <h1>This folder is empty</h1>
+          </div>
+        </div>;
+    }
+  };
   const displayEnvelopes = () => {
     if (searchText.length > 0) {
       return documentState.searchedDocuments.map((doc, index) => (
@@ -80,7 +112,6 @@ export default function Manage(props) {
             }
             recipients={doc.recipients}
           />
-          <div />
         </>
       ));
     } else {
@@ -183,67 +214,71 @@ export default function Manage(props) {
   }, [inboxJsonString, sentJsonString]);
 
   return (
-    <div className="container-manager">
-      <div className="column">
+    <div className="manage-content">
+      <div className="manage-column-menu">
         <Column />
       </div>
-      <div className="container-documents">
-        <div className="table-header">
-          <div className="tab">
-            <div>
-              <h1>{page.charAt(0).toUpperCase() + page.slice(1)}</h1>
-            </div>
-            <div className="received-signature-searchbar">
-              <Searchbar page={page} getSearchText={getSearchText} />
-            </div>
-          </div>
+      <div className="manage-content-dashboard">
+        <div className="manage-content-dashboard-header">
           <div>
+            <h1>{page.charAt(0).toUpperCase() + page.slice(1)}</h1>
+          </div>
+          <div className="received-signature-searchbar">
+            <Searchbar page={page} getSearchText={getSearchText} />
+          </div>
+        </div>
+
+        {documentState[page].length > 0 ? (
+          <>
             <div className="button-bar">
-              <input
-                type="checkbox"
-                id="checkAll"
-                name="checkAll"
-                value="checkAll"
-                checked={checkAll}
-                onChange={handleOnChange}
-              />
               {selectedDocuments.length > 0 ? (
                 <div className="manage-button-bar">
                   <button onClick={() => multipleAction("signature")}>
                     Sign
                   </button>
-                  <button
-                    className="middle-button "
-                    onClick={() => multipleAction("")}
-                  >
-                    Send again
-                  </button>
+                  <button onClick={() => multipleAction("")}>Send again</button>
                   <button onClick={() => multipleAction("delete")}>
                     Delete
                   </button>
                 </div>
               ) : (
-                <div>
+                <div className="manage-button-bar-disabled">
                   <button>Sign</button>
-                  <button className="middle-button ">Send again</button>
+                  <button>Send again</button>
                   <button>Delete</button>
                 </div>
               )}
+              <div>
+                <h1>{selectedDocuments.length} items selected</h1>
+              </div>
             </div>
+            <table>
+              <thead>
+                <tr>
+                  <th className="manage-checkAll-checkbox">
+                    <input
+                      type="checkbox"
+                      id="checkAll"
+                      name="checkAll"
+                      value="checkAll"
+                      checked={checkAll}
+                      onChange={handleOnChange}
+                    />
+                  </th>
+                  <th>Title</th>
+                  <th className="manage-status-cell">Status</th>
+                  <th>Last change</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>{displayEnvelopes()}</tbody>
+            </table>
+          </>
+        ) : (
+          <div className="manage-empty-folder-message">
+            {displayEmptyFolderMessage(page)}
           </div>
-          <div className="table-columns">
-            <div className="table-column">
-              <h1>Title</h1>
-            </div>
-            <div className="table-column">
-              <h1>Status</h1>
-            </div>
-            <div className="table-column">
-              <h1>Last change</h1>
-            </div>
-          </div>
-        </div>
-        <div className="table-body">{displayEnvelopes()}</div>
+        )}
       </div>
     </div>
   );

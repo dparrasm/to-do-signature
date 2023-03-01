@@ -31,7 +31,6 @@ app.get("/", (req, res) => res.send("API running"));
 
 //Define routes
 app.use("/api/users", require("./routes/api/user"));
-//app.use('/api/profile', require('./routes/api/profile'));
 app.use("/api/auth", require("./routes/api/auth"));
 app.use("/api/document", require("./routes/api/document"));
 

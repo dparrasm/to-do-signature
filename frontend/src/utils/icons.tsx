@@ -24,4 +24,5 @@ export const icons = {
   checkCircle: "fas fa-check-circle",
   previous: "fas fa-angle-double-left",
   next: "fas fa-angle-double-right",
+  menu: "fas fa-ellipsis-v",
 };

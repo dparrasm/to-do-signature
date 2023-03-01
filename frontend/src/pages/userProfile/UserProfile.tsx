@@ -1,5 +1,5 @@
 import { Button, Badge, Avatar } from "@material-ui/core";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import "./UserProfile.scss";
 import Filepicker from "../../components/filepicker/Filepicker";
 import { rootState } from "../../reducers";
@@ -9,7 +9,7 @@ import {
   logout,
   updateUser,
 } from "../../reducers/actions/authActions";
-import { Link, useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 export default function UserProfile() {
   const user = useSelector((state: rootState) => state.auth?.user);
@@ -44,7 +44,6 @@ export default function UserProfile() {
           ? password?.current?.value
           : user.password,
     };
-    console.log("new password: " + newUser.password);
     if (JSON.stringify(user) !== JSON.stringify(newUser)) {
       dispatch(updateUser(newUser));
     }
