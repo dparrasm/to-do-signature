@@ -131,11 +131,8 @@ export default function Home() {
       </div>
       <div className="home-drag-and-drop-container">
         <div className="home-drag-and-drop">
-          {/* <DragAndDrop title="START NOW" /> */}
           <Link to="/prepare">
-            <button className="column-start-to-prepare-envelope-button">
-              START
-            </button>
+            <DragAndDrop title="START NOW" />
           </Link>
         </div>
       </div>

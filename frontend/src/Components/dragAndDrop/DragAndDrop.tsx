@@ -5,9 +5,13 @@ import "./DragAndDrop.scss";
 
 export default function DragAndDrop(props) {
   // triggers when file is dropped
-  const handleDrop = function (e) {
+  const handleDragStart = (e) => {
+    e.dataTransfer.setData("text/plain", e.target.textContent);
+  };
+  const handleDrop = (e) => {
     e.preventDefault();
     e.stopPropagation();
+    console.log(JSON.stringify(e.dataTransfer.getData("text/plain")));
     if (e.dataTransfer.files && e.dataTransfer.files[0]) {
       // at least one file has been dropped so do something
       // handleFiles(e.dataTransfer.files);
@@ -15,7 +19,13 @@ export default function DragAndDrop(props) {
     }
   };
   return (
-    <div className="drag-and-drop" onDragOver={handleDrop} onDrop={handleDrop}>
+    <div
+      className="drag-and-drop"
+      draggable
+      onDragStart={handleDragStart}
+      onDragOver={(e) => e.preventDefault()}
+      onDrop={handleDrop}
+    >
       <div className="button-container">
         <div className="drag-and-drop-file-icon-container">
           <i className={icons.fileUpload}></i>

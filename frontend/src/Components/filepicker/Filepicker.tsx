@@ -57,7 +57,7 @@ export default function Filepicker(props) {
   return (
     <>
       {props.title !== undefined ? (
-        props.title === ("Upload" || "START NOW") ? (
+        props.title !== "ADD FROM LIST" ? (
           <button
             className="filepicker-button"
             onClick={() => openFileSelector()}

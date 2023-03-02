@@ -1,0 +1,59 @@
+.header-app-bar {
+    color: grey;
+    height: 60px;
+    min-height: 60px;
+    background-color: white;
+    border-bottom: 1px solid #e0e0de;
+}
+.header-tool-bar {
+    height: 60px;
+    min-height: 60px;
+    width: 100%;
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+}
+.header-icon-bar {
+    height: 100%;
+    padding: 0px;
+    display: inline-flex;
+    align-items: center;
+    list-style-type: none;
+    width: 100%;
+    justify-content: space-around;
+}
+.header-icon-bar-element {
+    height: 100%;
+    width: 10%;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+}
+.header-bar-link {
+    text-decoration: none;
+    color: #717171;
+    line-height: 25px;
+    &:hover {
+      color: #1877f2;
+    }
+}
+.header-bar-link-selected {
+    text-decoration: none;
+    color: #1877f2;
+    font-weight: bolder;
+} 
+.header-icon-container {
+    width: 25%;
+    min-width: 200px;
+    display: flex;
+    justify-content: center;
+}
+.header-logout-container {
+    padding-left: 35px;
+    border-left-style: solid;
+    border-width: 1px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    border-color: #e0e0de;
+}

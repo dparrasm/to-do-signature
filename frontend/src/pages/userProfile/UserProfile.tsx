@@ -85,25 +85,25 @@ export default function UserProfile() {
           <h1>Credentials</h1>
         </div>
         <div className="user-security-data">
-          <div className="username">
-            <input
-              name="name"
-              ref={name}
-              className="smallField"
-              type="text"
-              placeholder="Name"
-              defaultValue={user?.name}
-            />
-            <input
-              name="surname"
-              ref={surname}
-              className="small-field-no-margin"
-              type="text"
-              placeholder="Surname"
-              defaultValue={user?.surname}
-            />
-          </div>
           <div className="user-security-data-big-fields">
+            <div className="two-fields">
+              <input
+                name="name"
+                ref={name}
+                className="smallField"
+                type="text"
+                placeholder="Name"
+                defaultValue={user?.name}
+              />
+              <input
+                name="surname"
+                ref={surname}
+                className="small-field-no-margin"
+                type="text"
+                placeholder="Surname"
+                defaultValue={user?.surname}
+              />
+            </div>
             <input
               name="email"
               ref={email}
