@@ -52,8 +52,8 @@ export const Signup = (props: SignupProps) => {
 
   return (
     <Dialog open={props.shouldOpenModal}>
-      <div className="user-container">
-        <div className="title">
+      <div className="signup-user-form">
+        <div className="signup-form-title">
           <div className="firma-title modal">firm@</div>
           <div className="close-button" onClick={props.handleClose}>
             <IconButton icon={icons.closeIcon} />
@@ -61,23 +61,22 @@ export const Signup = (props: SignupProps) => {
         </div>
         {props.caller === "signup" ? (
           <div>
-            <div className="message">
+            <div className="signup-form-message">
               Regístrate para jugar con tus firmitas
             </div>
-            <div className="username">
+            <div className="signup-form-field">
               <TextField
                 name="name"
-                className="field"
                 type="text"
                 placeholder="Name"
                 variant="outlined"
                 size="small"
                 onChange={handleInputChange}
               />
-              <div className="separator" />
+            </div>
+            <div className="signup-form-field">
               <TextField
                 name="surname"
-                className="field"
                 type="text"
                 placeholder="Surname"
                 variant="outlined"
@@ -85,44 +84,52 @@ export const Signup = (props: SignupProps) => {
                 onChange={handleInputChange}
               />
             </div>
-            <TextField
-              name="email"
-              className="field"
-              type="text"
-              placeholder="Email"
-              variant="outlined"
-              size="small"
-              onChange={handleInputChange}
-            />
-            <TextField
-              name="password"
-              className="field"
-              type="password"
-              placeholder="password"
-              variant="outlined"
-              size="small"
-              onChange={handleInputChange}
-            />
-            <Button
-              className="button"
-              variant="contained"
-              color="primary"
-              onClick={onUserSignup}
-            >
-              Sign up
-            </Button>
+            <div className="signup-form-field">
+              <TextField
+                name="email"
+                type="text"
+                placeholder="Email"
+                variant="outlined"
+                size="small"
+                onChange={handleInputChange}
+              />
+            </div>
+            <div className="signup-form-field">
+              <TextField
+                name="password"
+                type="password"
+                placeholder="password"
+                variant="outlined"
+                size="small"
+                onChange={handleInputChange}
+              />
+            </div>
+            <div className="signup-form-button">
+              <Button
+                className="button"
+                variant="contained"
+                color="primary"
+                onClick={onUserSignup}
+              >
+                Sign up
+              </Button>
+            </div>
           </div>
         ) : (
-          <div>
-            <div className="message">You forgot your password ?</div>
-            <input
-              ref={emailInput}
-              name="email"
-              className="field"
-              type="text"
-              placeholder="Email"
-              defaultValue=""
-            />
+          <div className="signup-user-form">
+            <div className="signup-form-message">
+              You forgot your password ?
+            </div>
+            <div className="signup-form-field">
+              <input
+                ref={emailInput}
+                name="email"
+                className="field"
+                type="text"
+                placeholder="Email"
+                defaultValue=""
+              />
+            </div>
             <div className="send-new-password-button-container">
               <Button
                 className="send-new-password-button"

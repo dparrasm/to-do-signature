@@ -8,18 +8,21 @@ import {
 import Login from "./pages/login/Login";
 import "./comun.scss";
 import Header from "./components/header/Header";
-import { loadUser } from "./reducers/actions/authActions";
+import { loadUser, logout } from "./reducers/actions/authActions";
 import setAuthToken from "./utils/setAuthToken";
 import Manage from "./pages/manage/Manage";
 import UserProfile from "./pages/userProfile/UserProfile";
 import SignDocument from "./pages/signing/signDocument/SignDocument";
 import Home from "./pages/home/Home";
 import PrepareEnvelope from "./pages/prepareEnvelope/PrepareEnvelope";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { resetDocumentsState } from "./reducers/actions/documentActions";
+import { rootState } from "./reducers";
 
 export const App = () => {
-  const [isAuth, setIsAuth] = useState(false);
+  const isAuthenticated = useSelector(
+    (state: rootState) => state?.auth.isAuthenticated
+  );
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -29,13 +32,9 @@ export const App = () => {
     dispatch(loadUser());
   });
 
-  const onUserLogIn = () => {
-    setIsAuth(true);
-  };
-
   const onUserLogOut = () => {
-    setIsAuth(false);
     setAuthToken(null);
+    dispatch(logout());
     dispatch(resetDocumentsState);
   };
 
@@ -52,7 +51,7 @@ export const App = () => {
           <Route path="/sign">
             <SignDocument />
           </Route>
-          {isAuth ? (
+          {isAuthenticated ? (
             <>
               <Header onUserLogOut={onUserLogOut} />
               <div className="body">
@@ -71,7 +70,9 @@ export const App = () => {
               </div>
             </>
           ) : (
-            <Login onUserLogIn={onUserLogIn} />
+            <>
+              <Login />
+            </>
           )}
         </Switch>
       </Router>

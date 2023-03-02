@@ -1,5 +1,6 @@
 .scroll{
-    overflow:scroll;
+    overflow: scroll;
+    height: 100%;
 }
 .close-bar {
     text-align: right;
@@ -9,6 +10,9 @@
 }
 .cross-button button{
     cursor:pointer;
+}
+.cross-button {
+    text-decoration: none;
 }
 .add-documents-container{
     width: 80%;

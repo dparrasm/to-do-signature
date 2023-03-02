@@ -64,7 +64,6 @@
     font-size: 14px;
     line-height: 0;
     text-align: left;
-    min-width: 200px;
 }
 .document-info{
     display: flex;
@@ -77,6 +76,17 @@
     font-size: 10px;
     color:gray;
     display: inline-flex;
+    line-height: 0;
+    padding-top: 7px;
+}
+.envelope-date-cell{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: left;
+    padding-left: 10px;
 }
 .document-subtitle h5{
     margin-right: 2px;
@@ -97,11 +107,14 @@
     height: 20px !important;
 }
 .incompleted-icon{
-    color:red;
+    color: red;
     width: 90px;
     display: flex;
     justify-content: center;
     align-items: center;
+    border: 1px solid red;
+    border-radius: 25px;
+    padding: 2px;
 }
 .completed-icon{
     color:green;
@@ -110,18 +123,26 @@
     justify-content: center;
     align-items: center;
 }
-.envelope-table-row{
-    display: table-row;
+
+.envelope {
     border-bottom: 1px solid #e0e0de;
 }
-.test:hover{
+
+.envelope-red {
+    border-left: 5px solid red;
+}
+.envelope-green {
+    border-left: 5px solid green;
+}
+.envelope:hover{
     cursor:pointer;
     box-shadow: 0px 3px 1px -2px rgba(0,0,0,0.2), 0px 2px 2px 0px rgba(0,0,0,0.14), 0px 1px 5px 0px rgba(0,0,0,0.12);
-
 }
-.test-selected{
+.selected-envelope{
     background: #F1ECFB;
     cursor:pointer;
+    border-bottom: 1px solid #e0e0de;
+
 }
 .envelope-table-row-cell{
     display: table-cell;
@@ -142,6 +163,7 @@
 }
 .envelope-table-row-cell-date-date-info{
     text-align: left;
+    line-height: 0;
 }
 .envelope-table-row-cell-iconbutton {
     cursor:pointer;
@@ -161,4 +183,9 @@
     display: flex;
     justify-content: flex-end;
     margin-right: 50px;
+}
+.envelope-status h1{
+    line-height: 0;
+    font-size: 11px;
+    margin-left: 5px;
 }

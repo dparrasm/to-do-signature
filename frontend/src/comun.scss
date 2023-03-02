@@ -1,5 +1,10 @@
 @import url("https://fonts.googleapis.com/css2?family=Yesteryear&display=swap");
 
+@keyframes typing {
+  from { width: 0 }
+  to { width: 100% }
+}
+
 .firma-title {
   font-family: "Yesteryear", cursive;
   color: #1877f2;
@@ -7,6 +12,7 @@
   &.main {
     font-size: 80px;
     line-height: 1px;
+    animation: typing 3s steps(30, end) 1s forwards;
   }
   &.modal {
     font-size: 30px;
@@ -22,6 +28,7 @@
 .root {
   width: 100%;
   height: 100%;
+  overflow: hidden;
 }
 
 .classes {
@@ -58,3 +65,4 @@
   color: red;
   line-height: 25px,
 }
+

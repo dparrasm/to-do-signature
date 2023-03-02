@@ -1,5 +1,5 @@
 import { Button, Badge, Avatar } from "@material-ui/core";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import "./UserProfile.scss";
 import Filepicker from "../../components/filepicker/Filepicker";
 import { rootState } from "../../reducers";
@@ -9,7 +9,7 @@ import {
   logout,
   updateUser,
 } from "../../reducers/actions/authActions";
-import { Link, useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 export default function UserProfile() {
   const user = useSelector((state: rootState) => state.auth?.user);
@@ -44,7 +44,6 @@ export default function UserProfile() {
           ? password?.current?.value
           : user.password,
     };
-    console.log("new password: " + newUser.password);
     if (JSON.stringify(user) !== JSON.stringify(newUser)) {
       dispatch(updateUser(newUser));
     }
@@ -86,25 +85,25 @@ export default function UserProfile() {
           <h1>Credentials</h1>
         </div>
         <div className="user-security-data">
-          <div className="username">
-            <input
-              name="name"
-              ref={name}
-              className="smallField"
-              type="text"
-              placeholder="Name"
-              defaultValue={user?.name}
-            />
-            <input
-              name="surname"
-              ref={surname}
-              className="small-field-no-margin"
-              type="text"
-              placeholder="Surname"
-              defaultValue={user?.surname}
-            />
-          </div>
           <div className="user-security-data-big-fields">
+            <div className="two-fields">
+              <input
+                name="name"
+                ref={name}
+                className="smallField"
+                type="text"
+                placeholder="Name"
+                defaultValue={user?.name}
+              />
+              <input
+                name="surname"
+                ref={surname}
+                className="small-field-no-margin"
+                type="text"
+                placeholder="Surname"
+                defaultValue={user?.surname}
+              />
+            </div>
             <input
               name="email"
               ref={email}

@@ -41,14 +41,22 @@ export default function Column() {
         <div className="envelopes">
           <h4>Envelopes</h4>
           <div
-            className="column-menu-option"
+            className={
+              location.pathname.includes("inbox")
+                ? "column-menu-option-selected"
+                : "column-menu-option"
+            }
             onClick={() => handleClick("inbox")}
           >
             <div className={icons.received}></div>
             <div>Inbox</div>
           </div>
           <div
-            className="column-menu-option"
+            className={
+              location.pathname.includes("sent")
+                ? "column-menu-option-selected"
+                : "column-menu-option"
+            }
             onClick={() => handleClick("sent")}
           >
             <div className={icons.send}></div>
