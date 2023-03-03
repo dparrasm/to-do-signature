@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import "./Envelope.scss";
 import IconButton from "../iconButton/IconButton";
 import { icons } from "../../utils/icons";
 import { shortenTitle } from "../../utils/stringWorker";
 import { useDispatch } from "react-redux";
 import { selectDocument } from "../../reducers/actions/documentActions";
+import DropdownButton from "../dropdownButton/DropdownButton";
 
 export default function Envelope(props) {
   const dispatch = useDispatch();
@@ -13,6 +14,11 @@ export default function Envelope(props) {
   };
   const handleInputChange = () => {
     console.log("isChecked");
+  };
+
+  const [showDetails, setShowDetails] = useState(false);
+  const handleShowDetails = () => {
+    setShowDetails(!showDetails);
   };
 
   return (
@@ -164,16 +170,49 @@ export default function Envelope(props) {
             </div>
             <div
               className="envelope-table-row-cell-iconbutton"
-              onClick={(e) =>
-                props.handleClick(e, { id: props.id, action: "DOWNLOAD" })
-              }
+              onClick={handleShowDetails}
             >
-              <IconButton icon={icons.menu} />
+              {showDetails ? (
+                <IconButton icon={icons.minus} />
+              ) : (
+                <IconButton icon={icons.plus} />
+              )}
             </div>
           </div>
         </td>
       </tr>
-      {/* </div> */}
+      {showDetails ? (
+        <tr className="envelope-details-row">
+          <td></td>
+          <td colSpan={4}>
+            <div className="envelope-details-table-container">
+              <table className="envelope-details-table">
+                <thead>
+                  <tr className="envelope-details-table-head">
+                    <th>Email</th>
+                    <th>Needs to</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr className="envelope-details-table-row">
+                    <td>David Parras Martínez</td>
+                    <td>SIGN</td>
+                    <td>Pending</td>
+                  </tr>
+                  <tr className="envelope-details-table-row">
+                    <td>Manuel Casillas Ramos</td>
+                    <td>VIEW</td>
+                    <td>Completed</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </td>
+        </tr>
+      ) : (
+        <></>
+      )}
     </>
   );
 }

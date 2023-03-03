@@ -139,10 +139,8 @@
     box-shadow: 0px 3px 1px -2px rgba(0,0,0,0.2), 0px 2px 2px 0px rgba(0,0,0,0.14), 0px 1px 5px 0px rgba(0,0,0,0.12);
 }
 .selected-envelope{
-    background: #F1ECFB;
     cursor:pointer;
     border-bottom: 1px solid #e0e0de;
-
 }
 .envelope-table-row-cell{
     display: table-cell;
@@ -188,4 +186,28 @@
     line-height: 0;
     font-size: 11px;
     margin-left: 5px;
+}
+.envelope-details-table-container{
+    display: flex;
+    width: 100%;
+    justify-content: left;
+    align-items: center;
+    text-align: left;
+    padding-bottom: 15px;
+    margin-left: 10px;
+}
+.envelope-details-table{
+    width: 60%;    
+}
+.envelope-details-table thead{
+    border: none;
+}
+.envelope-details-row th{
+    padding: 0px;
+}
+.envelope-details-row{
+    border-bottom: 1px solid #e0e0e0;
+}
+.envelope-details-table-row td{
+    font-size: 12px;
 }

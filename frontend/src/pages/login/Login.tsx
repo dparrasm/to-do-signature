@@ -38,7 +38,7 @@ export default function Login(props: LoginProps) {
     event.preventDefault();
     dispatch(login(user.email, user.password));
   };
-  
+
   //Redirect if logged in
   //Aquí es donde hacemos que no se salga el usuario de la página todo el rato.
   // if (this.props.isAuthenticated && !this.props.loading) {
@@ -116,8 +116,13 @@ export default function Login(props: LoginProps) {
       </div>
       <div className="login-footer">
         <div className="login-footer-info">
-          Español (España) Français (France) English (US) Türkçe Português
-          (Portugal) العربية Italiano Deutsch हिन्दी中文(简体) 日本語
+          <div>
+            Designed and developed by David Parras Martínez
+            <div>
+              <div>Linkedin</div>
+              <div>Github</div>
+            </div>
+          </div>
         </div>
       </div>
     </div>

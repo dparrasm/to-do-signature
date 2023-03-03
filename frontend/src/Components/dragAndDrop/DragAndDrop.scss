@@ -23,22 +23,32 @@
     cursor: pointer;
 }
 .button-container:hover{
-    border: 2px dashed #36A41E;
+    //border: 2px dashed #1877f2;
+    border: 2px dashed grey;
 }
 .button-container:hover .drag-and-drop-file-icon-container i{
-    color: #36A41E;
+    //color: #1877f2;
+    color: gray;
 }
 .button-container button{
     font-weight: 600;
     align-items: center;
     margin: 0px;
-    background-color: #36A41E;
-    color: white;
+    background-color: white;
+    color: #c4c2c0;
+    box-shadow: none;
+    border: 1px solid #c4c2c0;
     min-height: 40px;
     min-width: 40px;
     max-width: 140px;
     margin-top: 10px;
 }
+.button-container:hover button{
+        //background-color: #1877f2;
+        background: grey;
+        color: white;
+}
+
 .drag-and-drop-file-icon-container i{
     font-size: 60px;
     color: #c4c2c0;

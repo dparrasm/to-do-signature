@@ -56,38 +56,6 @@ export default function Manage(props) {
   const [prevInboxState, setPrevInboxState] = useState(inboxJsonString);
   const sentJsonString = JSON.stringify(sentState);
   const [prevSentState, setPrevSentState] = useState(sentJsonString);
-  const displayEmptyFolderMessage = (page) => {
-    switch (page) {
-      case "inbox":
-        return (
-          <div>
-            <div>
-              <h1>Everything sent to you in one place</h1>
-            </div>
-            <div>
-              <h2>You will find envelopes sent to you here.</h2>
-            </div>
-          </div>
-        );
-      case "sent":
-        return (
-          <div>
-            <div>
-              <h1>Everything you send in one place</h1>
-            </div>
-            <div>
-              <h2>We will track and store your envelopes here.</h2>
-            </div>
-          </div>
-        );
-      default:
-        <div>
-          <div>
-            <h1>This folder is empty</h1>
-          </div>
-        </div>;
-    }
-  };
   const displayEnvelopes = () => {
     if (searchText.length > 0) {
       return documentState.searchedDocuments.map((doc, index) => (
@@ -141,7 +109,21 @@ export default function Manage(props) {
       ));
     }
   };
-
+  const loadTableBody = () => {
+    if (documentState[page].length > 0) {
+      return displayEnvelopes();
+    } else {
+      return (
+        <tr>
+          <td colSpan={5}>
+            <div className="manage-empty-folder-message">
+              <h1>This folder is empty</h1>
+            </div>
+          </td>
+        </tr>
+      );
+    }
+  };
   const handleOnChange = () => {
     if (!checkAll) {
       dispatch(selectAllDocuments(page, checkAll));
@@ -220,65 +202,65 @@ export default function Manage(props) {
       </div>
       <div className="manage-content-dashboard">
         <div className="manage-content-dashboard-header">
-          <div>
+          <div className="manage-content-dashboard-folder">
             <h1>{page.charAt(0).toUpperCase() + page.slice(1)}</h1>
+            <h2>
+              {page === "sent"
+                ? "Select the documents you want to sign, visualize, resend or delete"
+                : "Here you will find the documents you must sign or visualize"}
+            </h2>
           </div>
           <div className="received-signature-searchbar">
             <Searchbar page={page} getSearchText={getSearchText} />
           </div>
         </div>
-
-        {documentState[page].length > 0 ? (
-          <>
-            <div className="button-bar">
-              {selectedDocuments.length > 0 ? (
-                <div className="manage-button-bar">
-                  <button onClick={() => multipleAction("signature")}>
-                    Sign
-                  </button>
-                  <button onClick={() => multipleAction("")}>Send again</button>
-                  <button onClick={() => multipleAction("delete")}>
-                    Delete
-                  </button>
-                </div>
-              ) : (
-                <div className="manage-button-bar-disabled">
-                  <button>Sign</button>
-                  <button>Send again</button>
-                  <button>Delete</button>
-                </div>
-              )}
-              <div>
-                <h1>{selectedDocuments.length} items selected</h1>
-              </div>
+        <div className="button-bar">
+          {selectedDocuments.length > 0 ? (
+            <div className="manage-button-bar">
+              <button onClick={() => multipleAction("signature")}>Sign</button>
+              <button onClick={() => multipleAction("")}>Resend</button>
+              <button onClick={() => multipleAction("delete")}>Delete</button>
             </div>
-            <table>
-              <thead>
-                <tr>
-                  <th className="manage-checkAll-checkbox">
-                    <input
-                      type="checkbox"
-                      id="checkAll"
-                      name="checkAll"
-                      value="checkAll"
-                      checked={checkAll}
-                      onChange={handleOnChange}
-                    />
-                  </th>
-                  <th>Title</th>
-                  <th className="manage-status-cell">Status</th>
-                  <th>Last change</th>
-                  <th></th>
-                </tr>
-              </thead>
-              <tbody>{displayEnvelopes()}</tbody>
-            </table>
-          </>
-        ) : (
-          <div className="manage-empty-folder-message">
-            {displayEmptyFolderMessage(page)}
+          ) : (
+            <div className="manage-button-bar-disabled">
+              <button>Sign</button>
+              <button>Resend</button>
+              <button>Delete</button>
+            </div>
+          )}
+          <div>
+            <h1>{selectedDocuments.length} items selected</h1>
           </div>
-        )}
+        </div>
+        <table>
+          <colgroup>
+            <col style={{ width: "5%" }} />
+            <col style={{ width: "35%" }} />
+            <col style={{ width: "10%" }} />
+            <col style={{ width: "20%" }} />
+            <col style={{ width: "30%" }} />
+            <col style={{ width: "35%" }} />
+          </colgroup>
+          <thead>
+            <tr>
+              <th className="manage-checkAll-checkbox">
+                <input
+                  type="checkbox"
+                  id="checkAll"
+                  name="checkAll"
+                  value="checkAll"
+                  checked={checkAll}
+                  onChange={handleOnChange}
+                />
+              </th>
+              <th>Title</th>
+              <th className="manage-status-cell">Status</th>
+              <th>Last change</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>{loadTableBody()}</tbody>
+        </table>
       </div>
     </div>
   );

@@ -5,7 +5,7 @@ export const icons = {
   draft: "fa-light fa-file",
   received: "fas fa-envelope-open-text",
   contacts: "far fa-id-badge",
-  plus: "fas fa-file-upload",
+  // plus: "fas fa-file-upload",
   closeIcon: "fas fa-times",
   logout: "fas fa-sign-out-alt",
   tools: "fas fa-tools",
@@ -25,4 +25,6 @@ export const icons = {
   previous: "fas fa-angle-double-left",
   next: "fas fa-angle-double-right",
   menu: "fas fa-ellipsis-v",
+  plus: "fas fa-plus",
+  minus: "fas fa-minus",
 };
