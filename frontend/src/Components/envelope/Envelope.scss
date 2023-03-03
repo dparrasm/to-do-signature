@@ -197,10 +197,11 @@
     margin-left: 10px;
 }
 .envelope-details-table{
-    width: 60%;    
+    width: 80%;    
 }
 .envelope-details-table thead{
     border: none;
+    color: #717171;
 }
 .envelope-details-row th{
     padding: 0px;
@@ -210,4 +211,21 @@
 }
 .envelope-details-table-row td{
     font-size: 12px;
+}
+.envelope-details-table-row {
+    height: 40px;
+}
+.envelope-details-status-data div{
+    display: flex;
+    flex-direction: row;
+    line-height: 0;
+    justify-content: left;
+    align-items: center;
+}
+.envelope-details-status-data div h1{
+    font-size: 12px;
+    margin-left: 3px;
+}
+.incompleted-icon-table-row{
+    color: red;
 }

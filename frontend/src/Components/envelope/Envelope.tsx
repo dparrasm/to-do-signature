@@ -5,7 +5,6 @@ import { icons } from "../../utils/icons";
 import { shortenTitle } from "../../utils/stringWorker";
 import { useDispatch } from "react-redux";
 import { selectDocument } from "../../reducers/actions/documentActions";
-import DropdownButton from "../dropdownButton/DropdownButton";
 
 export default function Envelope(props) {
   const dispatch = useDispatch();
@@ -184,27 +183,46 @@ export default function Envelope(props) {
       {showDetails ? (
         <tr className="envelope-details-row">
           <td></td>
-          <td colSpan={4}>
+          <td colSpan={5}>
             <div className="envelope-details-table-container">
               <table className="envelope-details-table">
+                <colgroup>
+                  <col style={{ width: "30%" }} />
+                  <col style={{ width: "30%" }} />
+                  <col style={{ width: "20%" }} />
+                  <col style={{ width: "20%" }} />
+                </colgroup>
                 <thead>
                   <tr className="envelope-details-table-head">
+                    <th>User</th>
                     <th>Email</th>
                     <th>Needs to</th>
                     <th>Status</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr className="envelope-details-table-row">
-                    <td>David Parras Martínez</td>
-                    <td>SIGN</td>
-                    <td>Pending</td>
-                  </tr>
-                  <tr className="envelope-details-table-row">
-                    <td>Manuel Casillas Ramos</td>
-                    <td>VIEW</td>
-                    <td>Completed</td>
-                  </tr>
+                  {props.recipients.map((r) => (
+                    <tr className="envelope-details-table-row">
+                      <td>
+                        {r.name} {r.surname}
+                      </td>
+                      <td>{r.email}</td>
+                      <td>{r.needsToSign ? "SIGN" : "VIEW"}</td>
+                      <td className="envelope-details-status-data">
+                        {props.completed ? (
+                          <div className="completed-icon-table-row">
+                            <i className={icons.checkCircle}></i>
+                            <h1>Completed</h1>
+                          </div>
+                        ) : (
+                          <div className="incompleted-icon-table-row">
+                            <i className={icons.exclamationCircle}></i>
+                            <h1>Pending</h1>
+                          </div>
+                        )}
+                      </td>
+                    </tr>
+                  ))}
                 </tbody>
               </table>
             </div>
