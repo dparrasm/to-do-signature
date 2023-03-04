@@ -21,46 +21,46 @@ export default function Header(props) {
             </div>
           </div>
           <ul className="header-icon-bar">
-            <li className="header-icon-bar-element">
-              <Link
-                className={
-                  location.pathname.includes("home")
-                    ? "header-bar-link-selected"
-                    : "header-bar-link"
-                }
-                to="/home"
-              >
+            <li
+              className={
+                location.pathname.includes("home")
+                  ? "header-icon-bar-element-selected"
+                  : "header-icon-bar-element"
+              }
+            >
+              <Link className="header-bar-link" to="/home">
                 Home
               </Link>
             </li>
-            <li className="header-icon-bar-element">
-              <Link
-                className={
-                  location.pathname.includes("manage")
-                    ? "header-bar-link-selected"
-                    : "header-bar-link"
-                }
-                to="/manage"
-              >
+            <li
+              className={
+                location.pathname.includes("manage")
+                  ? "header-icon-bar-element-selected"
+                  : "header-icon-bar-element"
+              }
+            >
+              <Link className="header-bar-link" to="/manage">
                 Manage
               </Link>
             </li>
-            <li className="header-icon-bar-element">
-              <Link
-                className={
-                  location.pathname.includes("profile")
-                    ? "header-bar-link-selected"
-                    : "header-bar-link"
-                }
-                to="/profile"
-              >
+            <li
+              className={
+                location.pathname.includes("profile")
+                  ? "header-icon-bar-element-selected"
+                  : "header-icon-bar-element"
+              }
+            >
+              <Link className="header-bar-link" to="/profile">
                 Profile
               </Link>
             </li>
-            <li onClick={logout}>
-              <div className="header-logout-container ">
+            <li className="header-icon-bar-element" onClick={logout}>
+              <div className="header-logout-link-container">
                 <Link to="/" className="header-bar-link">
-                  <IconButton icon={icons.logout} text="Logout" />
+                  <div className="header-logout-link">
+                    <div className={icons.logout} />
+                    <span>Logout</span>
+                  </div>
                 </Link>
               </div>
             </li>

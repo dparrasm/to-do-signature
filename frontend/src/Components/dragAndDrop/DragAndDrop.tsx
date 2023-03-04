@@ -2,36 +2,41 @@ import React from "react";
 import { icons } from "../../utils/icons";
 import Filepicker from "../filepicker/Filepicker";
 import "./DragAndDrop.scss";
+import { useDropzone } from "react-dropzone";
 
 export default function DragAndDrop(props) {
-  // triggers when file is dropped
-  const handleDragStart = (e) => {
-    e.dataTransfer.setData("text/plain", e.target.textContent);
-  };
-  const handleDrop = (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-    console.log(JSON.stringify(e.dataTransfer.getData("text/plain")));
-    if (e.dataTransfer.files && e.dataTransfer.files[0]) {
-      // at least one file has been dropped so do something
-      // handleFiles(e.dataTransfer.files);
-      console.log(JSON.stringify(e.dataTransfer.files));
-    }
-  };
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({
+    accept: ".pdf",
+    multiple: true,
+    onDrop: (acceptedFiles) => {
+      for (const file of acceptedFiles) {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => {
+          const base64Content = reader.result;
+          console.log(file.name, base64Content);
+          // Aquí puedes hacer algo con el contenido en base64 del archivo
+        };
+      }
+    },
+  });
+
   return (
-    <div
-      className="drag-and-drop"
-      draggable
-      onDragStart={handleDragStart}
-      onDragOver={(e) => e.preventDefault()}
-      onDrop={handleDrop}
-    >
+    <div className="drag-and-drop" {...getRootProps()}>
+      <input {...getInputProps()} />
       <div className="button-container">
         <div className="drag-and-drop-file-icon-container">
           <i className={icons.fileUpload}></i>
         </div>
         <Filepicker title={props.title} accept=".pdf" multiple={true} />
       </div>
+      {/* {isDragActive ? (
+        <p>Suelta los archivos aquí</p>
+      ) : (
+        <p>
+          Arrastra y suelta los archivos aquí o haz clic para seleccionarlos
+        </p>
+      )} */}
     </div>
   );
 }

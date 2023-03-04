@@ -6,6 +6,7 @@ import { setAlert } from "../../reducers/actions/alertActions";
 import Alert from "../../components/alert/Alert";
 import { login } from "../../reducers/actions/authActions";
 import "./Login.scss";
+import { icons } from "../../utils/icons";
 
 interface LoginProps {
   onUserLogIn?: any;
@@ -116,11 +117,23 @@ export default function Login(props: LoginProps) {
       </div>
       <div className="login-footer">
         <div className="login-footer-info">
-          <div>
+          <div className="login-footer-author">
             Designed and developed by David Parras Martínez
-            <div>
-              <div>Linkedin</div>
-              <div>Github</div>
+            <div className="login-footer-contact-me">
+              <div>
+                <div className="login-logo-linkedin">
+                  <i className={icons.linkedin} />
+                  <a href="https://www.linkedin.com/in/dparrasm/">Linkedin</a>
+                </div>
+              </div>
+              <div>
+                <div className="login-logo-github">
+                  <i className={icons.github} />
+                  <a href="https://github.com/dparrasm?tab=repositories">
+                    Github
+                  </a>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -128,10 +141,3 @@ export default function Login(props: LoginProps) {
     </div>
   );
 }
-// const mapStateToProps = (state) => ({
-//   isAuthenticated: state.auth.isAuthenticated,
-//   loading: state.auth.loading,
-// });
-
-// const connector = connect(mapStateToProps, { setAlert, login });
-// export default connector(Login);

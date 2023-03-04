@@ -10,6 +10,8 @@ import {
   updateUser,
 } from "../../reducers/actions/authActions";
 import { Link } from "react-router-dom";
+import Column from "../../components/column/Column";
+import { icons } from "../../utils/icons";
 
 export default function UserProfile() {
   const user = useSelector((state: rootState) => state.auth?.user);
@@ -52,97 +54,127 @@ export default function UserProfile() {
   const updateProfilePicture = (profilePicture) => {
     setAvatar(profilePicture);
   };
-
-  return (
-    <div className="user-container">
-      <div className="user-container-info">
-        <div className="title">
-          <h1>Profile picture</h1>
-        </div>
-        <Badge
-          overlap="circular"
-          anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
-          badgeContent={
-            <Filepicker
-              user={user}
-              accept="image/*"
-              multiple={false}
-              updateProfilePicture={updateProfilePicture}
-            />
-          }
-        >
-          <Avatar
-            className="user-profile-avatar"
-            style={{ height: "200px", width: "200px" }}
-            alt="David Parras"
-            src={avatar}
-          />
-        </Badge>
-      </div>
-
-      <div className="user-security-data-container">
-        <div className="title">
-          <h1>Credentials</h1>
-        </div>
-        <div className="user-security-data">
-          <div className="user-security-data-big-fields">
-            <div className="two-fields">
-              <input
-                name="name"
-                ref={name}
-                className="smallField"
-                type="text"
-                placeholder="Name"
-                defaultValue={user?.name}
-              />
-              <input
-                name="surname"
-                ref={surname}
-                className="small-field-no-margin"
-                type="text"
-                placeholder="Surname"
-                defaultValue={user?.surname}
-              />
-            </div>
-            <input
-              name="email"
-              ref={email}
-              className="field"
-              type="text"
-              placeholder="Email"
-              value={user?.email}
-              readOnly={true}
-            />
-            <input
-              name="password"
-              ref={password}
-              className="field"
-              type="password"
-              placeholder="Password"
-              defaultValue="password"
-            />
+  const userMenu = () => {
+    return (
+      <div className="user-profile-menu">
+        <div className="user-profile-menu-options">
+          <h1>Account</h1>
+          <div className="user-profile-menu-option-selected">
+            <div className={icons.user} />
+            <div>Profile</div>
           </div>
         </div>
       </div>
-      <div className="button-actions">
-        <Button
-          className="button"
-          variant="contained"
-          color="primary"
-          onClick={handleOnClick}
-        >
-          Update
-        </Button>
-        <Link to="/login">
+    );
+  };
+  return (
+    <div className="user-profile-layout">
+      {userMenu()}
+      <div className="user-profile-data-layout">
+        <div className="user-container">
+          <div className="user-container-info">
+            <div className="user-profile-title">
+              <h1>Profile picture</h1>
+            </div>
+            <Badge
+              overlap="circular"
+              anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+              badgeContent={
+                <Filepicker
+                  user={user}
+                  accept="image/*"
+                  multiple={false}
+                  updateProfilePicture={updateProfilePicture}
+                />
+              }
+            >
+              <Avatar
+                className="user-profile-avatar"
+                style={{ height: "200px", width: "200px" }}
+                alt="David Parras"
+                src={avatar}
+              />
+            </Badge>
+          </div>
+          <div className="user-security-data-container">
+            <div className="user-profile-title">
+              <h1>My Credentials</h1>
+            </div>
+            <div className="user-security-data">
+              <div className="user-security-data-big-fields">
+                <div>
+                  <div className="user-profile-form-field">
+                    Name
+                    <input
+                      name="name"
+                      ref={name}
+                      className="field"
+                      type="text"
+                      placeholder="Name"
+                      defaultValue={user?.name}
+                    />
+                  </div>
+                  <div className="user-profile-form-field">
+                    Surname
+                    <input
+                      name="surname"
+                      ref={surname}
+                      className="field"
+                      type="text"
+                      placeholder="Surname"
+                      defaultValue={user?.surname}
+                    />
+                  </div>
+                </div>
+                <div>
+                  <div className="user-profile-form-field">
+                    Email
+                    <input
+                      name="email"
+                      ref={email}
+                      className="field"
+                      type="text"
+                      placeholder="Email"
+                      value={user?.email}
+                      readOnly={true}
+                    />
+                  </div>
+                  <div className="user-profile-form-field">
+                    Password
+                    <input
+                      name="password"
+                      ref={password}
+                      className="field"
+                      type="password"
+                      placeholder="Password"
+                      defaultValue="password"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="button-actions">
           <Button
-            className="red-button"
+            className="user-profile-button"
             variant="contained"
             color="primary"
-            onClick={handleDelete}
+            onClick={handleOnClick}
           >
-            Delete
+            Update
           </Button>
-        </Link>
+          <Link to="/login">
+            <Button
+              className="user-profile-inversed-button"
+              variant="contained"
+              color="primary"
+              onClick={handleDelete}
+            >
+              Delete
+            </Button>
+          </Link>
+        </div>
       </div>
     </div>
   );
