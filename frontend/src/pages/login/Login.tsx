@@ -6,6 +6,7 @@ import { setAlert } from "../../reducers/actions/alertActions";
 import Alert from "../../components/alert/Alert";
 import { login } from "../../reducers/actions/authActions";
 import "./Login.scss";
+import { icons } from "../../utils/icons";
 
 interface LoginProps {
   onUserLogIn?: any;
@@ -38,7 +39,7 @@ export default function Login(props: LoginProps) {
     event.preventDefault();
     dispatch(login(user.email, user.password));
   };
-  
+
   //Redirect if logged in
   //Aquí es donde hacemos que no se salga el usuario de la página todo el rato.
   // if (this.props.isAuthenticated && !this.props.loading) {
@@ -116,17 +117,27 @@ export default function Login(props: LoginProps) {
       </div>
       <div className="login-footer">
         <div className="login-footer-info">
-          Español (España) Français (France) English (US) Türkçe Português
-          (Portugal) العربية Italiano Deutsch हिन्दी中文(简体) 日本語
+          <div className="login-footer-author">
+            Designed and developed by David Parras Martínez
+            <div className="login-footer-contact-me">
+              <div>
+                <div className="login-logo-linkedin">
+                  <i className={icons.linkedin} />
+                  <a href="https://www.linkedin.com/in/dparrasm/">Linkedin</a>
+                </div>
+              </div>
+              <div>
+                <div className="login-logo-github">
+                  <i className={icons.github} />
+                  <a href="https://github.com/dparrasm?tab=repositories">
+                    Github
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
   );
 }
-// const mapStateToProps = (state) => ({
-//   isAuthenticated: state.auth.isAuthenticated,
-//   loading: state.auth.loading,
-// });
-
-// const connector = connect(mapStateToProps, { setAlert, login });
-// export default connector(Login);

@@ -27,6 +27,7 @@
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-draggable": "^4.4.5",
+    "react-dropzone": "^14.2.3",
     "react-file-picker": "^0.0.6",
     "react-fontawesome": "^1.7.1",
     "react-moment": "^1.1.1",
