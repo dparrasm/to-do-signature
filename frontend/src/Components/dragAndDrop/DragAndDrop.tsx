@@ -12,7 +12,7 @@ export default function DragAndDrop(props) {
   const user = useSelector((state: rootState) => state.auth?.user?.email);
   const history = useHistory();
   const dispatch = useDispatch();
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({
+  const { getRootProps, getInputProps } = useDropzone({
     accept: ".pdf",
     multiple: true,
     onDrop: (acceptedFiles) => {
@@ -26,7 +26,7 @@ export default function DragAndDrop(props) {
               author: user,
               title: file.name,
               fileContent: base64Content,
-              receivers: [""],
+              recipients: [""],
               signedBy: [""],
               signed: false,
             })

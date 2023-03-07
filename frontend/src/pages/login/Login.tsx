@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Button, TextField } from "@material-ui/core";
 import { Signup } from "./signup/Signup";
 import { useDispatch } from "react-redux";
@@ -28,9 +28,7 @@ export default function Login(props: LoginProps) {
       [e.target.name]: e.target.value,
     });
   };
-  const handleOpen = () => {
-    openModal(true);
-  };
+
   const handleClose = () => {
     openModal(false);
   };
@@ -40,11 +38,6 @@ export default function Login(props: LoginProps) {
     dispatch(login(user.email, user.password));
   };
 
-  //Redirect if logged in
-  //Aquí es donde hacemos que no se salga el usuario de la página todo el rato.
-  // if (this.props.isAuthenticated && !this.props.loading) {
-  //   this.props.onUserLogIn();
-  // }
   return (
     <div className="login-schema">
       <div className="login-container">

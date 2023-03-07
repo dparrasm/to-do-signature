@@ -16,15 +16,14 @@ export interface User {
 export default function Home() {
   const user: any = useSelector((state: rootState) => state?.auth?.user);
   const dispatch = useDispatch();
-  const documents: any = useSelector((state: rootState) => state?.document);
   const { actionRequired, waitingForOthers, signedBy, completed } =
     useNotifications();
 
   useEffect(() => {
-    const cargarDocumentos = async () => {
+    const loadUserDocuments = async () => {
       await dispatch(loadDocuments(user?.email));
     };
-    cargarDocumentos();
+    loadUserDocuments();
   }, [user]);
 
   return (

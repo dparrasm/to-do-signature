@@ -62,13 +62,13 @@ export const loadDocuments = (userId) => async (dispatch) => {
   }
 };
 export const uploadDocument =
-  ({ author, title, fileContent, receivers, signedBy, signed }) =>
+  ({ author, title, fileContent, recipients, signedBy, signed }) =>
   async (dispatch) => {
     const document = {
       author: author,
       title: title,
       fileContent: fileContent,
-      receivers: receivers,
+      recipients: recipients,
       signedBy: signedBy,
       signed: signed,
     };
@@ -123,34 +123,41 @@ export const postDocuments =
 
     try {
       const doc = await axios.post("/api/document", body, config);
+
+      console.log(JSON.stringify(doc.data));
+      const filteredData = doc.data.addedDocuments.map((obj) => {
+        const { fileContent, ...rest } = obj;
+        return rest;
+      });
+      console.log(JSON.stringify(filteredData));
       dispatch({
         type: POST_DOCUMENT,
-        payload: doc.data,
+        payload: filteredData,
       });
-      const recipientsEmails = recipients.map((r) => {
-        return r?.email;
-      });
-      const recipientSet = [...new Set(recipientsEmails)];
+
+      const recipientSet = [...new Set(recipients.map((r) => r?.email))];
       const notRegisteredRecipients = await axios.post(
         "/api/users/notRegisteredRecipients",
         JSON.stringify(recipientSet),
         config
       );
-      notRegisteredRecipients.map(async (r) => {
-        let userSchema = JSON.stringify({
-          name: "",
-          surname: "",
-          email: r.user,
-          password: r.password,
+      if (notRegisteredRecipients && notRegisteredRecipients.length > 0) {
+        notRegisteredRecipients.map(async (r) => {
+          let userSchema = JSON.stringify({
+            name: "",
+            surname: "",
+            email: r.user,
+            password: r.password,
+          });
+          await axios
+            .post("/api/users", userSchema, config)
+            .then(() => console.log("hola"));
         });
-
-        await axios
-          .post("/api/users", userSchema, config)
-          .then(() => console.log("hola"));
-      });
+      }
     } catch (err: any) {
       const errors = err?.response?.data?.errors;
       if (errors) {
+        errors.forEach((error) => console.log(error));
         errors.forEach((error) => dispatch(setAlert(error.msg, "error")));
       }
       dispatch({
