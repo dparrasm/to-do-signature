@@ -62,16 +62,24 @@
     width: 95%;
     padding-bottom: 30px;
 }
-.recipient-button{
+.recipient-button {
     width: 120px;
     display: flex;
     justify-content: space-evenly;
-    align-items: center;
-    background: grey;
-    margin-top: 25px;
     background: #F3F2F0;
-    border: 1px solid rgb(204, 204, 204);
     cursor: pointer;
+    font-weight: 600;
+    align-items: center;
+    margin: 0px;
+    background-color: #1877f2;
+    color: white;
+    box-shadow: none;
+    border: 1px solid #c4c2c0;
+    min-height: 30px;
+    border-radius: 15px;
+    min-width: 40px;
+    max-width: 140px;
+    margin-top: 10px;
     margin-right: 10px;
 }
 .recipient-button h1{
