@@ -166,7 +166,8 @@ export default function PrepareEnvelope(props) {
       <div className="container-wrap">
         <div className="add-documents-container">
           <div className="prepare-envelope-titles">
-            <h1>Add documents</h1>
+            <h1>1. Add documents</h1>
+            <h1 className="star">*</h1>
           </div>
           {uploadedFiles?.length === 0 ? (
             <div className="document-container">
@@ -191,12 +192,27 @@ export default function PrepareEnvelope(props) {
         </div>
         <div className="add-documents-container">
           <div className="prepare-envelope-titles">
-            <h1>Add recipients</h1>
+            <h1>2. Add recipients</h1>
+            <h1 className="star">*</h1>
           </div>
           <div className="recipients-container">
-            <div className="only-signer">
-              <input type="checkbox" id="vehicle1" name="vehicle1" />
-              <span>I'm the only signer</span>
+            <div className="recipient-button-bar">
+              <div className="only-signer">
+                <input type="checkbox" id="vehicle1" name="vehicle1" />
+                <span>I'm the only signer</span>
+              </div>
+              <div className="add-recipients-buttons">
+                <div className="recipient-button" onClick={addRecipient}>
+                  <i className={icons.user} />
+                  <h1>ADD RECIPIENT</h1>
+                </div>
+                <Filepicker
+                  title="ADD FROM LIST"
+                  accept=".xlsx"
+                  multiple={false}
+                  addRecipientsFromList={addRecipientsFromList}
+                />
+              </div>
             </div>
             {recipients.map((recipient, index) => (
               <RecipientCard
@@ -210,23 +226,14 @@ export default function PrepareEnvelope(props) {
                 needsTo={recipient?.needsTo}
               />
             ))}
-            <div className="add-recipients-buttons">
-              <div className="recipient-button" onClick={addRecipient}>
-                <i className={icons.user} />
-                <h1>ADD RECIPIENT</h1>
-              </div>
-              <Filepicker
-                title="ADD FROM LIST"
-                accept=".xlsx"
-                multiple={false}
-                addRecipientsFromList={addRecipientsFromList}
-              />
-            </div>
           </div>
         </div>
         <div className="add-documents-message-container">
           <div className="prepare-envelope-titles">
-            <h1>Add message</h1>
+            <h1>3. Add message</h1>
+            <h1 style={{ color: "#d2cece", marginLeft: "5px" }}>
+              {"(optional)"}
+            </h1>
           </div>
           <div className="recipients-container">
             <div className="email-subject-container">
@@ -241,7 +248,7 @@ export default function PrepareEnvelope(props) {
               />
             </div>
             <div>
-              <div>
+              <div style={{ paddingBottom: "5px" }}>
                 <span>Email Message</span>
               </div>
               <textarea
@@ -255,11 +262,13 @@ export default function PrepareEnvelope(props) {
         <div className="prepare-envelope-options"></div>
       </div>
       <div className="prepare-envelope-button-actions">
-        <Link className="cross-button" onClick={prepareEnvelope} to="/sign">
-          <Button className="button-next" variant="contained" color="primary">
-            Next
-          </Button>
-        </Link>
+        <div className="prepare-envelope-footbar">
+          <Link className="cross-button" onClick={prepareEnvelope} to="/sign">
+            <Button className="button-next" variant="contained" color="primary">
+              Next
+            </Button>
+          </Link>
+        </div>
       </div>
     </div>
   );

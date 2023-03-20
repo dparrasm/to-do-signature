@@ -1,23 +1,23 @@
 .root-sign-document {
   display: flex;
-  height: 100%;
   align-items: flex-start;
-  overflow: hidden;
+  padding: 15px;
+  background: white;
+  border-top: 1px solid #e0e0e0;
 }
 
 .sign-tools {
-  height: 100%;
   background-color: white;
-  width: 300px;
-  border-right: 1px solid darkgrey;
   min-width: 130px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
 
   .container-tools {
     margin-left: 15px;
     margin-right: 15px;
     display: flex;
     flex-direction: column;
-    height: 100%;
   }
 }
 .react-pdf__Document{
@@ -53,15 +53,18 @@
 .sign-document-header{
   display: flex;
   justify-content: space-between;
-  background-color: #1877f2;
-  color: white;
+  background-color: white;
   padding: 10px;
+  height: 50px;
   align-items: center;
 }
+.sign-document-header h1{
+  color: #504f4f;
+}
 .sign-document-header button{
-  background-color: #1877f2;
-  color: white;
-  border: 1px solid white;
+  background-color: white;
+  color: gray;
+  border: 1px solid gray;
   cursor: pointer;
 }
 .sign-document-header h6{
@@ -70,6 +73,8 @@
 .signing-container{
   height: 100%;
   overflow: hidden;
+  display: flex;
+  flex-direction: column;
 }
 .document-info-header{
   background-color: #504f4f;
@@ -96,8 +101,8 @@
 }
 .signing-buttons-container {
   display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
+  justify-content: center;
+  align-items: center;
 }
 .signing-button-save{
   cursor: pointer;
@@ -141,4 +146,23 @@
 .sign-document-buttons:hover{
   border-radius: 20px;
   background: grey;
+}
+.signing-buttons-container button {
+  margin-right: 10px;
+  background: #1778f7;
+  color: white;
+  border: none;
+  height: 25px;
+  min-width: 80px;
+  border-radius: 15px;
+  font-weight: bolder;
+  font-family: 'Roboto';
+}
+.signing-buttons-container button.red{
+  background: red;
+}
+.signing-buttons-container button.negative {
+  background-color: white;
+  color: #1778f7;
+  border: 1px solid #1778f7;
 }

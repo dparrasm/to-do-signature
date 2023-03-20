@@ -40,9 +40,7 @@ export default function Manage(props) {
     (state: rootState) => state?.document?.selectedDocuments
   );
   const selectedDocumentsString = JSON.stringify(selectedDocuments);
-  const [prevSelectedDocuments, setPrevSelectedDocuments] = useState(
-    selectedDocumentsString
-  );
+
   const [searchText, setSearchText] = useState("");
   const dispatch = useDispatch();
   const [checkAll, setCheckAll] = useState(false);
@@ -52,10 +50,6 @@ export default function Manage(props) {
   const getSearchText = (text) => {
     setSearchText(text);
   };
-  const inboxJsonString = JSON.stringify(inboxState);
-  const [prevInboxState, setPrevInboxState] = useState(inboxJsonString);
-  const sentJsonString = JSON.stringify(sentState);
-  const [prevSentState, setPrevSentState] = useState(sentJsonString);
   const displayEnvelopes = () => {
     if (searchText.length > 0) {
       return documentState.searchedDocuments.map((doc, index) => (
@@ -88,13 +82,11 @@ export default function Manage(props) {
           <Envelope
             key={index}
             index={index}
+            {...doc}
             id={doc._id}
-            title={doc.title}
             folder={page}
-            lastChange={doc.lastChange}
             handleOnChange={handleOnChange}
             handleClick={handleClick}
-            isChecked={doc.isChecked}
             completed={doc.signed && doc.viewed ? true : false}
             userId={user._id}
             needsToSign={
@@ -185,15 +177,6 @@ export default function Manage(props) {
       setCheckAll(false);
     }
   }, [location, page]);
-
-  useEffect(() => {
-    if (
-      selectedDocumentsString === prevSelectedDocuments &&
-      (prevInboxState === inboxJsonString || prevSentState === sentJsonString)
-    ) {
-      dispatch(loadDocuments(user?.email));
-    }
-  }, [inboxJsonString, sentJsonString]);
 
   return (
     <div className="manage-content">

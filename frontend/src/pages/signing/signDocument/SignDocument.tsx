@@ -90,61 +90,56 @@ function SignDocument(props) {
   return (
     <div className="signing-container">
       <div className="sign-document-header">
-        <h6>Drag and drop fields from the left panel onto the document</h6>
+        <h1>Uploaded documents</h1>
         <Link to="/manage">
           <button onClick={removeDocuments}>X</button>
         </Link>
       </div>
-      <div className="root-sign-document">
-        <div className="sign-tools" id="signTools">
-          <div className="container-tools">
-            <div className="signing-menu-block">
-              <h3>Fields</h3>
-            </div>
-            <div className="signing-menu-block-items">
-              <div onClick={sign}>
-                <MenuItem icon={icons.signed} text="Autofirma" />
-              </div>
-            </div>
-            <div className="signing-buttons-container">
-              <Link to="/manage/inbox">
-                <button className="signing-button-save" onClick={sendEnvelope}>
-                  Send
-                </button>
-              </Link>
-              <button className="signing-button-discard">Discard</button>
-            </div>
+      <div className="document-to-sign-container">
+        <div className="document-info-header">
+          <div className="sign-document-buttons" onClick={previousDocument}>
+            <IconButton icon={icons.previous} />
+          </div>
+          <div className="sign-document-title">
+            <h1>{document[index].title}</h1>
+          </div>
+          <div className="sign-document-buttons" onClick={nextDocument}>
+            <IconButton icon={icons.next} />
           </div>
         </div>
-        <div className="document-to-sign-container">
-          <div className="document-info-header">
-            <div className="sign-document-buttons" onClick={previousDocument}>
-              <IconButton icon={icons.previous} />
-            </div>
-            <div className="sign-document-title">
-              <h1>{document[index].title}</h1>
-            </div>
-            <div className="sign-document-buttons" onClick={nextDocument}>
-              <IconButton icon={icons.next} />
-            </div>
+        <div className="signing-display-document">
+          <div>
+            <Document
+              file={document[index].fileContent}
+              onLoadSuccess={onDocumentLoadSuccess}
+              onLoadError={loadError}
+            >
+              {Array.from(new Array(numPages), (el, index) => (
+                <div>
+                  <Page
+                    key={`page_${index + 1}`}
+                    scale={1.5}
+                    pageNumber={index + 1}
+                  ></Page>
+                </div>
+              ))}
+            </Document>
           </div>
-          <div className="signing-display-document">
-            <div>
-              <Document
-                file={document[index].fileContent}
-                onLoadSuccess={onDocumentLoadSuccess}
-                onLoadError={loadError}
-              >
-                {Array.from(new Array(numPages), (el, index) => (
-                  <div>
-                    <Page
-                      key={`page_${index + 1}`}
-                      scale={1.5}
-                      pageNumber={index + 1}
-                    ></Page>
-                  </div>
-                ))}
-              </Document>
+        </div>
+        <div className="root-sign-document">
+          <div className="sign-tools" id="signTools">
+            <div className="container-tools">
+              <div className="signing-buttons-container">
+                <div onClick={sign}>
+                  <button>Sign</button>
+                </div>
+                <Link to="/manage/inbox">
+                  <button className="negative" onClick={sendEnvelope}>
+                    Send
+                  </button>
+                </Link>
+                <button className="red">Discard</button>
+              </div>
             </div>
           </div>
         </div>

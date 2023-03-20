@@ -41,18 +41,19 @@ export default function Login(props: LoginProps) {
   return (
     <div className="login-schema">
       <div className="login-container">
-        <div className="login-cockpit">
-          <h1 id="logo-firma" className="firma-title main">
-            Firm@
-          </h1>
-          <h2 className="login-description">
-            All your signatures on the same platform
-          </h2>
-        </div>
+        <div className="login-cockpit"></div>
         <div className="login">
           <div className="login-form-layout">
+            <h2 className="login-description">
+              All your signatures on the same platform
+            </h2>
             <Alert className="login-alert" />
             <div className="login-form">
+              <div>
+                <h1 id="logo-firma" className="firma-title main">
+                  Firm@
+                </h1>
+              </div>
               <form className="login-form-fields">
                 <TextField
                   name="email"
@@ -72,14 +73,6 @@ export default function Login(props: LoginProps) {
                   size="small"
                   onChange={handleInputChange}
                 />
-                <Button
-                  className="login-button"
-                  variant="contained"
-                  color="primary"
-                  onClick={onUserLogin}
-                >
-                  Log In
-                </Button>
                 <div className="login-forgot-password">
                   <Button
                     className="login-password-link"
@@ -90,12 +83,20 @@ export default function Login(props: LoginProps) {
                 </div>
                 <div className="login-link-container">
                   <Button
+                    className="login-button"
+                    variant="contained"
+                    color="primary"
+                    onClick={onUserLogin}
+                  >
+                    Log In
+                  </Button>
+                  <Button
                     className="login-link"
                     variant="contained"
                     color="primary"
                     onClick={() => hanldeCaller("signup")}
                   >
-                    Create New Account
+                    Sign Up
                   </Button>
                   <Signup
                     shouldOpenModal={isModalOpen}
