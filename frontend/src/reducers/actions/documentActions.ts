@@ -102,7 +102,6 @@ export const removeUploadedDocuments = () => async (dispatch) => {
     });
   } catch (err: any) {
     console.log("Error removing uploaded documents");
-    // console.log(err);
   }
 };
 export const postDocuments =
@@ -123,16 +122,13 @@ export const postDocuments =
 
     try {
       const doc = await axios.post("/api/document", body, config);
-
-      console.log(JSON.stringify(doc.data));
       const filteredData = doc.data.addedDocuments.map((obj) => {
         const { fileContent, ...rest } = obj;
         return rest;
       });
-      console.log(JSON.stringify(filteredData));
       dispatch({
         type: POST_DOCUMENT,
-        payload: filteredData,
+        payload: {documentsToPost: filteredData, user: email},
       });
 
       const recipientSet = [...new Set(recipients.map((r) => r?.email))];
@@ -149,9 +145,7 @@ export const postDocuments =
             email: r.user,
             password: r.password,
           });
-          await axios
-            .post("/api/users", userSchema, config)
-            .then(() => console.log("hola"));
+          await axios.post("/api/users", userSchema, config);
         });
       }
     } catch (err: any) {
@@ -205,7 +199,6 @@ export const signDocument = (id, email) => async (dispatch) => {
         console.log(JSON.stringify(user));
         user.map((u) => {
           let index = recipients.indexOf(u);
-          console.log(index);
           recipients[index] = {
             ...recipients[index],
             signed: true,
@@ -231,8 +224,6 @@ export const signDocument = (id, email) => async (dispatch) => {
         };
       })
       .catch(() => console.log("lo intentaste"));
-
-    //await axios.put("/api/document/" + id, config);
   } catch (err: any) {
     console.log("Error sign document");
   }

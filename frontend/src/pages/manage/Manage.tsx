@@ -33,14 +33,10 @@ export default function Manage(props) {
   const documentState: document = useSelector(
     (state: rootState) => state?.document
   );
-  const inboxState = useSelector((state: rootState) => state?.document?.inbox);
-  const sentState = useSelector((state: rootState) => state?.document?.sent);
   const user = useSelector((state: rootState) => state?.auth?.user);
   const selectedDocuments = useSelector(
     (state: rootState) => state?.document?.selectedDocuments
   );
-  const selectedDocumentsString = JSON.stringify(selectedDocuments);
-
   const [searchText, setSearchText] = useState("");
   const dispatch = useDispatch();
   const [checkAll, setCheckAll] = useState(false);
@@ -101,21 +97,7 @@ export default function Manage(props) {
       ));
     }
   };
-  const loadTableBody = () => {
-    if (documentState[page].length > 0) {
-      return displayEnvelopes();
-    } else {
-      return (
-        <tr>
-          <td colSpan={5}>
-            <div className="manage-empty-folder-message">
-              <h1>This folder is empty</h1>
-            </div>
-          </td>
-        </tr>
-      );
-    }
-  };
+
   const handleOnChange = () => {
     if (!checkAll) {
       dispatch(selectAllDocuments(page, checkAll));
@@ -167,12 +149,11 @@ export default function Manage(props) {
         console.log("Send document again");
         dispatch(sendUnsignedDocumentsReminder(selectedDocuments, page));
     }
-    unselectDocuments(page);
+    dispatch(unselectDocuments(page));
   };
 
   useEffect(() => {
     dispatch(unselectDocuments(page));
-    dispatch(loadDocuments(user?.email));
     if (checkAll) {
       setCheckAll(false);
     }
@@ -242,7 +223,19 @@ export default function Manage(props) {
               <th>Actions</th>
             </tr>
           </thead>
-          <tbody>{loadTableBody()}</tbody>
+          <tbody>
+            {documentState[page] ? (
+              displayEnvelopes()
+            ) : (
+              <tr>
+                <td colSpan={5}>
+                  <div className="manage-empty-folder-message">
+                    <h1>This folder is empty</h1>
+                  </div>
+                </td>
+              </tr>
+            )}
+          </tbody>
         </table>
       </div>
     </div>
