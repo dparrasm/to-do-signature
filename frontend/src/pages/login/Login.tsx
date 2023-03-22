@@ -2,40 +2,44 @@ import React, { useState } from "react";
 import { Button, TextField } from "@material-ui/core";
 import { Signup } from "./signup/Signup";
 import { useDispatch } from "react-redux";
-import { setAlert } from "../../reducers/actions/alertActions";
 import Alert from "../../components/alert/Alert";
 import { login } from "../../reducers/actions/authActions";
 import "./Login.scss";
 import { icons } from "../../utils/icons";
+import { UserLogin } from "../../domain/user";
 
-interface LoginProps {
-  onUserLogIn?: any;
-  isAuthenticated?: boolean;
+export enum Caller {
+  forgotpasword = "forgotpassword",
+  signup = "signup",
 }
 
-export default function Login(props: LoginProps) {
-  const [caller, setCaller] = useState("");
-  const [user, setUser] = useState({ email: "", password: "" });
+export default function Login() {
+  const [user, setUser] = useState<UserLogin>({
+    emailAddress: "",
+    password: "",
+  });
   const [isModalOpen, openModal] = useState(false);
+  const [caller, setCaller] = useState<Caller | null>(null);
+
   const dispatch = useDispatch();
-  const hanldeCaller = (param: string) => {
+  const handleCaller = (param: Caller) => {
     setCaller(param);
     openModal(true);
   };
-  const handleInputChange = (e) => {
+  const handleInputChange = (e): void => {
     setUser({
       ...user,
       [e.target.name]: e.target.value,
     });
   };
 
-  const handleClose = () => {
+  const handleClose = (): void => {
     openModal(false);
   };
 
-  const onUserLogin = (event) => {
+  const onUserLogin = (event): void => {
     event.preventDefault();
-    dispatch(login(user.email, user.password));
+    dispatch(login(user.emailAddress, user.password));
   };
 
   return (
@@ -56,7 +60,7 @@ export default function Login(props: LoginProps) {
               </div>
               <form className="login-form-fields">
                 <TextField
-                  name="email"
+                  name="emailAddress"
                   className="textfield"
                   type="text"
                   placeholder="Email"
@@ -76,7 +80,7 @@ export default function Login(props: LoginProps) {
                 <div className="login-forgot-password">
                   <Button
                     className="login-password-link"
-                    onClick={() => hanldeCaller("forgotpasword")}
+                    onClick={() => handleCaller(Caller.forgotpasword)}
                   >
                     Forgot Password ?
                   </Button>
@@ -94,7 +98,7 @@ export default function Login(props: LoginProps) {
                     className="login-link"
                     variant="contained"
                     color="primary"
-                    onClick={() => hanldeCaller("signup")}
+                    onClick={() => handleCaller(Caller.signup)}
                   >
                     Sign Up
                   </Button>
