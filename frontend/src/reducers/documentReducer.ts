@@ -65,19 +65,17 @@ export default function documentReducer(state = initialState, action) {
       };
     }
     case POST_DOCUMENT: {
-      let inbox = [...payload.addedDocuments].filter(
-        (doc) => doc.folder === "INBOX"
+      console.log(JSON.stringify(payload.documentsToPost));
+      let filteredInbox = [...payload.documentsToPost].filter((doc) =>
+        doc.recipients.some((recipient) => recipient.folder === "INBOX")
       );
-      inbox = [state.inbox, ...inbox];
-      let sent = [...payload.addedDocuments].filter(
-        (doc) => doc.folder === "SENT"
+      filteredInbox = [...state.inbox, ...filteredInbox];
+      console.log(JSON.stringify(filteredInbox));
+      let filteredSent = [...payload.documentsToPost].filter((doc) =>
+        doc.recipients.some((recipient) => recipient.folder === "SENT")
       );
-      sent = [state.sent, ...sent];
-      return {
-        ...state,
-        inbox: inbox[0],
-        sent: sent[0],
-      };
+      filteredSent = [...state.sent, ...filteredSent];
+      return { ...state, inbox: filteredInbox, sent: filteredSent };
     }
     case SIGN_DOCUMENT: {
       const inbox = state.inbox;

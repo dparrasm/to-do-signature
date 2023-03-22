@@ -1,6 +1,6 @@
 import { Button, TextField } from "@material-ui/core";
 import { Dialog } from "@material-ui/core";
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import "./Signup.scss";
 import { icons } from "../../../utils/icons";
 import { useDispatch } from "react-redux";
@@ -9,23 +9,24 @@ import {
   passwordResetRequest,
   register,
 } from "../../../reducers/actions/authActions";
+import { UserSignUp } from "../../../domain/user";
 
 interface SignupProps {
   shouldOpenModal: boolean;
-  handleClose: () => any;
+  handleClose: () => void;
   register?: any;
-  caller: string;
+  caller?: string | null;
 }
 
 export const Signup = (props: SignupProps) => {
-  const [user, setUser] = React.useState({
+  const [user, setUser] = useState<UserSignUp>({
     name: "",
     surname: "",
-    email: "",
+    emailAddress: "",
     password: "",
   });
 
-  const { name, surname, email, password } = user;
+  // const { name, surname, emailAddress, password } = user;
   const dispatch = useDispatch();
   const emailInput = useRef<HTMLInputElement>(null);
 
@@ -37,7 +38,7 @@ export const Signup = (props: SignupProps) => {
   };
   const onUserSignup = async (event) => {
     event.preventDefault();
-    dispatch(register({ name, surname, email, password }));
+    dispatch(register(user));
     props.handleClose();
   };
 

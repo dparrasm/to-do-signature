@@ -45,9 +45,18 @@ router.get("/:id", (req, res, next) => {
 // @access  Public
 
 router.post("/", (req, res, next) => {
-  console.log(JSON.stringify(req.body));
   const documentsArray = req?.body?.documents;
-  let cont = 1;
+  let savedDocuments: {
+    _id: string;
+    lastChange: string;
+    title: string;
+    fileContent: string;
+    recipients: any[];
+    signedBy: string;
+    signed: boolean;
+    viewed: boolean;
+  }[] = [];
+
   documentsArray.map((d) => {
     let document = new Document({
       _id: new mongoose.Types.ObjectId(),
@@ -59,6 +68,11 @@ router.post("/", (req, res, next) => {
       signed: req.body.signed,
       viewed: req.body.viewed,
     });
+
+    const savedDocument = document.toObject();
+    const { fileContent, ...rest } = savedDocument;
+    savedDocuments.push(rest);
+
     document.save().catch((err) => {
       res.status(500).json({
         error: err,
@@ -73,7 +87,7 @@ router.post("/", (req, res, next) => {
 
   res.status(201).json({
     message: "Handling POST request to /documents",
-    addedDocuments: documentsArray,
+    addedDocuments: savedDocuments,
   });
 });
 

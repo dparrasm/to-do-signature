@@ -4,9 +4,11 @@
 }
 .close-bar {
     text-align: right;
-    margin-right: 2.5%;
     margin-top: 1%;
     font-size: 20px;
+    width: 99%;
+    display: flex;
+    justify-content: end;
 }
 .cross-button button{
     cursor:pointer;
@@ -20,8 +22,11 @@
     align-items: center;
     display: flex;
     flex-direction: column;
-    padding-bottom: 50px;
-    border-bottom: 1px solid black;
+    padding: 30px;
+    background: white;
+    margin: 10px;
+    line-height: 0;
+    border: 1px solid #e6e3e3;
 }
 .add-documents-content{
     display: flex;
@@ -53,6 +58,12 @@
 }
 .prepare-envelope-titles{
     width: 100%;
+    line-height: 0;
+    margin-bottom: 10px;
+    display: flex;
+}
+.prepare-envelope-titles h1{
+    margin-left: 3px;
 }
 
 .recipients-container {
@@ -61,17 +72,28 @@
     justify-content: center;
     width: 95%;
     padding-bottom: 30px;
+    margin-top: 10px;
+    color:#8e8a8a;
 }
-.recipient-button{
+
+.recipient-button {
     width: 120px;
     display: flex;
     justify-content: space-evenly;
-    align-items: center;
-    background: grey;
-    margin-top: 25px;
     background: #F3F2F0;
-    border: 1px solid rgb(204, 204, 204);
     cursor: pointer;
+    font-weight: 600;
+    align-items: center;
+    margin: 0px;
+    background-color: #1877f2;
+    color: white;
+    box-shadow: none;
+    border: 1px solid #c4c2c0;
+    min-height: 30px;
+    border-radius: 15px;
+    min-width: 40px;
+    max-width: 140px;
+    margin-top: 10px;
     margin-right: 10px;
 }
 .recipient-button h1{
@@ -87,15 +109,16 @@
 }
 .recipients-container textarea{
     font-family: 'Roboto';
+    resize: none;
+    overflow-x: scroll;
 }
 .prepare-envelope-button-actions {
     display: flex;
-    justify-content: flex-end;
     background: white;
-    padding-top: 10px;
-    padding-bottom: 10px;
+    height: 55px;
+    width: 100%;
+    align-items: center;
     border-top: 1px solid #e0e0de;
-    padding-right: 10px;
 }
 .only-signer{
     display: flex;
@@ -120,6 +143,7 @@
 .email-subject{
     display:flex;
     width: 100%;
+    padding-bottom: 5px;
 }
 .prepare-envelope-email-message{
     width: 100%;
@@ -135,4 +159,24 @@
     display: flex;
     flex-direction: column;
     padding-bottom: 20px;
+    background: white;
+    padding: 30px;
+    margin: 10px;
+    border: 1px solid #e6e3e3;
+}
+.recipient-button-bar {
+    display: flex;
+    justify-content: space-between;
+}
+a.cross-button{
+    display: flex;
+    width: 20px;
+    height: 20px;
+    justify-content: center;
+    align-items: center;
+}
+.prepare-envelope-footbar{
+    width: 98%;
+    display: flex;
+    justify-content: right;
 }

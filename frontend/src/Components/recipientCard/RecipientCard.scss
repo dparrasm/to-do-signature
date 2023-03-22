@@ -1,27 +1,22 @@
 .recipient-card-container{
     display: flex;
-    justify-content: space-between;
     background: white;
-    height: 150px;
-    margin-bottom: 15px;
-    border-left: 10px solid #1877f2;
-    box-shadow: 5px 5px 5px 1px #ccc;
+    height: 100px;
+    margin-top: 15px;
+    border: 1px solid #d0ddef;
 }
 .recipient-card-data-name{
     display: flex;
     flex-direction: column;
     margin-bottom: 10px;
+    width: 100%;
+    justify-content: center;
+    margin-left: 10px;
 }
 .recipient-card-data{
     display: flex;
-    flex-direction: column;
-    width: 70%;
-    justify-content: center;
-    margin-left: 20px;
-}
-.recipient-card{
-    margin-right: 15px;
-    margin-top: 15px;
+    width: 80%;
+    justify-content: left;
 }
 .recipient-card-select{
     border: none;
@@ -39,22 +34,60 @@
 }
 .star {
     color: red;
+    margin-left: 5px;
 }
 .recipientcard-remove-button-container{
     display: flex;
-    align-content: baseline;
-    justify-content: flex-end;
-    margin-right: -15px;
+    justify-content: center;
+    align-items: center;
+    width: 5%;
 }
 .recipientcard-remove-button{
-    background: black;
-    border-radius: 25px;
-    width: 20px;
-    height: 20px;
-    color: white;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 10px;
+    border: none;
+    background: white;
+    color: gray;
     cursor: pointer;
+}
+.recipient-card-data-text-container {
+    display: flex;
+    font-size: 8px;
+    line-height: 0;
+}
+.recipient-card-data-name input{
+    border: none;
+    background: aliceblue;
+    border-radius: 5px;
+    height: 25px;
+}
+.recipients-container input{
+    border: none;
+    background: aliceblue;
+    border-radius: 5px;
+    height: 25px;
+}
+.recipients-container textarea {
+    border: none;
+    background: aliceblue;
+    border-radius: 5px;
+    height: 200px;
+}
+.recipient-card-container-avatar-img{
+    background-image: url("./icon.svg");
+    background-size: cover;
+    width: 60px;
+    height: 60px;
+}
+.recipient-card-container-avatar {
+    display: flex;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+    margin-left: 10px;
+}
+.recipient-card-buttons {
+    display: flex;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+    margin-left: 10px;
 }

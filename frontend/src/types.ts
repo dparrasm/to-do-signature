@@ -8,6 +8,7 @@ export const Recipient = {
   isAuthor: Boolean,
   folder: String,
 };
+
 export const Document = {
   lastChange: Date,
   title: String,
@@ -17,3 +18,20 @@ export const Document = {
   signed: Boolean,
   viewed: Boolean,
 };
+
+export enum Folder {
+  Inbox = "INBOX",
+  Sent = "SENT",
+}
+
+export enum NeedsTo {
+  Sign = "SIGN",
+  View = "VIEW",
+}
+
+export enum EnvelopeActions {
+  Sign = "SIGN",
+  View = "VIEW",
+  Delete = "DELETE",
+  Download = "DOWNLOAD",
+}

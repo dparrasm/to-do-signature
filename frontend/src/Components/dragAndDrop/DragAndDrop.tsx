@@ -3,9 +3,16 @@ import { icons } from "../../utils/icons";
 import Filepicker from "../filepicker/Filepicker";
 import "./DragAndDrop.scss";
 import { useDropzone } from "react-dropzone";
+import { uploadDocument } from "../../reducers/actions/documentActions";
+import { rootState } from "../../reducers";
+import { useDispatch, useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
 
 export default function DragAndDrop(props) {
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({
+  const user = useSelector((state: rootState) => state.auth?.user?.email);
+  const history = useHistory();
+  const dispatch = useDispatch();
+  const { getRootProps, getInputProps } = useDropzone({
     accept: ".pdf",
     multiple: true,
     onDrop: (acceptedFiles) => {
@@ -14,9 +21,20 @@ export default function DragAndDrop(props) {
         reader.readAsDataURL(file);
         reader.onload = () => {
           const base64Content = reader.result;
-          console.log(file.name, base64Content);
-          // Aquí puedes hacer algo con el contenido en base64 del archivo
+          dispatch(
+            uploadDocument({
+              author: user,
+              title: file.name,
+              fileContent: base64Content,
+              recipients: [""],
+              signedBy: [""],
+              signed: false,
+            })
+          );
         };
+      }
+      if (!history.location.pathname.includes("prepare")) {
+        history.push("/prepare");
       }
     },
   });

@@ -10,9 +10,10 @@
   color: #1877f2;
   font-style: normal;
   &.main {
-    font-size: 80px;
-    line-height: 1px;
-    animation: typing 3s steps(30, end) 1s forwards;
+    font-size: 55px;
+    margin: 0;
+    justify-content: center;
+    padding-top: 10px;
   }
   &.modal {
     font-size: 30px;

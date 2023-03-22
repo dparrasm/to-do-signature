@@ -6,7 +6,6 @@ import { rootState } from "../../reducers";
 import {
   deleteDocument,
   downloadDocument,
-  loadDocuments,
   selectAllDocuments,
   sendUnsignedDocumentsReminder,
   signDocument,
@@ -16,8 +15,9 @@ import Searchbar from "../../components/searchbar/Searchbar";
 import "./Manage.scss";
 import Column from "../../components/column/Column";
 import { uploadEnvelopeByDocumentId } from "../../reducers/actions/envelopeActions";
+import { EnvelopeActions } from "../../types";
 
-export interface document {
+export interface DocumentState {
   readingDocument: any;
   _id: String;
   author: String;
@@ -29,19 +29,13 @@ export interface document {
   inbox: any;
   sent: any;
 }
-export default function Manage(props) {
-  const documentState: document = useSelector(
+export default function Manage() {
+  const documentState: DocumentState = useSelector(
     (state: rootState) => state?.document
   );
-  const inboxState = useSelector((state: rootState) => state?.document?.inbox);
-  const sentState = useSelector((state: rootState) => state?.document?.sent);
   const user = useSelector((state: rootState) => state?.auth?.user);
   const selectedDocuments = useSelector(
     (state: rootState) => state?.document?.selectedDocuments
-  );
-  const selectedDocumentsString = JSON.stringify(selectedDocuments);
-  const [prevSelectedDocuments, setPrevSelectedDocuments] = useState(
-    selectedDocumentsString
   );
   const [searchText, setSearchText] = useState("");
   const dispatch = useDispatch();
@@ -52,78 +46,27 @@ export default function Manage(props) {
   const getSearchText = (text) => {
     setSearchText(text);
   };
-  const inboxJsonString = JSON.stringify(inboxState);
-  const [prevInboxState, setPrevInboxState] = useState(inboxJsonString);
-  const sentJsonString = JSON.stringify(sentState);
-  const [prevSentState, setPrevSentState] = useState(sentJsonString);
   const displayEnvelopes = () => {
-    if (searchText.length > 0) {
-      return documentState.searchedDocuments.map((doc, index) => (
-        <>
-          <Envelope
-            key={index}
-            index={index}
-            id={doc._id}
-            title={doc.title}
-            folder={page}
-            lastChange={doc.lastChange}
-            handleOnChange={handleOnChange}
-            handleClick={handleClick}
-            isChecked={doc.isChecked}
-            completed={doc.signed && doc.viewed ? true : false}
-            userId={user._id}
-            needsToSign={
-              doc.recipients.find((r) => r.email === user.email).needsToSign
-            }
-            needsToView={
-              doc.recipients.find((r) => r.email === user.email).needsToView
-            }
-            recipients={doc.recipients}
-          />
-        </>
-      ));
-    } else {
-      return documentState[page]?.map((doc, index) => (
-        <>
-          <Envelope
-            key={index}
-            index={index}
-            id={doc._id}
-            title={doc.title}
-            folder={page}
-            lastChange={doc.lastChange}
-            handleOnChange={handleOnChange}
-            handleClick={handleClick}
-            isChecked={doc.isChecked}
-            completed={doc.signed && doc.viewed ? true : false}
-            userId={user._id}
-            needsToSign={
-              doc.recipients.find((r) => r.email === user.email).needsToSign
-            }
-            needsToView={
-              doc.recipients.find((r) => r.email === user.email).needsToView
-            }
-            recipients={doc.recipients}
-          />
-        </>
-      ));
-    }
+    const documents = searchText
+      ? documentState.searchedDocuments
+      : documentState[page] || [];
+
+    return documents.map((doc, index) => (
+      <React.Fragment key={`envelope-${doc._id}`}>
+        <Envelope
+          index={index}
+          doc={doc}
+          id={doc._id}
+          folder={page}
+          handleOnChange={handleOnChange}
+          handleClick={handleClick}
+          isChecked={doc.isChecked}
+          userEmail={user.email}
+        />
+      </React.Fragment>
+    ));
   };
-  const loadTableBody = () => {
-    if (documentState[page].length > 0) {
-      return displayEnvelopes();
-    } else {
-      return (
-        <tr>
-          <td colSpan={5}>
-            <div className="manage-empty-folder-message">
-              <h1>This folder is empty</h1>
-            </div>
-          </td>
-        </tr>
-      );
-    }
-  };
+
   const handleOnChange = () => {
     if (!checkAll) {
       dispatch(selectAllDocuments(page, checkAll));
@@ -138,22 +81,21 @@ export default function Manage(props) {
     documentAction: { id: number; action: String }
   ) => {
     event.stopPropagation();
+    const { View, Delete, Download, Sign } = EnvelopeActions;
     switch (documentAction.action) {
-      case "VIEW":
+      case View:
         dispatch(uploadEnvelopeByDocumentId(documentAction.id));
         setTimeout(() => {
           history.push("/sign");
         }, 1000);
-
         break;
-      case "DELETE":
+      case Delete:
         dispatch(deleteDocument(documentAction.id, page));
         break;
-      case "DOWNLOAD":
+      case Download:
         dispatch(downloadDocument(documentAction.id));
         break;
-      case "SIGN":
-        console.log("Firmando documento " + documentAction.id);
+      case Sign:
         dispatch(signDocument(documentAction.id, user.email));
         break;
       default:
@@ -175,25 +117,15 @@ export default function Manage(props) {
         console.log("Send document again");
         dispatch(sendUnsignedDocumentsReminder(selectedDocuments, page));
     }
-    unselectDocuments(page);
+    dispatch(unselectDocuments(page));
   };
 
   useEffect(() => {
     dispatch(unselectDocuments(page));
-    dispatch(loadDocuments(user?.email));
     if (checkAll) {
       setCheckAll(false);
     }
   }, [location, page]);
-
-  useEffect(() => {
-    if (
-      selectedDocumentsString === prevSelectedDocuments &&
-      (prevInboxState === inboxJsonString || prevSentState === sentJsonString)
-    ) {
-      dispatch(loadDocuments(user?.email));
-    }
-  }, [inboxJsonString, sentJsonString]);
 
   return (
     <div className="manage-content">
@@ -259,7 +191,19 @@ export default function Manage(props) {
               <th>Actions</th>
             </tr>
           </thead>
-          <tbody>{loadTableBody()}</tbody>
+          <tbody>
+            {documentState[page] ? (
+              displayEnvelopes()
+            ) : (
+              <tr>
+                <td colSpan={5}>
+                  <div className="manage-empty-folder-message">
+                    <h1>This folder is empty</h1>
+                  </div>
+                </td>
+              </tr>
+            )}
+          </tbody>
         </table>
       </div>
     </div>

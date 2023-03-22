@@ -15,13 +15,17 @@ export default function Column() {
   const history = useHistory();
   const documents = useSelector((state: rootState) => state?.document);
 
-  useEffect(() => {
+  const handleSelectedDocuments = () => {
     if (location.pathname.includes("/manage/")) {
       const folder = location.pathname.replace("/manage/", "");
       if (documents[folder].some((doc) => doc.isChecked === true)) {
         dispatch(unselectDocuments(folder));
       }
     }
+  };
+
+  useEffect(() => {
+    handleSelectedDocuments();
   }, [location]);
 
   const handleClick = (page) => {

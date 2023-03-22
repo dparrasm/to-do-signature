@@ -62,13 +62,13 @@ export const loadDocuments = (userId) => async (dispatch) => {
   }
 };
 export const uploadDocument =
-  ({ author, title, fileContent, receivers, signedBy, signed }) =>
+  ({ author, title, fileContent, recipients, signedBy, signed }) =>
   async (dispatch) => {
     const document = {
       author: author,
       title: title,
       fileContent: fileContent,
-      receivers: receivers,
+      recipients: recipients,
       signedBy: signedBy,
       signed: signed,
     };
@@ -102,7 +102,6 @@ export const removeUploadedDocuments = () => async (dispatch) => {
     });
   } catch (err: any) {
     console.log("Error removing uploaded documents");
-    // console.log(err);
   }
 };
 export const postDocuments =
@@ -123,34 +122,36 @@ export const postDocuments =
 
     try {
       const doc = await axios.post("/api/document", body, config);
+      const filteredData = doc.data.addedDocuments.map((obj) => {
+        const { fileContent, ...rest } = obj;
+        return rest;
+      });
       dispatch({
         type: POST_DOCUMENT,
-        payload: doc.data,
+        payload: {documentsToPost: filteredData, user: email},
       });
-      const recipientsEmails = recipients.map((r) => {
-        return r?.email;
-      });
-      const recipientSet = [...new Set(recipientsEmails)];
+
+      const recipientSet = [...new Set(recipients.map((r) => r?.email))];
       const notRegisteredRecipients = await axios.post(
         "/api/users/notRegisteredRecipients",
         JSON.stringify(recipientSet),
         config
       );
-      notRegisteredRecipients.map(async (r) => {
-        let userSchema = JSON.stringify({
-          name: "",
-          surname: "",
-          email: r.user,
-          password: r.password,
+      if (notRegisteredRecipients && notRegisteredRecipients.length > 0) {
+        notRegisteredRecipients.map(async (r) => {
+          let userSchema = JSON.stringify({
+            name: "",
+            surname: "",
+            email: r.user,
+            password: r.password,
+          });
+          await axios.post("/api/users", userSchema, config);
         });
-
-        await axios
-          .post("/api/users", userSchema, config)
-          .then(() => console.log("hola"));
-      });
+      }
     } catch (err: any) {
       const errors = err?.response?.data?.errors;
       if (errors) {
+        errors.forEach((error) => console.log(error));
         errors.forEach((error) => dispatch(setAlert(error.msg, "error")));
       }
       dispatch({
@@ -198,7 +199,6 @@ export const signDocument = (id, email) => async (dispatch) => {
         console.log(JSON.stringify(user));
         user.map((u) => {
           let index = recipients.indexOf(u);
-          console.log(index);
           recipients[index] = {
             ...recipients[index],
             signed: true,
@@ -224,8 +224,6 @@ export const signDocument = (id, email) => async (dispatch) => {
         };
       })
       .catch(() => console.log("lo intentaste"));
-
-    //await axios.put("/api/document/" + id, config);
   } catch (err: any) {
     console.log("Error sign document");
   }

@@ -23,8 +23,7 @@
     cursor: pointer;
 }
 .button-container:hover{
-    //border: 2px dashed #1877f2;
-    border: 2px dashed grey;
+    border: 2px dashed #008243;
 }
 .button-container:hover .drag-and-drop-file-icon-container i{
     //color: #1877f2;
@@ -34,19 +33,15 @@
     font-weight: 600;
     align-items: center;
     margin: 0px;
-    background-color: white;
-    color: #c4c2c0;
+    background-color: #008243;
+    color: white;
     box-shadow: none;
     border: 1px solid #c4c2c0;
-    min-height: 40px;
+    min-height: 35px;
+    border-radius: 15px;
     min-width: 40px;
     max-width: 140px;
     margin-top: 10px;
-}
-.button-container:hover button{
-        //background-color: #1877f2;
-        background: grey;
-        color: white;
 }
 
 .drag-and-drop-file-icon-container i{

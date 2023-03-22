@@ -1,68 +1,66 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Button, TextField } from "@material-ui/core";
 import { Signup } from "./signup/Signup";
 import { useDispatch } from "react-redux";
-import { setAlert } from "../../reducers/actions/alertActions";
 import Alert from "../../components/alert/Alert";
 import { login } from "../../reducers/actions/authActions";
 import "./Login.scss";
 import { icons } from "../../utils/icons";
+import { UserLogin } from "../../domain/user";
 
-interface LoginProps {
-  onUserLogIn?: any;
-  isAuthenticated?: boolean;
+export enum Caller {
+  forgotpasword = "forgotpassword",
+  signup = "signup",
 }
 
-export default function Login(props: LoginProps) {
-  const [caller, setCaller] = useState("");
-  const [user, setUser] = useState({ email: "", password: "" });
+export default function Login() {
+  const [user, setUser] = useState<UserLogin>({
+    emailAddress: "",
+    password: "",
+  });
   const [isModalOpen, openModal] = useState(false);
+  const [caller, setCaller] = useState<Caller | null>(null);
+
   const dispatch = useDispatch();
-  const hanldeCaller = (param: string) => {
+  const handleCaller = (param: Caller) => {
     setCaller(param);
     openModal(true);
   };
-  const handleInputChange = (e) => {
+  const handleInputChange = (e): void => {
     setUser({
       ...user,
       [e.target.name]: e.target.value,
     });
   };
-  const handleOpen = () => {
-    openModal(true);
-  };
-  const handleClose = () => {
+
+  const handleClose = (): void => {
     openModal(false);
   };
 
-  const onUserLogin = (event) => {
+  const onUserLogin = (event): void => {
     event.preventDefault();
-    dispatch(login(user.email, user.password));
+    dispatch(login(user.emailAddress, user.password));
   };
 
-  //Redirect if logged in
-  //Aquí es donde hacemos que no se salga el usuario de la página todo el rato.
-  // if (this.props.isAuthenticated && !this.props.loading) {
-  //   this.props.onUserLogIn();
-  // }
   return (
     <div className="login-schema">
       <div className="login-container">
-        <div className="login-cockpit">
-          <h1 id="logo-firma" className="firma-title main">
-            Firm@
-          </h1>
-          <h2 className="login-description">
-            All your signatures on the same platform
-          </h2>
-        </div>
+        <div className="login-cockpit"></div>
         <div className="login">
           <div className="login-form-layout">
+            <h2 className="login-description">
+              All your signatures on the same platform
+            </h2>
             <Alert className="login-alert" />
             <div className="login-form">
+              <div>
+                <h1 id="logo-firma" className="firma-title main">
+                  Firm@
+                </h1>
+              </div>
               <form className="login-form-fields">
                 <TextField
-                  name="email"
+                  name="emailAddress"
                   className="textfield"
                   type="text"
                   placeholder="Email"
@@ -79,30 +77,30 @@ export default function Login(props: LoginProps) {
                   size="small"
                   onChange={handleInputChange}
                 />
-                <Button
-                  className="login-button"
-                  variant="contained"
-                  color="primary"
-                  onClick={onUserLogin}
-                >
-                  Log In
-                </Button>
                 <div className="login-forgot-password">
                   <Button
                     className="login-password-link"
-                    onClick={() => hanldeCaller("forgotpasword")}
+                    onClick={() => handleCaller(Caller.forgotpasword)}
                   >
                     Forgot Password ?
                   </Button>
                 </div>
                 <div className="login-link-container">
                   <Button
+                    className="login-button"
+                    variant="contained"
+                    color="primary"
+                    onClick={onUserLogin}
+                  >
+                    Log In
+                  </Button>
+                  <Button
                     className="login-link"
                     variant="contained"
                     color="primary"
-                    onClick={() => hanldeCaller("signup")}
+                    onClick={() => handleCaller(Caller.signup)}
                   >
-                    Create New Account
+                    Sign Up
                   </Button>
                   <Signup
                     shouldOpenModal={isModalOpen}

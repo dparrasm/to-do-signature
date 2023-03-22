@@ -9,19 +9,26 @@ import { rootState } from "../../reducers";
 import * as xlsx from "xlsx";
 
 export default function Filepicker(props) {
+  const {
+    accept,
+    multiple,
+    updateProfilePicture,
+    title,
+    addRecipientsFromList,
+  } = props;
   const [openFileSelector, { filesContent }] = useFilePicker({
-    multiple: props.multiple,
+    multiple: multiple,
     readAs: "DataURL",
-    accept: [props.accept],
+    accept: [accept],
     maxFileSize: 16,
   });
   const dispatch = useDispatch();
   const user = useSelector((state: rootState) => state.auth?.user?.email);
   useEffect(() => {
-    switch (props.accept) {
+    switch (accept) {
       case "image/*":
         if (filesContent[0]?.content) {
-          props.updateProfilePicture(filesContent[0]?.content);
+          updateProfilePicture(filesContent[0]?.content);
         }
         break;
       case ".xlsx":
@@ -35,17 +42,17 @@ export default function Filepicker(props) {
           const sheetName = workbook.SheetNames[0];
           const worksheet = workbook.Sheets[sheetName];
           const json = xlsx.utils.sheet_to_json(worksheet);
-          props.addRecipientsFromList(json);
+          addRecipientsFromList(json);
         }
         break;
       default:
-        filesContent.map((file) => {
+        filesContent.forEach((file) => {
           dispatch(
             uploadDocument({
               author: user,
               title: file.name,
               fileContent: file.content,
-              receivers: [""],
+              recipients: [""],
               signedBy: [""],
               signed: false,
             })
@@ -56,13 +63,13 @@ export default function Filepicker(props) {
   }, [filesContent]);
   return (
     <>
-      {props.title !== undefined ? (
-        props.title !== "ADD FROM LIST" ? (
+      {title !== undefined ? (
+        title !== "ADD FROM LIST" ? (
           <button
             className="filepicker-button"
             onClick={() => openFileSelector()}
           >
-            {props.title}
+            {title}
           </button>
         ) : (
           <div className="recipient-button" onClick={() => openFileSelector()}>

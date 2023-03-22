@@ -1,7 +1,6 @@
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
 import { icons } from "../../utils/icons";
-import IconButton from "../iconButton/IconButton";
 import "../../comun.scss";
 import "./Header.scss";
 

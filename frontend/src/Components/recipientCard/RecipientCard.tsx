@@ -1,25 +1,19 @@
 import React from "react";
+import { icons } from "../../utils/icons";
 import "./RecipientCard.scss";
 
 export default function RecipientCard(props) {
   return (
     <div>
-      <div className="recipientcard-remove-button-container">
-        <div>
-          <button
-            className="recipientcard-remove-button"
-            onClick={() => props?.removeReceipt(props?.id)}
-          >
-            X
-          </button>
-        </div>
-      </div>
       <div id={props?.id} className="recipient-card-container">
+        <div className="recipient-card-container-avatar">
+          <div className="recipient-card-container-avatar-img"></div>
+        </div>
         <div className="recipient-card-data">
           <div className="recipient-card-data-name">
-            <div>
-              <span>Name</span>
-              <span className="star">*</span>
+            <div className="recipient-card-data-text-container">
+              <h1>Name</h1>
+              <h1 className="star">*</h1>
             </div>
             <input
               id={"name#" + props?.id}
@@ -29,9 +23,9 @@ export default function RecipientCard(props) {
             />
           </div>
           <div className="recipient-card-data-name">
-            <div>
-              <span>Email</span>
-              <span className="star">*</span>
+            <div className="recipient-card-data-text-container">
+              <h1>Email</h1>
+              <h1 className="star">*</h1>
             </div>
             <input
               id={"email#" + props?.id}
@@ -56,6 +50,16 @@ export default function RecipientCard(props) {
               </select>
             </div>
           </form>
+        </div>
+        <div className="recipientcard-remove-button-container">
+          <div>
+            <button
+              className="recipientcard-remove-button"
+              onClick={() => props?.removeReceipt(props?.id)}
+            >
+              <i className={icons.trashcan} />
+            </button>
+          </div>
         </div>
       </div>
     </div>

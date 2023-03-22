@@ -32,7 +32,7 @@ export const uploadEnvelopeByDocumentId = (documentId) => async (dispatch) => {
     const document = await axios.get("/api/document/" + documentId, config);
     const payload = {
       documents: [document.data],
-      recipients: document.data?.receivers ? document.data?.receivers : [],
+      recipients: document.data?.recipients ? document.data?.recipients : [],
       mail: {},
     };
     dispatch({
