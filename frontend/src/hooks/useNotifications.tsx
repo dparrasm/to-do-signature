@@ -54,7 +54,6 @@ export const useNotifications = (
     ).length;
 
     if (signedBy > 0) {
-      console.log("length", signedBy);
       counters.signedByCont += 1;
     }
   });

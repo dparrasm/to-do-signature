@@ -18,7 +18,6 @@ const DocumentSchema = new mongoose.Schema({
   title: String,
   fileContent: String,
   recipients: [recipientSchema],
-  signedBy: [String],
   signed: Boolean,
   viewed: Boolean,
 });

@@ -1,11 +1,4 @@
 import nodemailer from "nodemailer";
-import {
-  MAIL_USERNAME,
-  MAIL_PASSWORD,
-  OAUTH_CLIENTID,
-  OAUTH_CLIENT_SECRET,
-  OAUTH_REFRESH_TOKEN,
-} from "../config/credentials";
 
 exports.sendEmail = function (
   emailAddress: string,
@@ -16,11 +9,11 @@ documents: { title: string; fileContent: string}[]*/
     service: "gmail",
     auth: {
       type: "OAuth2",
-      user: MAIL_USERNAME,
-      pass: MAIL_PASSWORD,
-      clientId: OAUTH_CLIENTID,
-      clientSecret: OAUTH_CLIENT_SECRET,
-      refreshToken: OAUTH_REFRESH_TOKEN,
+      user: process.env.MAIL_USERNAME,
+      pass: process.env.MAIL_PASSWORD,
+      clientId: process.env.OAUTH_CLIENTID,
+      clientSecret: process.env.OAUTH_CLIENT_SECRET,
+      refreshToken: process.env.OAUTH_REFRESH_TOKEN,
     },
   });
   // const attachments = documents.map((d) => {
@@ -31,7 +24,7 @@ documents: { title: string; fileContent: string}[]*/
   // });
 
   let mailOptions = {
-    from: MAIL_USERNAME,
+    from: process.env.MAIL_USERNAME,
     to: emailAddress,
     subject: email?.subject,
     text: email?.message,

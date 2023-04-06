@@ -4,12 +4,10 @@ import { Document, Page, pdfjs } from "react-pdf";
 import { useDispatch, useSelector } from "react-redux";
 import { rootState } from "../../../reducers";
 import { icons } from "../../../utils/icons";
-import MenuItem from "../../../components/menuItem/MenuItem";
 import { Link } from "react-router-dom";
 import {
   postDocuments,
   removeUploadedDocuments,
-  signDocument,
 } from "../../../reducers/actions/documentActions";
 import IconButton from "../../../components/iconButton/IconButton";
 import { signEnvelopeDocument } from "../../../reducers/actions/envelopeActions";
@@ -69,7 +67,6 @@ function SignDocument(props) {
           recipientsNoId?.length > 0
             ? recipientsNoId.concat(recipient)
             : [recipient],
-        signedBy: [""],
         signed: false,
         viewed: false,
         email: envelope?.email,

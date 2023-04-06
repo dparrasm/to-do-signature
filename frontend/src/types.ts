@@ -1,24 +1,3 @@
-export const Recipient = {
-  name: String,
-  email: String,
-  needsToSign: Boolean,
-  needsToView: Boolean,
-  signed: Boolean,
-  viewed: Boolean,
-  isAuthor: Boolean,
-  folder: String,
-};
-
-export const Document = {
-  lastChange: Date,
-  title: String,
-  fileContent: String,
-  recipients: [Recipient],
-  signedBy: [String],
-  signed: Boolean,
-  viewed: Boolean,
-};
-
 export enum Folder {
   Inbox = "INBOX",
   Sent = "SENT",
@@ -35,3 +14,4 @@ export enum EnvelopeActions {
   Delete = "DELETE",
   Download = "DOWNLOAD",
 }
+export type PdfBase64 = string;

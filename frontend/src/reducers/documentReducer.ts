@@ -88,7 +88,6 @@ export default function documentReducer(state = initialState, action) {
       if (filteredSent?.length > 0) {
         sent[sent.indexOf(filteredSent[0])] = payload;
       }
-      console.log(JSON.stringify(payload));
       return {
         ...state,
         inbox: inbox,
@@ -105,8 +104,6 @@ export default function documentReducer(state = initialState, action) {
       let array = state[payload.page].filter((doc) =>
         doc.title.includes(payload.title)
       );
-      console.log("title length: " + payload?.title?.length);
-      console.log("array length" + array?.length);
       if (payload?.title?.length > 0 && array.length == 0) {
         return {
           ...state,
