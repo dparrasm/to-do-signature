@@ -27,7 +27,6 @@ export default function DragAndDrop(props) {
               title: file.name,
               fileContent: base64Content,
               recipients: [""],
-              signedBy: [""],
               signed: false,
             })
           );

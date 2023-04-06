@@ -52,7 +52,6 @@ router.post("/", (req, res, next) => {
     title: string;
     fileContent: string;
     recipients: any[];
-    signedBy: string;
     signed: boolean;
     viewed: boolean;
   }[] = [];
@@ -64,7 +63,6 @@ router.post("/", (req, res, next) => {
       title: d.title,
       fileContent: d.fileContent,
       recipients: req.body.recipients,
-      signedBy: req.body.signedBy,
       signed: req.body.signed,
       viewed: req.body.viewed,
     });

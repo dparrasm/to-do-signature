@@ -19,6 +19,8 @@ import {
   SEND_UNSIGNED_DOCUMENT_REMINDER,
   RESET_DOCUMENTS_STATE,
 } from "./types";
+import { Document } from "../../domain/document";
+import { Folder } from "../../types";
 
 export const loadDocuments = (userId) => async (dispatch) => {
   const config = {
@@ -34,13 +36,13 @@ export const loadDocuments = (userId) => async (dispatch) => {
     documents.data.map((doc) => {
       doc.isChecked = false;
       if (
-        doc.recipients.filter((r) => r.folder == "INBOX" && r.email === userId)
+        doc.recipients.filter((r) => r.folder == Folder.Inbox && r.email === userId)
           ?.length > 0
       ) {
         folders.inbox.push(doc);
       }
       if (
-        doc.recipients.filter((r) => r.folder == "SENT" && r.email === userId)
+        doc.recipients.filter((r) => r.folder == Folder.Sent && r.email === userId)
           ?.length > 0
       ) {
         folders.sent.push(doc);
@@ -62,14 +64,13 @@ export const loadDocuments = (userId) => async (dispatch) => {
   }
 };
 export const uploadDocument =
-  ({ author, title, fileContent, recipients, signedBy, signed }) =>
+  ({ author, title, fileContent, recipients, signed }) =>
   async (dispatch) => {
     const document = {
       author: author,
       title: title,
       fileContent: fileContent,
       recipients: recipients,
-      signedBy: signedBy,
       signed: signed,
     };
 
@@ -105,14 +106,13 @@ export const removeUploadedDocuments = () => async (dispatch) => {
   }
 };
 export const postDocuments =
-  ({ documents, signedBy, signed, viewed, recipients, lastChange, email }) =>
+  ({ documents, signed, viewed, recipients, lastChange, email }) =>
   async (dispatch) => {
     const config = {
       headers: { "Content-Type": "application/json" },
     };
     const body = JSON.stringify({
       documents,
-      signedBy,
       signed,
       viewed,
       recipients,
@@ -128,7 +128,7 @@ export const postDocuments =
       });
       dispatch({
         type: POST_DOCUMENT,
-        payload: {documentsToPost: filteredData, user: email},
+        payload: { documentsToPost: filteredData, user: email },
       });
 
       const recipientSet = [...new Set(recipients.map((r) => r?.email))];
@@ -164,68 +164,15 @@ export const signDocument = (id, email) => async (dispatch) => {
     headers: { "Content-Type": "application/json" },
   };
   try {
-    let signatureB64: string = "";
-    const setSignedDocument = async (signedDocument) => {
-      try {
-        if (signedDocument.certificateB64 !== undefined) {
-          await axios.put(
-            "/api/document/sign/" + id,
-            {
-              ...uploadedDocument,
-              fileContent:
-                "data:application/pdf;base64," + signedDocument?.signatureB64,
-            },
-            config
-          );
-          dispatch({
-            type: SIGN_DOCUMENT,
-            payload: uploadedDocument,
-          });
-        }
-      } catch (e: any) {
-        if (e) {
-          e.forEach((error) => console.log(error.msg, "error"));
-        }
-      }
-
-      console.log("añade el application:data/pdf " + signatureB64);
-    };
-    let originalDocument = await axios.get("/api/document/" + id, config);
-    let uploadedDocument = originalDocument.data;
-    await autofirma(uploadedDocument.fileContent, setSignedDocument)
-      .then(() => {
-        const recipients = uploadedDocument.recipients;
-        const user = recipients.filter((r) => r.email === email);
-        console.log(JSON.stringify(user));
-        user.map((u) => {
-          let index = recipients.indexOf(u);
-          recipients[index] = {
-            ...recipients[index],
-            signed: true,
-            viewed: true,
-            needsToSign: false,
-            needsToView: false,
-          };
-        });
-
-        const signed = recipients.every(
-          (r) => r.signed === true && r.viewed === true
-        );
-        const viewed = !recipients.some(
-          (r) => r.signed === false || r.viewed === false
-        );
-        uploadedDocument = {
-          ...uploadedDocument,
-          fileContent: uploadedDocument,
-          recipients: recipients,
-          signed: signed,
-          viewed: viewed,
-          isChecked: false,
-        };
-      })
-      .catch(() => console.log("lo intentaste"));
+    const originalDocument = await axios.get("/api/document/" + id, config);
+    let uploadedDocument: Document = await autofirma(originalDocument.data, email);
+    await axios.put("/api/document/sign/" + id, uploadedDocument, config);
+    dispatch({
+      type: SIGN_DOCUMENT,
+      payload: { ...uploadedDocument, isChecked: false },
+    });
   } catch (err: any) {
-    console.log("Error sign document");
+    console.log("Error signing document");
   }
 };
 export const downloadDocument = (id) => async () => {

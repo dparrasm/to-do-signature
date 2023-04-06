@@ -53,7 +53,6 @@ export default function Filepicker(props) {
               title: file.name,
               fileContent: file.content,
               recipients: [""],
-              signedBy: [""],
               signed: false,
             })
           );

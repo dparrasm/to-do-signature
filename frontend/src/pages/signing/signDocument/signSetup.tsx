@@ -1,5 +1,50 @@
-export const autofirma = async (dataB64, setSignedDocument) => {
-  let signedDocument = { signatureB64: "", certificateB64: "" };
+import { Document } from "../../../domain/document";
+
+export const autofirma = async (
+  document: Document,
+  email: string
+): Promise<Document> => {
+  const { fileContent, recipients } = document;
+  let documentToSign = fileContent;
+  try {
+    documentToSign = await new Promise((resolve, reject) => {
+      const handleSignedDocument = (signedDocument) => {
+        resolve(signedDocument.signatureB64);
+        console.log("Signing document");
+      };
+      autoscript(fileContent, handleSignedDocument).catch(reject);
+    });
+
+    const index = recipients.findIndex((r) => r.email === email);
+    recipients[index] = {
+      ...recipients[index],
+      signed: true,
+      viewed: true,
+      needsToSign: false,
+      needsToView: false,
+    };
+
+    const signed = recipients.every(
+      (r) => r.signed === true && r.viewed === true
+    );
+    const viewed = !recipients.some(
+      (r) => r.signed === false || r.viewed === false
+    );
+
+    document = {
+      ...document,
+      fileContent: `data:application/pdf;base64,${documentToSign}`,
+      recipients: recipients,
+      signed: signed,
+      viewed: viewed,
+    };
+  } catch (e) {
+    console.log("Error: ", e.message);
+  }
+  return document;
+};
+
+const autoscript = async (dataB64, setSignedDocument) => {
   AutoScript.checkTime(AutoScript.CHECKTIME_RECOMMENDED, 300000);
   AutoScript.cargarAppAfirma();
   AutoScript.setServlets(
@@ -27,12 +72,10 @@ export const autofirma = async (dataB64, setSignedDocument) => {
   // Almacenara la firma, el certificado y el nombre del fichero firmado en
   // campos de un formulario y lo enviará a servidor
   function sendSignatureCallback(signatureB64, certificateB64, extraData) {
-    // Documento firmado
-    signedDocument.signatureB64 = signatureB64;
-    // Este es el certificado usado.
-    signedDocument.certificateB64 = certificateB64;
-    setSignedDocument(signedDocument).then(() =>
-      console.log("Signing document")
-    );
+    setSignedDocument({
+      signatureB64,
+      certificateB64,
+      extraData,
+    });
   }
 };
