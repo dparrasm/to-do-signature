@@ -1,40 +1,39 @@
-import { Button, Badge, Avatar } from "@material-ui/core";
-import React, { useRef, useState } from "react";
-import "./UserProfile.scss";
-import Filepicker from "../../components/filepicker/Filepicker";
-import { rootState } from "../../reducers";
-import { useDispatch, useSelector } from "react-redux";
+import { Button, Badge, Avatar } from '@material-ui/core'
+import React, { useRef, useState } from 'react'
+import './UserProfile.scss'
+import Filepicker from '../../components/filepicker/Filepicker'
+import { rootState } from '../../reducers'
+import { useDispatch, useSelector } from 'react-redux'
 import {
   deleteUser,
   logout,
-  updateUser,
-} from "../../reducers/actions/authActions";
-import { Link } from "react-router-dom";
-import Column from "../../components/column/Column";
-import { icons } from "../../utils/icons";
+  updateUser
+} from '../../reducers/actions/authActions'
+import { Link } from 'react-router-dom'
+import { icons } from '../../utils/icons'
 
 export default function UserProfile() {
-  const user = useSelector((state: rootState) => state.auth?.user);
-  const [avatar, setAvatar] = useState(user?.avatar);
-  const dispatch = useDispatch();
+  const user = useSelector((state: rootState) => state.auth?.user)
+  const [avatar, setAvatar] = useState(user?.avatar)
+  const dispatch = useDispatch()
 
-  const name = useRef<HTMLInputElement>(null);
-  const surname = useRef<HTMLInputElement>(null);
-  const email = useRef<HTMLInputElement>(null);
-  const password = useRef<HTMLInputElement>(null);
+  const name = useRef<HTMLInputElement>(null)
+  const surname = useRef<HTMLInputElement>(null)
+  const email = useRef<HTMLInputElement>(null)
+  const password = useRef<HTMLInputElement>(null)
 
   const handleDelete = () => {
     try {
-      dispatch(deleteUser());
-      dispatch(logout());
+      dispatch(deleteUser())
+      dispatch(logout())
     } catch (err: any) {
-      const errors = err.response.data.errors;
+      const errors = err.response.data.errors
 
       if (errors) {
-        errors.forEach((error) => console.log(error.msg, "error"));
+        errors.forEach((error) => console.log(error.msg, 'error'))
       }
     }
-  };
+  }
   const handleOnClick = () => {
     const newUser = {
       name: name?.current?.value ? name.current.value : user.name,
@@ -42,18 +41,18 @@ export default function UserProfile() {
       email: user.email,
       avatar: avatar,
       password:
-        password?.current?.value !== "password"
+        password?.current?.value !== 'password'
           ? password?.current?.value
-          : user.password,
-    };
-    if (JSON.stringify(user) !== JSON.stringify(newUser)) {
-      dispatch(updateUser(newUser));
+          : user.password
     }
-  };
+    if (JSON.stringify(user) !== JSON.stringify(newUser)) {
+      dispatch(updateUser(newUser))
+    }
+  }
 
   const updateProfilePicture = (profilePicture) => {
-    setAvatar(profilePicture);
-  };
+    setAvatar(profilePicture)
+  }
   const userMenu = () => {
     return (
       <div className="user-profile-menu">
@@ -65,8 +64,8 @@ export default function UserProfile() {
           </div>
         </div>
       </div>
-    );
-  };
+    )
+  }
   return (
     <div className="user-profile-layout">
       {userMenu()}
@@ -77,8 +76,8 @@ export default function UserProfile() {
               <h1>Profile picture</h1>
             </div>
             <Badge
-              overlap="circular"
-              anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+              overlap="circle"
+              anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
               badgeContent={
                 <Filepicker
                   user={user}
@@ -90,7 +89,7 @@ export default function UserProfile() {
             >
               <Avatar
                 className="user-profile-avatar"
-                style={{ height: "200px", width: "200px" }}
+                style={{ height: '200px', width: '200px' }}
                 alt="David Parras"
                 src={avatar}
               />
@@ -177,5 +176,5 @@ export default function UserProfile() {
         </div>
       </div>
     </div>
-  );
+  )
 }

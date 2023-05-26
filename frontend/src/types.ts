@@ -15,3 +15,9 @@ export enum EnvelopeActions {
   Download = "DOWNLOAD",
 }
 export type PdfBase64 = string;
+
+export enum EnvelopeState {
+  Completed = "completed",
+  WaitingForOthers = "waiting-for-others",
+  Pending = "pending",
+}

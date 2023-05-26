@@ -1,38 +1,37 @@
-import React, { useState } from "react";
-import "./Envelope.scss";
-import IconButton from "../iconButton/IconButton";
-import { icons } from "../../utils/icons";
-import { useDispatch } from "react-redux";
-import { selectDocument } from "../../reducers/actions/documentActions";
-import { useEnvelope } from "../../hooks/useEnvelope";
-import EnvelopeDetails from "../envelopeDetails/EnvelopeDetails";
-import { EnvelopeActions } from "../../types";
+import React, { useState } from 'react'
+import './Envelope.scss'
+import IconButton from '../iconButton/IconButton'
+import { icons } from '../../utils/icons'
+import { useDispatch } from 'react-redux'
+import { selectDocument } from '../../reducers/actions/documentActions'
+import { useEnvelope } from '../../hooks/useEnvelope'
+import EnvelopeDetails from '../envelopeDetails/EnvelopeDetails'
+import { EnvelopeActions } from '../../types'
+import { getTextBeforeDash, formatTitle } from '../../utils/stringWorker'
 
 export default function Envelope(props) {
-  const envelopeInfo = useEnvelope(props.userEmail, props.doc);
-  const dispatch = useDispatch();
+  const envelopeInfo = useEnvelope(props.userEmail, props.doc)
+  const dispatch = useDispatch()
   const handleOnChange = () => {
-    dispatch(selectDocument(props.id, props.folder));
-  };
+    dispatch(selectDocument(props.id, props.folder))
+  }
   const handleInputChange = () => {
-    console.log("isChecked");
-  };
+    console.log('isChecked')
+  }
 
-  const [showDetails, setShowDetails] = useState(false);
+  const [showDetails, setShowDetails] = useState(false)
   const handleShowDetails = () => {
-    setShowDetails(!showDetails);
-  };
+    setShowDetails(!showDetails)
+  }
 
   return (
     <>
       <tr
-        className={props.isChecked ? "selected-envelope" : "envelope"}
+        className={props.isChecked ? 'selected-envelope' : 'envelope'}
         id={props.index}
         onClick={handleOnChange}
       >
-        <td
-          className={envelopeInfo.completed ? "envelope-green" : "envelope-red"}
-        >
+        <td className={`envelope-${envelopeInfo.envelopeState}`}>
           <input
             type="checkbox"
             id="isChecked"
@@ -56,17 +55,16 @@ export default function Envelope(props) {
         </td>
         <td>
           <div className="envelope-status">
-            {envelopeInfo.completed ? (
-              <div className="completed-icon">
-                <i className={icons.checkCircle}></i>
-                <h1>Completed</h1>
-              </div>
-            ) : (
-              <div className="incompleted-icon">
-                <i className={icons.exclamationCircle}></i>
-                <h1>Pending</h1>
-              </div>
-            )}
+            <div className={`${envelopeInfo.envelopeState}-icon`}>
+              <i
+                className={
+                  icons[
+                    `${getTextBeforeDash(envelopeInfo.envelopeState)}Circle`
+                  ]
+                }
+              ></i>
+              <h1>{formatTitle(envelopeInfo.envelopeState)}</h1>
+            </div>
           </div>
         </td>
         <td>
@@ -81,30 +79,25 @@ export default function Envelope(props) {
         </td>
         <td>
           <div className="envelope-table-row-cell-iconbutton-container">
-            {envelopeInfo.needsToSign ? (
+            {envelopeInfo.needsToSign === true ? (
               <div
                 className="envelope-table-row-cell-iconbutton"
                 onClick={(e) =>
                   props.handleClick(e, {
                     id: props.id,
-                    action: EnvelopeActions.Sign,
+                    action: EnvelopeActions.Sign
                   })
                 }
               >
                 <IconButton icon={icons.pen} />
               </div>
-            ) : (
-              <div className="envelope-table-row-cell-iconbutton-hidden">
-                <IconButton icon={icons.signed} />
-              </div>
-            )}
-
+            ) : null}
             <div
               className="envelope-table-row-cell-iconbutton"
               onClick={(e) =>
                 props.handleClick(e, {
                   id: props.id,
-                  action: EnvelopeActions.View,
+                  action: EnvelopeActions.View
                 })
               }
             >
@@ -115,7 +108,7 @@ export default function Envelope(props) {
               onClick={(e) =>
                 props.handleClick(e, {
                   id: props.id,
-                  action: EnvelopeActions.Delete,
+                  action: EnvelopeActions.Delete
                 })
               }
             >
@@ -126,7 +119,7 @@ export default function Envelope(props) {
               onClick={(e) =>
                 props.handleClick(e, {
                   id: props.id,
-                  action: EnvelopeActions.Download,
+                  action: EnvelopeActions.Download
                 })
               }
             >
@@ -154,5 +147,5 @@ export default function Envelope(props) {
         <></>
       )}
     </>
-  );
+  )
 }

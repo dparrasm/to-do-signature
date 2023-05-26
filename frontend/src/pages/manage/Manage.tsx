@@ -164,47 +164,49 @@ export default function Manage() {
             <h1>{selectedDocuments.length} items selected</h1>
           </div>
         </div>
-        <table>
-          <colgroup>
-            <col style={{ width: "5%" }} />
-            <col style={{ width: "35%" }} />
-            <col style={{ width: "10%" }} />
-            <col style={{ width: "20%" }} />
-            <col style={{ width: "30%" }} />
-            <col style={{ width: "35%" }} />
-          </colgroup>
-          <thead>
-            <tr>
-              <th className="manage-checkAll-checkbox">
-                <input
-                  type="checkbox"
-                  id="checkAll"
-                  name="checkAll"
-                  value="checkAll"
-                  checked={checkAll}
-                  onChange={handleOnChange}
-                />
-              </th>
-              <th>Title</th>
-              <th className="manage-status-cell">Status</th>
-              <th>Last change</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {documentState[page] ? (
-              displayEnvelopes()
-            ) : (
+        <div className="manage-table-container">
+          <table>
+            <colgroup>
+              <col style={{ width: "5%" }} />
+              <col style={{ width: "35%" }} />
+              <col style={{ width: "10%" }} />
+              <col style={{ width: "20%" }} />
+              <col style={{ width: "30%" }} />
+              <col style={{ width: "35%" }} />
+            </colgroup>
+            <thead>
               <tr>
-                <td colSpan={5}>
-                  <div className="manage-empty-folder-message">
-                    <h1>This folder is empty</h1>
-                  </div>
-                </td>
+                <th className="manage-checkAll-checkbox">
+                  <input
+                    type="checkbox"
+                    id="checkAll"
+                    name="checkAll"
+                    value="checkAll"
+                    checked={checkAll}
+                    onChange={handleOnChange}
+                  />
+                </th>
+                <th>Title</th>
+                <th className="manage-status-cell">Status</th>
+                <th>Last change</th>
+                <th>Actions</th>
               </tr>
-            )}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {documentState[page] ? (
+                displayEnvelopes()
+              ) : (
+                <tr>
+                  <td colSpan={5}>
+                    <div className="manage-empty-folder-message">
+                      <h1>This folder is empty</h1>
+                    </div>
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   );

@@ -31,14 +31,14 @@ export default function EnvelopeDetails(props) {
                     <td>{r.emailAddress}</td>
                     <td>{r.needsTo}</td>
                     <td className="envelope-details-status-data">
-                      {props.completed ? (
+                      {r.isDone ? (
                         <div className="completed-icon-table-row">
-                          <i className={icons.checkCircle}></i>
+                          <i className={icons.completeCircle}></i>
                           <h1>Completed</h1>
                         </div>
                       ) : (
                         <div className="incompleted-icon-table-row">
-                          <i className={icons.exclamationCircle}></i>
+                          <i className={icons.waitingCircle}></i>
                           <h1>Pending</h1>
                         </div>
                       )}
