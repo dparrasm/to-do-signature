@@ -1,71 +1,82 @@
-import { Document } from "../../../domain/document";
+import { Document } from '../../../domain/document'
 
 export const autofirma = async (
   document: Document,
   email: string
 ): Promise<Document> => {
-  const { fileContent, recipients } = document;
-  let documentToSign = fileContent;
+  const { fileContent, recipients } = document
+  let documentToSign = fileContent
   try {
     documentToSign = await new Promise((resolve, reject) => {
       const handleSignedDocument = (signedDocument) => {
-        resolve(signedDocument.signatureB64);
-        console.log("Signing document");
-      };
-      autoscript(fileContent, handleSignedDocument).catch(reject);
-    });
+        resolve(signedDocument.signatureB64)
+        console.log('Signing document')
+      }
+      autoscript(fileContent, handleSignedDocument).catch(reject)
+    })
 
-    const index = recipients.findIndex((r) => r.email === email);
-    recipients[index] = {
-      ...recipients[index],
-      signed: true,
-      viewed: true,
-      needsToSign: false,
-      needsToView: false,
-    };
+    const indices: number[] = recipients.reduce(
+      (acc: number[], recipient, index: number) => {
+        if (recipient.email === email) {
+          acc.push(index)
+        }
+        return acc
+      },
+      []
+    )
+
+    indices.forEach((i) => {
+      recipients[i] = {
+        ...recipients[i],
+        signed: true,
+        viewed: true,
+        needsToSign: false,
+        needsToView: false
+      }
+    })
 
     const signed = recipients.every(
       (r) => r.signed === true && r.viewed === true
-    );
+    )
     const viewed = !recipients.some(
       (r) => r.signed === false || r.viewed === false
-    );
+    )
 
     document = {
       ...document,
       fileContent: `data:application/pdf;base64,${documentToSign}`,
       recipients: recipients,
       signed: signed,
-      viewed: viewed,
-    };
+      viewed: viewed
+    }
   } catch (e) {
-    console.log("Error: ", e.message);
+    console.log('Error: ', e.message)
   }
-  return document;
-};
+  return document
+}
 
 const autoscript = async (dataB64, setSignedDocument) => {
-  AutoScript.checkTime(AutoScript.CHECKTIME_RECOMMENDED, 300000);
-  AutoScript.cargarAppAfirma();
+  AutoScript.checkTime(AutoScript.CHECKTIME_RECOMMENDED, 300000)
+  AutoScript.cargarAppAfirma()
   AutoScript.setServlets(
-    "https://gobierno.es/afirma-signature-storage/StorageService",
-    "https://gobierno.es/afirma-signature-retriever/RetrieveService"
-  );
+    'https://gobierno.es/afirma-signature-storage/StorageService',
+    'https://gobierno.es/afirma-signature-retriever/RetrieveService'
+  )
   try {
     AutoScript.sign(
-      dataB64.replace("data:application/pdf;base64,", ""),
-      "SHA512withRSA",
-      "PAdES",
+      dataB64.replace('data:application/pdf;base64,', ''),
+      'SHA512withRSA',
+      'PAdES',
       null,
       sendSignatureCallback,
       firmaErrorCallback
-    );
+    )
   } catch (e) {
-    firmaErrorCallback(AutoScript.getErrorType(), AutoScript.getErrorMessage());
+    firmaErrorCallback(AutoScript.getErrorType(), AutoScript.getErrorMessage())
   }
   function firmaErrorCallback(type, message) {
-    console.log("error type: " + type);
-    console.log("message: " + message);
+    console.log('error type: ' + type)
+    console.log('message: ' + message)
   }
 
   // Función que se ejecutará cuando la firma termine correctamente.
@@ -75,7 +86,7 @@ const autoscript = async (dataB64, setSignedDocument) => {
     setSignedDocument({
       signatureB64,
       certificateB64,
-      extraData,
-    });
+      extraData
+    })
   }
-};
+}

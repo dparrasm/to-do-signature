@@ -1,3 +1,4 @@
+import { Folder } from "../types";
 import {
   DOCUMENT_FAIL,
   GET_DOCUMENTS,
@@ -65,14 +66,12 @@ export default function documentReducer(state = initialState, action) {
       };
     }
     case POST_DOCUMENT: {
-      console.log(JSON.stringify(payload.documentsToPost));
       let filteredInbox = [...payload.documentsToPost].filter((doc) =>
-        doc.recipients.some((recipient) => recipient.folder === "INBOX")
+        doc.recipients.some((recipient) => recipient.folder === Folder.Inbox)
       );
       filteredInbox = [...state.inbox, ...filteredInbox];
-      console.log(JSON.stringify(filteredInbox));
       let filteredSent = [...payload.documentsToPost].filter((doc) =>
-        doc.recipients.some((recipient) => recipient.folder === "SENT")
+        doc.recipients.some((recipient) => recipient.folder === Folder.Sent)
       );
       filteredSent = [...state.sent, ...filteredSent];
       return { ...state, inbox: filteredInbox, sent: filteredSent };

@@ -1,70 +1,51 @@
-# Getting Started with Create React App
+# <span style="font-size:16px;font-weight:bold;">Firm@: Document Management and Signing Tool</span>
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+<span style="font-size:16px;font-weight:bold;">Introduction</span>
 
-## Available Scripts
+Firm@ is a powerful document management and signing tool that simplifies the process of sending, receiving, and tracking signed documents. With Firm@, users can easily send and receive documents for signing or download, supporting multiple recipients. The application features a user-friendly interface and real-time document status updates, allowing users to monitor the progress of each document and send reminders as needed. Firm@ leverages the capabilities of AutoFirma, a desktop tool with a graphical interface for executing digital signing operations.
 
-In the project directory, you can run:
+<span style="font-size:16px;font-weight:bold;">Features</span>
 
-### `npm start`
+- User-friendly interface for document management and signing
+- Secure document transfer and storage
+- Real-time document status updates
+- Support for multiple recipients and signatures
+- Automated reminder functionality
+- Integration with AutoFirma for executing digital signing operations
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+<span style="font-size:16px;font-weight:bold;">Installation</span>
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+To install Firm@, follow these steps:
 
-### `npm test`
+1. Clone the repository.
+2. Install the required dependencies using `npm install`.
+3. Configure the environment variables for email notifications and authentication.
+4. Run the application using `npm start`.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+For detailed installation instructions, please refer to the [Installation Guide](installation.md).
 
-### `npm run build`
+<span style="font-size:16px;font-weight:bold;">Usage</span>
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+To use Firm@, follow these steps:
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+1. Sign in or create a new account.
+2. Navigate through the various sections, such as notifications, document management, and profile.
+3. Use the "Start Signing" button to initiate the signing process for a document, specifying recipients and a message.
+4. Monitor the document's status in real-time and send reminders if necessary.
+5. Access and view signed documents, either by downloading or digitally signing them.
+6. Explore additional features.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+<span style="font-size:16px;font-weight:bold;">Contributing</span>
 
-### `npm run eject`
+We welcome contributions to enhance Firm@ and make it even better! To contribute, please follow these steps:
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+1. Fork the repository.
+2. Create a new branch for your feature or bug fix.
+3. Make your modifications and ensure they adhere to the project's coding conventions.
+4. Test your changes thoroughly.
+5. Commit your changes and push them to your fork.
+6. Submit a pull request with a detailed description of your changes.
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+<span style="font-size:16px;font-weight:bold;">License</span>
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Firm@ is released under the [MIT License](LICENSE).

@@ -1,6 +1,0 @@
-[build]
-publish = "build"
-command = "yarn build"
-
-[build.environment]
-YARN_VERSION = "1.22.19"
