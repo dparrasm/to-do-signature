@@ -1,7 +1,7 @@
 # <span style="font-size:16px;font-weight:bold;">Firm@: Document Management and Signing Tool</span>
 
-<div style="text-align:center;">
-  <img src="frontend/public/Firma_imagen.jpeg" alt="Firma Imagen">
+<div style="width: 100%;display: flex;justify-content: center;">
+  <img src="frontend/public/Firma_imagen.jpeg" alt="Firma Imagen" width="300px">
 </div>
 
 <span style="font-size:16px;font-weight:bold;">Introduction</span>
