@@ -4,7 +4,7 @@ import { Document, Page, pdfjs } from 'react-pdf'
 import { useDispatch, useSelector } from 'react-redux'
 import { rootState } from '../../../reducers'
 import { icons } from '../../../utils/icons'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import {
   postDocuments,
   removeUploadedDocuments
@@ -19,6 +19,8 @@ function SignDocument(props) {
   const envelope: any = useSelector((state: rootState) => state?.envelope)
   const [index, setIndex] = useState(0)
   const [document, setDocument] = useState(envelope?.documents)
+  const location = useLocation()
+  const page = location.pathname
 
   const dispatch = useDispatch()
   const sign = () => {
@@ -123,23 +125,25 @@ function SignDocument(props) {
             </Document>
           </div>
         </div>
-        <div className="root-sign-document">
-          <div className="sign-tools" id="signTools">
-            <div className="container-tools">
-              <div className="signing-buttons-container">
-                <div onClick={sign}>
-                  <button>Sign</button>
+        {page === '/sign' ? (
+          <div className="root-sign-document">
+            <div className="sign-tools" id="signTools">
+              <div className="container-tools">
+                <div className="signing-buttons-container">
+                  <div onClick={sign}>
+                    <button>Sign</button>
+                  </div>
+                  <Link to="/manage/inbox">
+                    <button className="negative" onClick={sendEnvelope}>
+                      Send
+                    </button>
+                  </Link>
+                  <button className="red">Discard</button>
                 </div>
-                <Link to="/manage/inbox">
-                  <button className="negative" onClick={sendEnvelope}>
-                    Send
-                  </button>
-                </Link>
-                <button className="red">Discard</button>
               </div>
             </div>
           </div>
-        </div>
+        ) : null}
       </div>
     </div>
   )
