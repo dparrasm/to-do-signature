@@ -1,161 +1,162 @@
-import { Link } from "react-router-dom";
-import React, { useRef, useState } from "react";
-import { useDispatch } from "react-redux";
-import "./PrepareEnvelope.scss";
-import { Button } from "@material-ui/core";
-import Card from "../../components/card/Card";
-import RecipientCard from "../../components/recipientCard/RecipientCard";
-import DragAndDrop from "../../components/dragAndDrop/DragAndDrop";
-import { icons } from "../../utils/icons";
-import { rootState } from "../../reducers";
-import { useSelector } from "react-redux";
-import { uploadEnvelope } from "../../reducers/actions/envelopeActions";
+import { Link } from 'react-router-dom'
+import React, { useRef, useState } from 'react'
+import { useDispatch } from 'react-redux'
+import './PrepareEnvelope.scss'
+import { Button } from '@material-ui/core'
+import Card from '../../components/card/Card'
+import RecipientCard from '../../components/recipientCard/RecipientCard'
+import DragAndDrop from '../../components/dragAndDrop/DragAndDrop'
+import { icons } from '../../utils/icons'
+import { rootState } from '../../reducers'
+import { useSelector } from 'react-redux'
+import { uploadEnvelope } from '../../reducers/actions/envelopeActions'
 import {
   removeUploadedDocuments,
-  unloadDocument,
-} from "../../reducers/actions/documentActions";
-import Filepicker from "../../components/filepicker/Filepicker";
-import { documentsReadyToBeSign } from "../../utils/emailMessages";
+  unloadDocument
+} from '../../reducers/actions/documentActions'
+import Filepicker from '../../components/filepicker/Filepicker'
+import { documentsReadyToBeSign } from '../../utils/emailMessages'
+import { NeedsTo } from '../../types'
 
 export default function PrepareEnvelope(props) {
-  const dispatch = useDispatch();
-  const subjectRef = useRef(null);
-  const messageRef = useRef(null);
-  const [recipientId, setRecipientId] = useState(1);
+  const dispatch = useDispatch()
+  const subjectRef = useRef(null)
+  const messageRef = useRef(null)
+  const [recipientId, setRecipientId] = useState(1)
   const [recipients, setRecipient] = useState([
     {
       id: 0,
-      name: "",
-      email: "",
+      name: '',
+      email: '',
       needsToSign: true,
       needsToView: true,
-      needsTo: "SIGN",
+      needsTo: 'SIGN',
       signed: false,
       viewed: false,
-      folder: "INBOX",
-    },
-  ]);
+      folder: 'INBOX'
+    }
+  ])
 
   const addRecipient = () => {
     setRecipient([
       ...recipients,
       {
         id: recipientId,
-        name: "",
-        email: "",
+        name: '',
+        email: '',
         needsToSign: true,
         needsToView: true,
-        needsTo: "SIGN",
+        needsTo: 'SIGN',
         signed: false,
         viewed: false,
-        folder: "INBOX",
-      },
-    ]);
-    setRecipientId(recipientId + 1);
-  };
+        folder: 'INBOX'
+      }
+    ])
+    setRecipientId(recipientId + 1)
+  }
   const addRecipientsFromList = (recipientsList) => {
     const array: {
-      id: number;
-      name: string;
-      email: string;
-      needsToSign: boolean;
-      needsToView: boolean;
-      needsTo: string;
-      signed: boolean;
-      viewed: boolean;
-      folder: string;
-    }[] = [];
+      id: number
+      name: string
+      email: string
+      needsToSign: boolean
+      needsToView: boolean
+      needsTo: string
+      signed: boolean
+      viewed: boolean
+      folder: string
+    }[] = []
 
     recipientsList.map((r) => {
       array.push({
         id: recipientId + array.length,
         name: r.name,
         email: r.email,
-        needsToView: true,
-        needsToSign: false,
+        needsToView: r.needsTo === NeedsTo.View,
+        needsToSign: r.needsTo === NeedsTo.Sign,
         needsTo: r.needsTo,
-        signed: true,
+        signed: false,
         viewed: false,
-        folder: "INBOX",
-      });
-    });
-    setRecipientId(recipientId + array.length);
-    setRecipient(recipients.concat(array));
-  };
+        folder: 'INBOX'
+      })
+    })
+    setRecipientId(recipientId + array.length)
+    setRecipient(recipients.concat(array))
+  }
   const uploadedFiles = useSelector(
     (state: rootState) => state?.document?.uploadedDocuments
-  );
+  )
 
   const deleteDocument = (index) => {
-    dispatch(unloadDocument(index));
-  };
+    dispatch(unloadDocument(index))
+  }
 
   const updateRecipient = (e) => {
-    const id: number = e.target.id.split("#")[1];
-    const keyword: String = e.target.id.split("#")[0];
+    const id: number = e.target.id.split('#')[1]
+    const keyword: String = e.target.id.split('#')[0]
     setRecipient((prevState) => {
       const newState = prevState.map((obj) => {
         if (obj.id == id) {
           switch (keyword) {
-            case "name":
-              return { ...obj, name: e.target.value };
-            case "email":
-              return { ...obj, email: e.target.value };
+            case 'name':
+              return { ...obj, name: e.target.value }
+            case 'email':
+              return { ...obj, email: e.target.value }
             default:
-              return { ...obj, needsTo: e.target.value };
+              return { ...obj, needsTo: e.target.value }
           }
         } else {
-          return obj;
+          return obj
         }
-      });
-      return newState;
-    });
-  };
+      })
+      return newState
+    })
+  }
   const removeReceipt = (id) => {
     setRecipient(
       recipients.filter((r) => {
-        return r.id !== id;
+        return r.id !== id
       })
-    );
-  };
+    )
+  }
 
   const prepareEnvelope = () => {
     let updatedRecipients = recipients.map((r) => {
-      if (r.needsTo === "SIGN") {
+      if (r.needsTo === 'SIGN') {
         return {
           ...r,
           needsToSign: true,
           needsToView: true,
           viewed: false,
-          signed: false,
-        };
+          signed: false
+        }
       } else {
         return {
           ...r,
           needsToSign: false,
           needsToView: true,
           viewed: false,
-          signed: true,
-        };
+          signed: false
+        }
       }
-    });
+    })
     const envelope = {
       documents: uploadedFiles,
       recipients: updatedRecipients,
       email: {
         subject: subjectRef?.current
-          ? subjectRef?.current["value"]
-          : "Empty subject",
+          ? subjectRef?.current['value']
+          : 'Empty subject',
         message: messageRef?.current
-          ? messageRef?.current["value"]
-          : "Empty message",
-      },
-    };
-    dispatch(uploadEnvelope(envelope));
-  };
+          ? messageRef?.current['value']
+          : 'Empty message'
+      }
+    }
+    dispatch(uploadEnvelope(envelope))
+  }
   const handleOnClick = () => {
-    dispatch(removeUploadedDocuments());
-  };
+    dispatch(removeUploadedDocuments())
+  }
   return (
     <div className="scroll">
       <div className="close-bar">
@@ -231,8 +232,8 @@ export default function PrepareEnvelope(props) {
         <div className="add-documents-message-container">
           <div className="prepare-envelope-titles">
             <h1>3. Add message</h1>
-            <h1 style={{ color: "#d2cece", marginLeft: "5px" }}>
-              {"(optional)"}
+            <h1 style={{ color: '#d2cece', marginLeft: '5px' }}>
+              {'(optional)'}
             </h1>
           </div>
           <div className="recipients-container">
@@ -248,7 +249,7 @@ export default function PrepareEnvelope(props) {
               />
             </div>
             <div>
-              <div style={{ paddingBottom: "5px" }}>
+              <div style={{ paddingBottom: '5px' }}>
                 <span>Email Message</span>
               </div>
               <textarea
@@ -271,5 +272,5 @@ export default function PrepareEnvelope(props) {
         </div>
       </div>
     </div>
-  );
+  )
 }

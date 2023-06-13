@@ -30,8 +30,8 @@ export const autofirma = async (
         ...recipients[i],
         signed: true,
         viewed: true,
-        needsToSign: false,
-        needsToView: false
+        needsToSign: true,
+        needsToView: true
       }
     })
 

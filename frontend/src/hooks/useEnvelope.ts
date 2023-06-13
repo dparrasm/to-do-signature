@@ -23,7 +23,7 @@ const getTime = (time: string): string => {
 }
 
 export const useEnvelope = (emailAddress: string, document: Document) => {
-  const { title, signed, viewed, lastChange, recipients } = document
+  const { title, lastChange, recipients } = document
   const truncatedTitle =
     title.length > 30 ? shortenTitle(15, 13, title.length, title) : title
   const index = recipients.findIndex((r) => r.folder === Folder.Sent)
@@ -35,33 +35,37 @@ export const useEnvelope = (emailAddress: string, document: Document) => {
       ? `To: ${recipients[0]?.name} and ${recipients.length - 1} more`
       : `To: ${recipients[0]?.name}`
 
-  const completed = signed && viewed
   const getLastChange = {
     date: getDate(lastChange),
     time: getTime(lastChange)
   }
-  const needsToSign = recipients.find(
-    (r: Recipient) => r.email === emailAddress
-  )?.needsToSign
+
+  const user = recipients.find((r: Recipient) => r.email === emailAddress)
+
+  const userNeedsToSign = user?.needsToSign
+  const userHasSigned = user?.signed
+  const userNeedsToView = user?.needsToView
+  const userHasViewed = user?.viewed
+
+  const userHasViewedOrSignedDocument =
+    userNeedsToSign === userHasSigned && userNeedsToView === userHasViewed
 
   const detailedRecipients = recipients.map((r) => {
     return {
       completedName: r.name,
       emailAddress: r.email,
-      needsTo: needsToSign ? NeedsTo.Sign : NeedsTo.View,
-      isDone: r.signed
+      needsTo: r.needsToSign ? NeedsTo.Sign : NeedsTo.View,
+      isDone: r.signed === r.needsToSign && r.viewed === r.needsToView
     }
   })
 
-  const userIndex = detailedRecipients.findIndex(
-    (r) => r.emailAddress === emailAddress
-  )
-  const isDone = detailedRecipients[userIndex]?.isDone
+  const isDone = detailedRecipients.every((r) => r.isDone === true)
 
   let envelopeState: EnvelopeState
-  if (!isDone && !completed) {
+
+  if (!isDone && !userHasViewedOrSignedDocument) {
     envelopeState = EnvelopeState.Pending
-  } else if (isDone && completed) {
+  } else if (isDone && userHasViewedOrSignedDocument) {
     envelopeState = EnvelopeState.Completed
   } else {
     envelopeState = EnvelopeState.WaitingForOthers
@@ -69,10 +73,11 @@ export const useEnvelope = (emailAddress: string, document: Document) => {
   return {
     truncatedTitle,
     destinataries,
-    completed,
+    userHasViewedOrSignedDocument,
     getLastChange,
-    needsToSign,
+    userNeedsToSign,
+    userHasSigned,
     detailedRecipients,
-    envelopeState,
+    envelopeState
   }
 }
