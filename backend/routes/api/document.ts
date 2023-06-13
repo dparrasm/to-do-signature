@@ -1,6 +1,9 @@
 import express from 'express'
 import mongoose from 'mongoose'
-import { unsignedDocumentsReminder } from '../../utils/emailMessages'
+import {
+  unsignedDocumentsReminder,
+  updatedDocument
+} from '../../utils/emailMessages'
 
 const router = express.Router()
 const { sendEmail } = require('../../middleware/email')
@@ -97,6 +100,10 @@ router.put('/sign/:id', (req, res, next) => {
   Document.findByIdAndUpdate(req.params.id, req.body)
     .exec()
     .then((docs) => {
+      const recipients = req.body.recipients
+      recipients?.map((r) => {
+        sendEmail(r.email, updatedDocument(req.body.title))
+      })
       res.status(200).json(docs)
     })
     .catch((err) => {

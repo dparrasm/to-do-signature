@@ -1,6 +1,6 @@
-import axios from "axios";
-import { autofirma } from "../../pages/signing/signDocument/signSetup";
-import { setAlert } from "./alertActions";
+import axios from 'axios'
+import { autofirma } from '../../pages/signing/signDocument/signSetup'
+import { setAlert } from './alertActions'
 import {
   DOCUMENT_FAIL,
   GET_DOCUMENTS,
@@ -18,51 +18,54 @@ import {
   REMOVE_UPLOADED_DOCUMENTS,
   SEND_UNSIGNED_DOCUMENT_REMINDER,
   RESET_DOCUMENTS_STATE,
-} from "./types";
-import { Document } from "../../domain/document";
-import { Folder } from "../../types";
+  SET_DOCUMENT_AS_VIEWED
+} from './types'
+import { Document } from '../../domain/document'
+import { Folder } from '../../types'
 
 export const loadDocuments = (userId) => async (dispatch) => {
   const config = {
-    headers: { "Content-Type": "application/json" },
-  };
+    headers: { 'Content-Type': 'application/json' }
+  }
   try {
-    const documents = await axios.get("/api/document/buscar/" + userId, config);
+    const documents = await axios.get('/api/document/buscar/' + userId, config)
     const folders = {
       inbox: [],
-      sent: [],
-    };
+      sent: []
+    }
 
     documents.data.map((doc) => {
-      doc.isChecked = false;
+      doc.isChecked = false
       if (
-        doc.recipients.filter((r) => r.folder == Folder.Inbox && r.email === userId)
-          ?.length > 0
+        doc.recipients.filter(
+          (r) => r.folder == Folder.Inbox && r.email === userId
+        )?.length > 0
       ) {
-        folders.inbox.push(doc);
+        folders.inbox.push(doc)
       }
       if (
-        doc.recipients.filter((r) => r.folder == Folder.Sent && r.email === userId)
-          ?.length > 0
+        doc.recipients.filter(
+          (r) => r.folder == Folder.Sent && r.email === userId
+        )?.length > 0
       ) {
-        folders.sent.push(doc);
+        folders.sent.push(doc)
       }
-    });
+    })
 
     dispatch({
       type: GET_DOCUMENTS,
-      payload: folders,
-    });
+      payload: folders
+    })
   } catch (e: any) {
-    const errors = e?.response?.data?.errors;
+    const errors = e?.response?.data?.errors
     if (errors) {
-      errors.forEach((error) => dispatch(setAlert(error.msg, "error")));
+      errors.forEach((error) => dispatch(setAlert(error.msg, 'error')))
     }
     dispatch({
-      type: DOCUMENT_FAIL,
-    });
+      type: DOCUMENT_FAIL
+    })
   }
-};
+}
 export const uploadDocument =
   ({ author, title, fileContent, recipients, signed }) =>
   async (dispatch) => {
@@ -71,251 +74,260 @@ export const uploadDocument =
       title: title,
       fileContent: fileContent,
       recipients: recipients,
-      signed: signed,
-    };
-
+      signed: signed
+    }
     try {
       dispatch({
         type: UPLOAD_DOCUMENT,
-        payload: document,
-      });
+        payload: document
+      })
     } catch {
-      console.log("Upload document error");
+      console.log('Upload document error')
     }
-  };
+  }
 
 export const unloadDocument = (index) => async (dispatch) => {
   try {
     dispatch({
       type: UNLOAD_DOCUMENT,
-      payload: index,
-    });
+      payload: index
+    })
   } catch {
-    console.log("Unload document error");
+    console.log('Unload document error')
   }
-};
+}
 
 export const removeUploadedDocuments = () => async (dispatch) => {
   try {
     dispatch({
       type: REMOVE_UPLOADED_DOCUMENTS,
-      payload: [],
-    });
+      payload: []
+    })
   } catch (err: any) {
-    console.log("Error removing uploaded documents");
+    console.log('Error removing uploaded documents')
   }
-};
+}
 export const postDocuments =
   ({ documents, signed, viewed, recipients, lastChange, email }) =>
   async (dispatch) => {
     const config = {
-      headers: { "Content-Type": "application/json" },
-    };
+      headers: { 'Content-Type': 'application/json' }
+    }
     const body = JSON.stringify({
       documents,
       signed,
       viewed,
       recipients,
       lastChange,
-      email,
-    });
+      email
+    })
 
     try {
-      const doc = await axios.post("/api/document", body, config);
+      const doc = await axios.post('/api/document', body, config)
       const filteredData = doc.data.addedDocuments.map((obj) => {
-        const { fileContent, ...rest } = obj;
-        return rest;
-      });
+        const { fileContent, ...rest } = obj
+        return rest
+      })
       dispatch({
         type: POST_DOCUMENT,
-        payload: { documentsToPost: filteredData, user: email },
-      });
+        payload: { documentsToPost: filteredData, user: email }
+      })
 
-      const recipientSet = [...new Set(recipients.map((r) => r?.email))];
+      const recipientSet = [...new Set(recipients.map((r) => r?.email))]
       const notRegisteredRecipients = await axios.post(
-        "/api/users/notRegisteredRecipients",
+        '/api/users/notRegisteredRecipients',
         JSON.stringify(recipientSet),
         config
-      );
+      )
       if (notRegisteredRecipients && notRegisteredRecipients.length > 0) {
         notRegisteredRecipients.map(async (r) => {
           let userSchema = JSON.stringify({
-            name: "",
-            surname: "",
+            name: '',
+            surname: '',
             email: r.user,
-            password: r.password,
-          });
-          await axios.post("/api/users", userSchema, config);
-        });
+            password: r.password
+          })
+          await axios.post('/api/users', userSchema, config)
+        })
       }
     } catch (err: any) {
-      const errors = err?.response?.data?.errors;
+      const errors = err?.response?.data?.errors
       if (errors) {
-        errors.forEach((error) => console.log(error));
-        errors.forEach((error) => dispatch(setAlert(error.msg, "error")));
+        errors.forEach((error) => console.log(error))
+        errors.forEach((error) => dispatch(setAlert(error.msg, 'error')))
       }
       dispatch({
-        type: DOCUMENT_FAIL,
-      });
+        type: DOCUMENT_FAIL
+      })
     }
-  };
+  }
 export const signDocument = (id, email) => async (dispatch) => {
   const config = {
-    headers: { "Content-Type": "application/json" },
-  };
+    headers: { 'Content-Type': 'application/json' }
+  }
   try {
-    const originalDocument = await axios.get("/api/document/" + id, config);
-    let uploadedDocument: Document = await autofirma(originalDocument.data, email);
-    await axios.put("/api/document/sign/" + id, uploadedDocument, config);
+    const originalDocument = await axios.get('/api/document/' + id, config)
+    let uploadedDocument: Document = await autofirma(
+      originalDocument.data,
+      email
+    )
+    await axios.put('/api/document/sign/' + id, uploadedDocument, config)
     dispatch({
       type: SIGN_DOCUMENT,
-      payload: { ...uploadedDocument, isChecked: false },
-    });
+      payload: { ...uploadedDocument, isChecked: false }
+    })
   } catch (err: any) {
-    console.log("Error signing document");
+    console.log('Error signing document')
   }
-};
+}
+export const markDocumentAsViewed =
+  (uploadedDocument: Document) => async (dispatch) => {
+    dispatch({
+      type: SET_DOCUMENT_AS_VIEWED,
+      payload: uploadedDocument
+    })
+  }
 export const downloadDocument = (id) => async () => {
   const config = {
-    headers: { "Content-Type": "application/json" },
-  };
+    headers: { 'Content-Type': 'application/json' }
+  }
   try {
-    const documentToDownload = await axios.get("/api/document/" + id, config);
-    const a = document.createElement("a");
-    a.href = documentToDownload.data.fileContent;
-    a.download = documentToDownload.data.title;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
+    const documentToDownload = await axios.get('/api/document/' + id, config)
+    const a = document.createElement('a')
+    a.href = documentToDownload.data.fileContent
+    a.download = documentToDownload.data.title
+    document.body.appendChild(a)
+    a.click()
+    document.body.removeChild(a)
   } catch (err: any) {}
-};
+}
 export const getDocument = (id) => async (dispatch) => {
   const config = {
-    headers: { "Content-Type": "application/json" },
-  };
+    headers: { 'Content-Type': 'application/json' }
+  }
   try {
-    const document = await axios.get("/api/document/" + id, config);
+    const document = await axios.get('/api/document/' + id, config)
     dispatch({
       type: GET_DOCUMENT,
-      payload: document.data,
-    });
+      payload: document.data
+    })
   } catch (err: any) {
-    const errors = err?.response?.data?.errors;
+    const errors = err?.response?.data?.errors
     if (errors) {
-      errors.forEach((error) => dispatch(setAlert(error.msg, "error")));
+      errors.forEach((error) => dispatch(setAlert(error.msg, 'error')))
     }
     dispatch({
-      type: DOCUMENT_FAIL,
-    });
+      type: DOCUMENT_FAIL
+    })
   }
-};
+}
 export const searchDocument = (title, page) => async (dispatch) => {
   try {
     dispatch({
       type: SEARCH_DOCUMENT,
-      payload: { title: title, page: page },
-    });
+      payload: { title: title, page: page }
+    })
   } catch {
-    console.log("Search document error");
+    console.log('Search document error')
   }
-};
+}
 export const unsearchDocuments = () => async (dispatch) => {
   try {
     dispatch({
-      type: UNSEARCH_DOCUMENT,
-    });
+      type: UNSEARCH_DOCUMENT
+    })
   } catch {
-    console.log("UnsearchDocuments error");
+    console.log('UnsearchDocuments error')
   }
-};
+}
 
 export const selectAllDocuments = (folder, checkAll) => async (dispatch) => {
-  console.log("folder: " + folder + " checkAll : " + checkAll);
+  console.log('folder: ' + folder + ' checkAll : ' + checkAll)
   try {
     dispatch({
       type: SELECT_ALL_DOCUMENTS,
-      payload: { folder: folder, checkAll: checkAll },
-    });
+      payload: { folder: folder, checkAll: checkAll }
+    })
   } catch (err: any) {
-    const errors = err?.response?.data?.errors;
+    const errors = err?.response?.data?.errors
     if (errors) {
-      console.log("Documents could not be selected");
+      console.log('Documents could not be selected')
     }
   }
-};
+}
 
 export const selectDocument = (id, folder) => async (dispatch) => {
   try {
     dispatch({
       type: SELECT_DOCUMENT,
-      payload: { id: id, folder: folder },
-    });
+      payload: { id: id, folder: folder }
+    })
   } catch (err: any) {
-    const errors = err?.response?.data?.errors;
+    const errors = err?.response?.data?.errors
     if (errors) {
-      console.log("Document could not be selected");
+      console.log('Document could not be selected')
     }
   }
-};
+}
 
 export const unselectDocuments = (folder) => async (dispatch) => {
   try {
     dispatch({
       type: UNSELECT_DOCUMENTS,
-      payload: { folder: folder },
-    });
+      payload: { folder: folder }
+    })
   } catch (err: any) {
-    const errors = err?.response?.data?.errors;
+    const errors = err?.response?.data?.errors
     if (errors) {
-      console.log("Document could not be unselected");
+      console.log('Document could not be unselected')
     }
   }
-};
+}
 export const deleteDocument = (id, folder) => async (dispatch) => {
   try {
-    await axios.delete("/api/document/" + id);
+    await axios.delete('/api/document/' + id)
     dispatch({
       type: DELETE_DOCUMENT,
-      payload: { id: id, folder: folder },
-    });
+      payload: { id: id, folder: folder }
+    })
   } catch (err: any) {
-    const errors = err?.response?.data?.errors;
+    const errors = err?.response?.data?.errors
     if (errors) {
-      errors.forEach((error) => dispatch(setAlert(error.msg, "error")));
+      errors.forEach((error) => dispatch(setAlert(error.msg, 'error')))
     }
     dispatch({
-      type: DOCUMENT_FAIL,
-    });
+      type: DOCUMENT_FAIL
+    })
   }
-};
+}
 
 export const sendUnsignedDocumentsReminder =
   (selectedDocuments, folder) => async (dispatch) => {
-    console.log(JSON.stringify(selectedDocuments));
+    console.log(JSON.stringify(selectedDocuments))
     const config = {
-      headers: { "Content-Type": "application/json" },
-    };
-    const body = JSON.stringify(selectedDocuments);
+      headers: { 'Content-Type': 'application/json' }
+    }
+    const body = JSON.stringify(selectedDocuments)
     try {
-      await axios.post("/api/document/unsignedDocumentsReminder", body, config);
+      await axios.post('/api/document/unsignedDocumentsReminder', body, config)
       dispatch({
         type: SEND_UNSIGNED_DOCUMENT_REMINDER,
-        payload: { folder: folder },
-      });
+        payload: { folder: folder }
+      })
     } catch (err: any) {
-      const errors = err?.response?.data?.errors;
+      const errors = err?.response?.data?.errors
       if (errors) {
-        errors.forEach((error) => console.log((error.msg, "error")));
+        errors.forEach((error) => console.log((error.msg, 'error')))
       }
     }
-  };
+  }
 
 export const resetDocumentsState = async (dispatch) => {
   try {
     dispatch({
-      type: RESET_DOCUMENTS_STATE,
-    });
+      type: RESET_DOCUMENTS_STATE
+    })
   } catch (e: any) {
-    console.log("Error imposible to reset documents state");
+    console.log('Error imposible to reset documents state')
   }
-};
+}

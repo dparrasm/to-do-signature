@@ -79,7 +79,7 @@ export default function Envelope(props) {
         </td>
         <td>
           <div className="envelope-table-row-cell-iconbutton-container">
-            {envelopeInfo.needsToSign === true ? (
+            {envelopeInfo.userNeedsToSign && !envelopeInfo.userHasSigned ? (
               <div
                 className="envelope-table-row-cell-iconbutton"
                 onClick={(e) =>
@@ -141,7 +141,7 @@ export default function Envelope(props) {
       {showDetails ? (
         <EnvelopeDetails
           recipients={envelopeInfo.detailedRecipients}
-          completed={envelopeInfo.completed}
+          completed={envelopeInfo.userHasViewedOrSignedDocument}
         />
       ) : (
         <></>
