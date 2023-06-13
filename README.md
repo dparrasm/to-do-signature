@@ -1,9 +1,8 @@
 # <span style="font-size:16px;font-weight:bold;">Firm@: Document Management and Signing Tool</span>
 
-<div style="width: 100%;display: flex;justify-content: center;">
+<div align="center">
   <img src="frontend/public/Firma_imagen.jpeg" alt="Firma Imagen" width="300px">
 </div>
-
 <span style="font-size:16px;font-weight:bold;">Introduction</span>
 
 Firm@ is a powerful document management and signing tool that simplifies the process of sending, receiving, and tracking signed documents. With Firm@, users can easily send and receive documents for signing or download, supporting multiple recipients. The application features a user-friendly interface and real-time document status updates, allowing users to monitor the progress of each document and send reminders as needed. Firm@ leverages the capabilities of AutoFirma, a desktop tool with a graphical interface for executing digital signing operations.
