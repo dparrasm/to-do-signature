@@ -1,42 +1,42 @@
-import React, { useEffect } from "react";
+import React, { useEffect } from 'react'
 import {
   BrowserRouter as Router,
   Redirect,
   Route,
-  Switch,
-} from "react-router-dom";
-import Login from "./pages/login/Login";
-import "./comun.scss";
-import Header from "./components/header/Header";
-import { loadUser, logout } from "./reducers/actions/authActions";
-import setAuthToken from "./utils/setAuthToken";
-import Manage from "./pages/manage/Manage";
-import UserProfile from "./pages/userProfile/UserProfile";
-import SignDocument from "./pages/signing/signDocument/SignDocument";
-import Home from "./pages/home/Home";
-import PrepareEnvelope from "./pages/prepareEnvelope/PrepareEnvelope";
-import { useDispatch, useSelector } from "react-redux";
-import { resetDocumentsState } from "./reducers/actions/documentActions";
-import { rootState } from "./reducers";
+  Switch
+} from 'react-router-dom'
+import Login from './pages/login/Login'
+import './comun.scss'
+import Header from './components/header/Header'
+import { loadUser, logout } from './reducers/actions/authActions'
+import setAuthToken from './utils/setAuthToken'
+import Manage from './pages/manage/Manage'
+import UserProfile from './pages/userProfile/UserProfile'
+import SignDocument from './pages/signing/signDocument/SignDocument'
+import Home from './pages/home/Home'
+import PrepareEnvelope from './pages/prepareEnvelope/PrepareEnvelope'
+import { useDispatch, useSelector } from 'react-redux'
+import { resetDocumentsState } from './reducers/actions/documentActions'
+import { rootState } from './reducers'
 
 export const App = () => {
   const isAuthenticated = useSelector(
     (state: rootState) => state?.auth.isAuthenticated
-  );
-  const dispatch = useDispatch();
+  )
+  const dispatch = useDispatch()
 
   useEffect(() => {
     if (localStorage.token) {
-      setAuthToken(localStorage.token);
+      setAuthToken(localStorage.token)
     }
-    dispatch(loadUser());
-  });
+    dispatch(loadUser())
+  })
 
   const onUserLogOut = () => {
-    setAuthToken(null);
-    dispatch(logout());
-    dispatch(resetDocumentsState);
-  };
+    setAuthToken(null)
+    dispatch(logout())
+    dispatch(resetDocumentsState)
+  }
 
   return (
     <div className="root">
@@ -49,6 +49,9 @@ export const App = () => {
             <PrepareEnvelope />
           </Route>
           <Route path="/sign">
+            <SignDocument />
+          </Route>
+          <Route path="/view">
             <SignDocument />
           </Route>
           {isAuthenticated ? (
@@ -77,7 +80,7 @@ export const App = () => {
         </Switch>
       </Router>
     </div>
-  );
-};
+  )
+}
 
-export default App;
+export default App

@@ -6,6 +6,7 @@ import { rootState } from '../../reducers'
 import {
   deleteDocument,
   downloadDocument,
+  loadDocuments,
   selectAllDocuments,
   sendUnsignedDocumentsReminder,
   signDocument,
@@ -16,6 +17,7 @@ import './Manage.scss'
 import Column from '../../components/column/Column'
 import { uploadEnvelopeByDocumentId } from '../../reducers/actions/envelopeActions'
 import { EnvelopeActions } from '../../types'
+import { assertOrUndefined } from 'pdf-lib'
 
 export interface DocumentState {
   readingDocument: any
@@ -86,7 +88,7 @@ export default function Manage() {
       case View:
         dispatch(uploadEnvelopeByDocumentId(documentAction.id, user.email))
         setTimeout(() => {
-          history.push('/sign')
+          history.push('/view')
         }, 1000)
         break
       case Delete:
@@ -126,6 +128,15 @@ export default function Manage() {
       setCheckAll(false)
     }
   }, [location, page])
+
+  useEffect(() => {
+    if (documentState[page]?.length === 0) {
+      const loadUserDocuments = async () => {
+        await dispatch(loadDocuments(user?.email))
+      }
+      loadUserDocuments()
+    }
+  }, [])
 
   return (
     <div className="manage-content">
